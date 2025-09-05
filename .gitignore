@@ -1,0 +1,14 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+count.txt
+.env
+.nitro
+.tanstack
+
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
