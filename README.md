@@ -23,8 +23,8 @@ npm install -g pnpm
 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/uniflow-web.git
-cd uniflow-web
+git clone https://github.com/FabiSax12/UniFlow-Frontend
+cd UniFlow-Frontend
 ```
 
 2. Instalar dependencias
@@ -38,10 +38,6 @@ cp .env.example .env
 ```
 
 Editar `.env` con tus configuraciones:
-```bash
-VITE_API_BASE_URL=http://localhost:3000/api
-VITE_APP_NAME=UniFlow
-```
 
 4. Ejecutar en modo desarrollo
 ```bash
