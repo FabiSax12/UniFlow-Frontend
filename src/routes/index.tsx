@@ -1,39 +1,39 @@
 import { createFileRoute } from '@tanstack/react-router'
 import logo from '../logo.svg'
+import { useQuery } from '@tanstack/react-query'
+import { academicApi, tasksApi } from '@/lib/api/client'
+import { API_ENDPOINTS } from '@/lib/api/endpoints'
 
 export const Route = createFileRoute('/')({
   component: App,
 })
 
 function App() {
+
+  const periodsQuery = useQuery({
+    queryKey: ['periods'],
+    queryFn: async () => await academicApi.get(API_ENDPOINTS.academic.periods).then(res => res.data),
+    retry: false,
+  })
+
+  const studentsQuery = useQuery({
+    queryKey: ['students'],
+    queryFn: async () => await academicApi.get(API_ENDPOINTS.academic.students).then(res => res.data),
+    retry: false,
+  })
+
   return (
-    <div className="text-center">
-      <header className="min-h-screen flex flex-col items-center justify-center bg-[#282c34] text-white text-[calc(10px+2vmin)]">
-        <img
-          src={logo}
-          className="h-[40vmin] pointer-events-none animate-[spin_20s_linear_infinite]"
-          alt="logo"
-        />
-        <p>
-          Edit <code>src/routes/index.tsx</code> and save to reload.
-        </p>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-        <a
-          className="text-[#61dafb] hover:underline"
-          href="https://tanstack.com"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn TanStack
-        </a>
-      </header>
+    <div>
+
+      <pre>
+        <h1>Periods</h1>
+        {JSON.stringify(periodsQuery.data, null, 2)}
+      </pre>
+
+      <pre>
+        <h1>Students</h1>
+        {JSON.stringify(studentsQuery.data, null, 2)}
+      </pre>
     </div>
   )
 }

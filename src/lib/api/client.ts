@@ -24,6 +24,8 @@ const createApiClient = (baseURL: string): AxiosInstance => {
 
       config.headers["Ocp-Apim-Subscription-Key"] = env.VITE_APIM_TOKEN
 
+      config.headers["Authorization"] = `Bearer ${env.VITE_AUTH_TOKEN}`
+
       return config
     },
     (error) => {
