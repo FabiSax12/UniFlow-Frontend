@@ -15,16 +15,19 @@ const createApiClient = (baseURL: string): AxiosInstance => {
   // Request interceptor - Agregar token de autenticación de usuario y para Azure APIM
   client.interceptors.request.use(
     (config) => {
-      // Por ahora mock token, después será real OAuth
-      const token = localStorage.getItem("auth_token") || "mock-bearer-token"
+
+      config.headers["Ocp-Apim-Subscription-Key"] = env.VITE_APIM_TOKEN
+
+      // OAuth token
+      const auth_storage = localStorage.getItem("auth-storage")
+
+      if (!auth_storage) return config
+
+      const token = auth_storage ? JSON.parse(auth_storage)?.state?.authToken : null
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
       }
-
-      config.headers["Ocp-Apim-Subscription-Key"] = env.VITE_APIM_TOKEN
-
-      config.headers["Authorization"] = `Bearer ${env.VITE_AUTH_TOKEN}`
 
       return config
     },

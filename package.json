@@ -1,5 +1,5 @@
 {
-  "name": ".",
+  "name": "uniflow-client",
   "private": true,
   "type": "module",
   "scripts": {
@@ -30,7 +30,8 @@
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.6",
     "tw-animate-css": "^1.3.6",
-    "zod": "^3.24.2"
+    "zod": "^3.24.2",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@tanstack/eslint-config": "^0.3.0",

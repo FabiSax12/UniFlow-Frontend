@@ -12,3 +12,5 @@ count.txt
 .env.development.local
 .env.test.local
 .env.production.local
+
+src/routeTree.gen.ts
