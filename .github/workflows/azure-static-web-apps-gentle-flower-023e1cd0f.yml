@@ -35,10 +35,10 @@ jobs:
         env:
           # Vars
           VITE_ENV: "production"
-          VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
-          VITE_ACADEMIC_SERVICE_URL: ${{ secrets.VITE_ACADEMIC_SERVICE_URL }}
-          VITE_TASKS_SERVICE_URL: ${{ secrets.VITE_TASKS_SERVICE_URL }}
-          VITE_NOTIFICATIONS_SERVICE_URL: ${{ secrets.VITE_NOTIFICATIONS_SERVICE_URL }}
+          VITE_API_BASE_URL: ${{ vars.VITE_API_BASE_URL }}
+          VITE_ACADEMIC_SERVICE_URL: ${{ vars.VITE_ACADEMIC_SERVICE_URL }}
+          VITE_TASKS_SERVICE_URL: ${{ vars.VITE_TASKS_SERVICE_URL }}
+          VITE_NOTIFICATIONS_SERVICE_URL: ${{ vars.VITE_NOTIFICATIONS_SERVICE_URL }}
           # Secrets
           VITE_APIM_TOKEN: ${{ secrets.VITE_APIM_TOKEN }}
           VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
