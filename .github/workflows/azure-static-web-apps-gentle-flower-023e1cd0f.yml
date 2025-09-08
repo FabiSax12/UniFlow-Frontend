@@ -30,8 +30,20 @@ jobs:
           # For more information regarding Static Web App workflow configurations, please visit: https://aka.ms/swaworkflowconfig
           app_location: "/" # App source code path
           api_location: "" # Api source code path - optional
-          output_location: "build" # Built app content directory - optional
+          output_location: "dist" # Built app content directory - optional
           ###### End of Repository/Build Configurations ######
+      env:
+        # Vars
+        VITE_ENV: "production"
+        VITE_API_BASE_URL: ${{ secrets.VITE_API_BASE_URL }}
+        VITE_ACADEMIC_SERVICE_URL: ${{ secrets.VITE_ACADEMIC_SERVICE_URL }}
+        VITE_TASKS_SERVICE_URL: ${{ secrets.VITE_TASKS_SERVICE_URL }}
+        VITE_NOTIFICATIONS_SERVICE_URL: ${{ secrets.VITE_NOTIFICATIONS_SERVICE_URL }}
+        # Secrets
+        VITE_APIM_TOKEN: ${{ secrets.VITE_APIM_TOKEN }}
+        VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
+        VITE_GOOGLE_CLIENT_SECRET: ${{ secrets.VITE_GOOGLE_CLIENT_SECRET }}
+
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
