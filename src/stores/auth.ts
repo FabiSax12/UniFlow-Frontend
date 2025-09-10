@@ -1,9 +1,10 @@
 import { env } from '@/env'
+import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 // Configuración de OAuth providers
-const OAUTH_CONFIG: Record<"google", any> = {
+const OAUTH_CONFIG: Record<"google" | "github", any> = {
   google: {
     clientId: env.VITE_GOOGLE_CLIENT_ID,
     clientSecret: env.VITE_GOOGLE_CLIENT_SECRET,
@@ -13,15 +14,15 @@ const OAUTH_CONFIG: Record<"google", any> = {
     tokenUrl: 'https://oauth2.googleapis.com/token',
     userInfoUrl: 'https://www.googleapis.com/oauth2/v2/userinfo'
   },
-  // github: {
-  //   clientId: env.VITE_GITHUB_CLIENT_ID,
-  //   clientSecret: env.VITE_GITHUB_CLIENT_SECRET,
-  //   redirectUri: `${window.location.origin}/auth/callback`,
-  //   scope: 'user:email',
-  //   authUrl: 'https://github.com/login/oauth/authorize',
-  //   tokenUrl: 'https://github.com/login/oauth/access_token',
-  //   userInfoUrl: 'https://api.github.com/user'
-  // }
+  github: {
+    clientId: env.VITE_GITHUB_CLIENT_ID,
+    clientSecret: env.VITE_GITHUB_CLIENT_SECRET,
+    redirectUri: `${window.location.origin}/auth/callback`,
+    scope: 'read:user user:email',
+    authUrl: 'https://github.com/login/oauth/authorize',
+    tokenUrl: API_ENDPOINTS.academic.base + '/v1/access-token',
+    userInfoUrl: 'https://api.github.com/user'
+  }
 }
 
 interface AuthState {
@@ -35,9 +36,9 @@ interface AuthState {
   // Getters computados
   isAuthenticated: () => boolean
   // Funciones
-  loginWithProvider: (provider: 'google') => Promise<void>
-  exchangeCodeForToken: (provider: 'google', code: string, config: any) => Promise<any>
-  getUserInfo: (provider: 'google', accessToken: string, config: any) => Promise<any>
+  loginWithProvider: (provider: 'google' | 'github') => Promise<void>
+  exchangeCodeForToken: (provider: 'google' | 'github', code: string, config: any) => Promise<any>
+  getUserInfo: (provider: 'google' | 'github', accessToken: string, config: any) => Promise<any>
   handleOAuthCallback: () => Promise<boolean>
   makeAuthenticatedRequest: (url: string, options?: RequestInit) => Promise<any>
   logout: () => void
@@ -86,32 +87,45 @@ export const useAuthStore = create<AuthState>()(
 
           const authUrl = `${config.authUrl}?${params.toString()}`
           window.location.href = authUrl
-        } catch (error) {
-          set({ error: `Error iniciando login: ${error.message}` })
+        } catch (error: unknown) {
+          set({ error: `Error iniciando login: ${error instanceof Error ? error.message : 'Unknown error'}` })
         }
       },
 
       // Intercambiar código por token
       exchangeCodeForToken: async (providerName, code, config) => {
-        const body = new URLSearchParams({
-          client_id: config.clientId,
-          client_secret: config.clientSecret,
-          code,
-          redirect_uri: config.redirectUri
-        })
-
-        if (providerName === 'google') {
-          body.append('grant_type', 'authorization_code')
+        let body: BodyInit;
+        if (providerName === "google") {
+          const params = new URLSearchParams({
+            client_id: config.clientId,
+            client_secret: config.clientSecret,
+            code,
+            redirect_uri: config.redirectUri,
+            grant_type: 'authorization_code'
+          });
+          body = params;
+        } else {
+          body = JSON.stringify({ code });
         }
 
-        const response = await fetch(config.tokenUrl, {
+        const requestInit: RequestInit = providerName === 'google' ? {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            ...(providerName === 'github' && { 'Accept': 'application/json' })
           },
           body
-        })
+        } : {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Ocp-Apim-Subscription-Key': env.VITE_APIM_TOKEN,
+          },
+          body
+        }
+
+        console.log("Request Init:", requestInit);
+        const response = await fetch(config.tokenUrl, requestInit)
 
         if (!response.ok) {
           throw new Error(`Error intercambiando código: ${response.status}`)
@@ -130,7 +144,7 @@ export const useAuthStore = create<AuthState>()(
       getUserInfo: async (providerName, accessToken, config) => {
         const headers = {
           'Authorization': `Bearer ${accessToken}`
-        }
+        } as any
 
         // GitHub requiere User-Agent
         if (providerName === 'github') {
@@ -153,7 +167,7 @@ export const useAuthStore = create<AuthState>()(
             })
 
             if (emailResponse.ok) {
-              const emails = await emailResponse.json()
+              const emails = await emailResponse.json() as any[]
               const primaryEmail = emails.find(email => email.primary)
               if (primaryEmail) {
                 userData.email = primaryEmail.email
@@ -173,6 +187,8 @@ export const useAuthStore = create<AuthState>()(
         const code = urlParams.get('code')
         const state = urlParams.get('state')
 
+        console.log('state', state?.split(':'))
+
         if (!code || !state) return false
 
         set({ loading: true, error: null })
@@ -185,8 +201,10 @@ export const useAuthStore = create<AuthState>()(
           }
 
           // Extraer provider del state
-          const currentProvider = state.split(':')[0] as 'google' // | 'github'
+          const currentProvider = state.split(':')[0] as 'google' | 'github'
           const config = OAUTH_CONFIG[currentProvider]
+
+          console.log('Current Provider:', currentProvider)
 
           if (!config) {
             throw new Error('Provider no válido')
@@ -215,11 +233,11 @@ export const useAuthStore = create<AuthState>()(
 
           return true
 
-        } catch (error) {
+        } catch (error: unknown) {
           console.error('Error en callback OAuth:', error)
           set({
             loading: false,
-            error: `Error al obtener token: ${error.message}`
+            error: `Error al obtener token: ${error instanceof Error ? error.message : 'Error desconocido'}`
           })
           return false
         }
@@ -238,7 +256,7 @@ export const useAuthStore = create<AuthState>()(
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'application/json',
-            'X-Auth-Provider': provider,
+            'X-Auth-Provider': provider || 'unknown',
             ...options.headers
           }
         })
