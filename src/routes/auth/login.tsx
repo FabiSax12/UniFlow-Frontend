@@ -30,14 +30,13 @@ function LoginPage() {
      <div className="relative min-h-screen  transition-colors duration-600">
       {/* Tutorial Notification */}
       {showTutorial && (
-        <div className="absolute top-4 left-347 transform -translate-x-1/2 bg-[var(--chart-3)] rounded-lg shadow-md max-w-xs text-center z-50 tutorial-box">
-          <p className="text-center mt-4 font-semibold text-[var(--card-foreground)] px-4">
+<div className="absolute top-4 right-16 transform -translate-x-0 bg-[var(--chart-3)] rounded-lg shadow-md max-w-xs text-center z-50 tutorial-box">
+      <p className="font-semibold text-[var(--card-foreground)] px-4 pt-2">
         {theme === "light" 
-          ? "¡Muy Brillante?!  Cambia a modo oscuro aquí!!"
-          : "!Muy Oscuro?! Cambia a modo claro aquí!!"}
+          ? "¡Muy Brillante?! Cambia a modo oscuro aquí!!"
+          : "¡Muy Oscuro?! Cambia a modo claro aquí!!"}
       </p>
-          
-        </div>
+    </div>
       )}
 
     <div className="max-w-lg w-full mx-auto  bg-[var(--card)] rounded-lg shadow-md p-6 shadow-md p-6 absolute top-27 left-1/2 transform -translate-x-1/2" >
