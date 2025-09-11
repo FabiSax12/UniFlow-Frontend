@@ -1,17 +1,48 @@
 import { useAuth } from '@/hooks/auth'
 import { createFileRoute } from '@tanstack/react-router'
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "@/lib/theme-provider"
+import { useState, useEffect } from "react"
 
 export const Route = createFileRoute('/auth/login')({
   component: LoginPage,
 })
 
+
 // Página de login
 function LoginPage() {
   const { loginWithProvider, error, clearError } = useAuth()
+  const { theme, setTheme } = useTheme()
+  const [showTutorial, setShowTutorial] = useState(true)
+
+  useEffect(() => {
+      // Cerrar el tutorial automáticamente después de 5 segundos
+      const timer = setTimeout(() => {
+        setShowTutorial(false)
+      }, 9000)
+
+      return () => clearTimeout(timer) // Limpiar el timer al desmontar el componente
+    }, [])
+
+
 
   return (
-    <div className="max-w-md mx-auto bg-white rounded-lg shadow-md p-6" >
-      <h2 className="text-2xl font-semibold text-center mb-6" >
+     <div className="relative min-h-screen">
+      {/* Tutorial Notification */}
+      {showTutorial && (
+        <div className="absolute top-4 left-347 transform -translate-x-1/2 bg-[var(--chart-3)] rounded-lg shadow-md max-w-xs text-center z-50 tutorial-box">
+          <p className="text-center mt-4 font-semibold text-[var(--card-foreground)] px-4">
+        {theme === "light" 
+          ? "¡Muy Brillante?!  Cambia a modo oscuro aquí!!"
+          : "!Muy Oscuro?! Cambia a modo claro aquí!!"}
+      </p>
+          
+        </div>
+      )}
+
+    <div className="max-w-lg w-full mx-auto  bg-[var(--card)] rounded-lg shadow-md p-6 shadow-md p-6 absolute top-27 left-1/2 transform -translate-x-1/2" >
+      
+      <h2 className="text-2xl font-semibold text-center mb-6"  >
         Elige tu método de autenticación
       </h2>
 
@@ -34,7 +65,7 @@ function LoginPage() {
         {/* Botón Google */}
         < button
           onClick={() => loginWithProvider('google')}
-          className="w-full flex items-center justify-center px-6 py-3 border border-gray-300 rounded-md shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-all"
+          className="w-full flex items-center justify-center px-6 py-3 border border-gray-300 rounded-md shadow-sm bg-[var(--card-foreground)] text-gray-700 hover:bg-gray-50 transition-all"
         >
           <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24" >
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -60,6 +91,27 @@ function LoginPage() {
       < div className="mt-6 text-center text-sm text-gray-500" >
         Esto te redirigirá al proveedor seleccionado para autenticarte
       </div>
+
     </div>
+     <button
+        onClick={() => { setTheme(theme === "dark" ? "light" : "dark"); setShowTutorial(false); }}
+        className="absolute top-4 right-4 p-2 bg-transparent border-none cursor-pointer"
+        aria-label="Toggle theme"
+      >
+        <div className="relative w-[1.5rem] h-[1.5rem]"> 
+          <Sun
+            className={`absolute h-full w-full transition-all duration-450  ${
+              theme === "dark" ? "scale-0 rotate-90" : "scale-100 rotate-0"
+            }`}
+          />
+          <Moon
+            className={`absolute h-full w-full transition-all duration-450  ${
+              theme === "dark" ? "scale-100 rotate-0" : "scale-0 rotate-90"
+            }`}
+          />
+        </div>
+      </button>
+    </div>
+
   )
 }
