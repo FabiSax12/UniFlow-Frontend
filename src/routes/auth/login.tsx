@@ -95,7 +95,7 @@ function LoginPage() {
     </div>
      <button
         onClick={() => { setTheme(theme === "dark" ? "light" : "dark"); setShowTutorial(false); }}
-        className="theme-toggle-btn absolute top-2 right-4 p-2 bg-transparent border-none cursor-pointer z-50"
+        className="theme-toggle-btn absolute top-4 right-4 p-2 bg-transparent border-none cursor-pointer z-50"
         aria-label="Toggle theme"
       >
         <div className="relative w-[1.5rem] h-[1.5rem]"> 

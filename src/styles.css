@@ -11,7 +11,7 @@ body {
     'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.7s ease, color 0.7s ease;
   background-color: var(--background);
   color: var(--foreground);
 }
@@ -106,7 +106,7 @@ code {
 .tutorial-box::after {
   content: "";
   position: absolute;
-  top: 00%; /* Coloca la flecha justo debajo del cuadro */
+  top: 0%; /* Coloca la flecha justo debajo del cuadro */
   left: 99%;
   transform: translateY(50%) rotate(-90deg); 
   border-width: 10px;
