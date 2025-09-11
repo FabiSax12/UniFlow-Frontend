@@ -24,9 +24,14 @@ const createApiClient = (baseURL: string): AxiosInstance => {
       if (!auth_storage) return config
 
       const token = auth_storage ? JSON.parse(auth_storage)?.state?.authToken : null
+      const provider = auth_storage ? JSON.parse(auth_storage)?.state?.provider : null
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`
+      }
+
+      if (provider) {
+        config.headers["X-Provider"] = provider
       }
 
       return config

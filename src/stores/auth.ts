@@ -1,4 +1,5 @@
 import { env } from '@/env'
+import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -14,13 +15,13 @@ const OAUTH_CONFIG: Record<"google" | "github", any> = {
     userInfoUrl: 'https://www.googleapis.com/oauth2/v2/userinfo'
   },
   github: {
-    //   clientId: env.VITE_GITHUB_CLIENT_ID,
-    //   clientSecret: env.VITE_GITHUB_CLIENT_SECRET,
-    //   redirectUri: `${window.location.origin}/auth/callback`,
-    //   scope: 'user:email',
-    //   authUrl: 'https://github.com/login/oauth/authorize',
-    //   tokenUrl: 'https://github.com/login/oauth/access_token',
-    //   userInfoUrl: 'https://api.github.com/user'
+    clientId: env.VITE_GITHUB_CLIENT_ID,
+    clientSecret: env.VITE_GITHUB_CLIENT_SECRET,
+    redirectUri: `${window.location.origin}/auth/callback`,
+    scope: 'read:user user:email',
+    authUrl: 'https://github.com/login/oauth/authorize',
+    tokenUrl: API_ENDPOINTS.academic.base + '/v1/access-token',
+    userInfoUrl: 'https://api.github.com/user'
   }
 }
 
@@ -93,25 +94,38 @@ export const useAuthStore = create<AuthState>()(
 
       // Intercambiar código por token
       exchangeCodeForToken: async (providerName, code, config) => {
-        const body = new URLSearchParams({
-          client_id: config.clientId,
-          client_secret: config.clientSecret,
-          code,
-          redirect_uri: config.redirectUri
-        })
-
-        if (providerName === 'google') {
-          body.append('grant_type', 'authorization_code')
+        let body: BodyInit;
+        if (providerName === "google") {
+          const params = new URLSearchParams({
+            client_id: config.clientId,
+            client_secret: config.clientSecret,
+            code,
+            redirect_uri: config.redirectUri,
+            grant_type: 'authorization_code'
+          });
+          body = params;
+        } else {
+          body = JSON.stringify({ code });
         }
 
-        const response = await fetch(config.tokenUrl, {
+        const requestInit: RequestInit = providerName === 'google' ? {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            ...(providerName === 'github' && { 'Accept': 'application/json' })
           },
           body
-        })
+        } : {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            'Ocp-Apim-Subscription-Key': env.VITE_APIM_TOKEN,
+          },
+          body
+        }
+
+        console.log("Request Init:", requestInit);
+        const response = await fetch(config.tokenUrl, requestInit)
 
         if (!response.ok) {
           throw new Error(`Error intercambiando código: ${response.status}`)
@@ -173,6 +187,8 @@ export const useAuthStore = create<AuthState>()(
         const code = urlParams.get('code')
         const state = urlParams.get('state')
 
+        console.log('state', state?.split(':'))
+
         if (!code || !state) return false
 
         set({ loading: true, error: null })
@@ -185,8 +201,10 @@ export const useAuthStore = create<AuthState>()(
           }
 
           // Extraer provider del state
-          const currentProvider = state.split(':')[0] as 'google' // | 'github'
+          const currentProvider = state.split(':')[0] as 'google' | 'github'
           const config = OAUTH_CONFIG[currentProvider]
+
+          console.log('Current Provider:', currentProvider)
 
           if (!config) {
             throw new Error('Provider no válido')

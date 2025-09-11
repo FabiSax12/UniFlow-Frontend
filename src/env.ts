@@ -21,6 +21,8 @@ export const env = createEnv({
     VITE_APIM_TOKEN: z.string().min(1),
     VITE_GOOGLE_CLIENT_ID: z.string().min(1),
     VITE_GOOGLE_CLIENT_SECRET: z.string().min(1),
+    VITE_GITHUB_CLIENT_ID: z.string().min(1),
+    VITE_GITHUB_CLIENT_SECRET: z.string().min(1),
   },
 
   /**
