@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query'
 import { academicApi } from '@/lib/api/client'
 import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { useAuth } from '@/hooks/auth'
+import { ThemeSwitch } from '@/components/ThemeSwitch'
 
 export const Route = createFileRoute('/')({
   component: App,
@@ -40,8 +41,11 @@ function App() {
   }
 
   return (
-    <div>
-      <button onClick={logout} className='px-4 py-2 bg-red-600 text-white rounded'>Cerrar Sesión</button>
+    <div className=''>
+      <header className='bg-muted flex justify-end py-4 px-24'>
+        <button onClick={logout} className='px-4 py-2 bg-red-600 text-white rounded'>Cerrar Sesión</button>
+        <ThemeSwitch />
+      </header>
       <pre>
         <h1>Periods</h1>
         {JSON.stringify(periodsQuery.data, null, 2)}
