@@ -27,7 +27,7 @@ function LoginPage() {
 
 
   return (
-     <div className="relative min-h-screen">
+     <div className="relative min-h-screen  transition-colors duration-600">
       {/* Tutorial Notification */}
       {showTutorial && (
         <div className="absolute top-4 left-347 transform -translate-x-1/2 bg-[var(--chart-3)] rounded-lg shadow-md max-w-xs text-center z-50 tutorial-box">
@@ -95,7 +95,7 @@ function LoginPage() {
     </div>
      <button
         onClick={() => { setTheme(theme === "dark" ? "light" : "dark"); setShowTutorial(false); }}
-        className="absolute top-4 right-4 p-2 bg-transparent border-none cursor-pointer"
+        className="theme-toggle-btn absolute top-2 right-4 p-2 bg-transparent border-none cursor-pointer z-50"
         aria-label="Toggle theme"
       >
         <div className="relative w-[1.5rem] h-[1.5rem]"> 
