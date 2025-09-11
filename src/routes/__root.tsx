@@ -1,4 +1,4 @@
-import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
+import { Navigate, Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanstackDevtools } from '@tanstack/react-devtools'
 
@@ -29,4 +29,5 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
       />
     </ThemeProvider>
   ),
+  notFoundComponent: () => Navigate({ to: '/404', replace: true }),
 })
