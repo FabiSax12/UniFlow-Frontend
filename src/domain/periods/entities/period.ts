@@ -1,4 +1,4 @@
-import { PeriodType } from '../enums'
+import { PeriodType } from './enums'
 
 export class Period {
   constructor(

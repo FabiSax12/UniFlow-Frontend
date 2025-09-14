@@ -1,4 +1,4 @@
-import { OAuthProvider } from '../enums'
+import { OAuthProvider } from '../periods/enums'
 
 export class Student {
   constructor(
