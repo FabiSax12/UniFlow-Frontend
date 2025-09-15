@@ -6,8 +6,9 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { BookOpen, LogOut } from 'lucide-react'
+import { Bell, BookOpen, LogOut, Trophy } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
+import { Badge } from '@/components/ui/badge'
 
 export const Route = createFileRoute('/dashboard/_protected')({
   beforeLoad: () => {
@@ -40,7 +41,7 @@ function RouteComponent() {
   const userName = userQuery.data?.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("") || ""
 
   return <div>
-    <header className='bg-muted flex justify-between items-center py-4 px-24'>
+    <header className='bg-muted flex justify-between items-center py-4 main-padding'>
       <div>
         <h1 className='text-lg font-bold'>
           <Link to='/'>
@@ -50,6 +51,13 @@ function RouteComponent() {
         </h1>
       </div>
       <div className='flex items-center gap-4'>
+        {/* <Trophy /> */}
+        <span className='relative'>
+          <Bell />
+          <Badge className='rounded-full h-5 w-5 absolute -top-2 -right-2' variant="default">
+            2
+          </Badge>
+        </span>
         <ThemeSwitch />
         {
           !userQuery.isLoading && <div className='flex items-center gap-2'>
@@ -65,7 +73,7 @@ function RouteComponent() {
         </Button>
       </div>
     </header>
-    <main className='px-24 pt-6'>
+    <main className='main-padding pt-6 pb-10'>
       <div className='mb-6'>
         <CustomBreadcrumb location={location} showHome={false} />
       </div>
