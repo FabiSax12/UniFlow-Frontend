@@ -1,8 +1,11 @@
-import { useAuth } from '@/hooks/auth'
-import { academicApi } from '@/lib/api/client'
-import { API_ENDPOINTS } from '@/lib/api/endpoints'
-import { createFileRoute } from '@tanstack/react-router'
-import { useQuery } from '@tanstack/react-query'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import SectionTitle from '@/components/SectionTitle'
+import { Button } from '@/components/ui/button'
+import { Plus } from 'lucide-react'
+import DashboardTaskCard from '@/components/tasks/DashboardTaskCard'
+import { useTasks } from '@/hooks/tasks'
+import { PeriodCard } from '@/components/periods/PeriodCard'
+import { usePeriods } from '@/hooks/periods'
 
 export const Route = createFileRoute('/dashboard/_protected/')({
   component: RouteComponent,
@@ -10,19 +13,45 @@ export const Route = createFileRoute('/dashboard/_protected/')({
 
 function RouteComponent() {
 
-  const { isAuthenticated } = useAuth()
+  const tasksQuery = useTasks();
 
-  const studentsQuery = useQuery({
-    queryKey: ['students'],
-    queryFn: async () => await academicApi.get(API_ENDPOINTS.academic.students).then(res => res.data),
-    retry: false,
-    enabled: isAuthenticated,
-  })
+  const periodsQuery = usePeriods();
 
-  return <div>
-    <pre>
-      <h1>Perfil (Prueba de API)</h1>
-      {JSON.stringify(studentsQuery.data, null, 2)}
-    </pre>
-  </div>
+
+  return <div className='flex flex-col gap-4'>
+
+    {/* Next 7 days */}
+    <article>
+      <header className='mb-4'>
+        <SectionTitle>Próximos 7 días</SectionTitle>
+      </header>
+      <main className='flex flex-col w-full gap-4'>
+
+        {
+          tasksQuery.data?.map(task => <DashboardTaskCard task={task} />)
+        }
+
+        <Button variant="secondary">Mostrar más...</Button>
+
+      </main>
+    </article >
+
+    {/* Periods */}
+    <article>
+      <header className='flex justify-between mb-4'>
+        <SectionTitle>Periodos</SectionTitle>
+        <Button className='cursor-pointer' size="lg" color="primary" asChild>
+          <Link to='/dashboard/tasks/create'>
+            Añadir
+            <Plus />
+          </Link>
+        </Button>
+      </header>
+      <main className='w-full gap-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+        {
+          periodsQuery.data?.map(period => <PeriodCard period={period} />)
+        }
+      </main>
+    </article>
+  </div >
 }
