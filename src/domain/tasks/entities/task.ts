@@ -1,4 +1,5 @@
-import { TaskStatus, TaskPriority } from '../periods/enums'
+import { TaskPriority } from '../enums/task-priority'
+import { TaskStatus } from '../enums/task-status'
 
 export class Task {
   constructor(
