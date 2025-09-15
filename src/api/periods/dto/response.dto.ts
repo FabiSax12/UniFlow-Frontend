@@ -1,9 +1,10 @@
 import type { PaginatedResponseDto } from "@/api/shared/dtos/pagination";
+import type { PeriodType } from "@/domain/periods";
 
-export interface PeriodDto {
+export interface GetPeriodResponseDto {
   id: string;
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string;
   endDate: string;
@@ -13,12 +14,12 @@ export interface PeriodDto {
   updatedAt: string;
 }
 
-export type GetPeriodsResponseDto = PaginatedResponseDto<PeriodDto>;
+export type GetPeriodsResponseDto = PaginatedResponseDto<GetPeriodResponseDto>;
 
 export interface GetCurrentPeriodResponseDto {
   id: string;
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string;
   endDate: string;
@@ -28,7 +29,7 @@ export interface GetCurrentPeriodResponseDto {
 export interface CreatePeriodResponseDto {
   id: string;
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string;
   endDate: string;
@@ -41,7 +42,7 @@ export interface CreatePeriodResponseDto {
 export interface GetPeriodByIdResponseDto {
   id: string;
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string;
   endDate: string;
@@ -54,7 +55,7 @@ export interface GetPeriodByIdResponseDto {
 export interface UpdatePeriodResponseDto {
   id: string;
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string;
   endDate: string;
@@ -65,7 +66,7 @@ export interface UpdatePeriodResponseDto {
 }
 
 // Para el endpoint de subjects by period
-export interface SubjectByPeriodDto {
+export interface SubjectByPeriodResponseDto {
   id: string;
   name: string;
   code: string;

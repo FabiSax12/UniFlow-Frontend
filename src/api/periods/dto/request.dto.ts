@@ -1,14 +1,16 @@
+import type { PeriodType } from "@/domain/periods";
+
 export interface GetPeriodsRequestDto {
   page?: number;
   limit?: number;
-  type?: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type?: keyof typeof PeriodType;
   year?: number;
   isActive?: boolean;
 }
 
 export interface CreatePeriodRequestDto {
   name: string;
-  type: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type: keyof typeof PeriodType;
   year: number;
   startDate: string; // ISO date string
   endDate: string;   // ISO date string
@@ -17,7 +19,7 @@ export interface CreatePeriodRequestDto {
 
 export interface UpdatePeriodRequestDto {
   name?: string;
-  type?: 'first-semester' | 'second-semester' | 'summer' | 'special';
+  type?: keyof typeof PeriodType;
   year?: number;
   startDate?: string; // ISO date string
   endDate?: string;   // ISO date string
