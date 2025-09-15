@@ -1,4 +1,4 @@
-import { NotificationType, NotificationPriority } from '../enums'
+import { NotificationType, NotificationPriority } from '../periods/enums'
 
 export class Notification {
   constructor(
