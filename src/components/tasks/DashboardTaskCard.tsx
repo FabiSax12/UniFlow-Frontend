@@ -1,15 +1,13 @@
 import { Calendar } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { Task } from '@/domain/tasks'
-import { useSubject } from '@/hooks/subjects/useSubject'
 import { Link } from '@tanstack/react-router'
+import type { TaskWithSubject } from '@/domain/tasks/entities/taskWithSubject'
 
 interface Props {
-  task: Task
+  task: TaskWithSubject
 }
 
 const DashboardTaskCard = ({ task }: Props) => {
-  const subjectQuery = useSubject(task.subjectId);
 
   // Función para obtener los colores según el status
   const getStatusStyles = (status: string) => {
@@ -41,7 +39,7 @@ const DashboardTaskCard = ({ task }: Props) => {
 
   // Función para obtener los colores según la prioridad
   const getPriorityStyles = (priority: string) => {
-    const priorityLower = priority.toLowerCase();
+    const priorityLower = priority //.toLowerCase();
 
     switch (priorityLower) {
       case 'low':
@@ -76,7 +74,7 @@ const DashboardTaskCard = ({ task }: Props) => {
   const priorityStyles = getPriorityStyles(task.priority);
 
   return (
-    <Link to={`/dashboard/tasks/${task.subjectId}`} className="rounded-xl border-l-8 px-8 py-4 border flex hover:scale-x-105 transition-all duration-300 cursor-pointer hover:border-primary">
+    <Link to={`/dashboard/tasks/${task.id}`} className="rounded-xl border-l-8 px-8 py-4 border flex hover:scale-x-105 transition-all duration-300 cursor-pointer hover:border-primary">
       {/* Left side */}
       <div className='flex-1'>
         <div className='mb-2'>
@@ -98,15 +96,11 @@ const DashboardTaskCard = ({ task }: Props) => {
               </Badge>
             </div>
           </div>
-          {
-            subjectQuery.data && (
-              <span className='text-muted-foreground text-lg'>
-                {subjectQuery.data?.name} | {subjectQuery.data?.code}
-              </span>
-            )
-          }
+          <span className='text-muted-foreground text-lg'>
+            {task.subjectName} | {task.subjectCode}
+          </span>
         </div>
-        <p className='text-muted-foreground mb-2 text-base'>{task.description}</p>
+        {/* <p className='text-muted-foreground mb-2 text-base'>{task.description}</p> */}
         <div className='flex justify-between'>
           <span className='flex text-base items-center gap-2 text-muted-foreground'>
             <Calendar className='size-4' />

@@ -1,4 +1,7 @@
-import type { NotificationPriority, NotificationType } from "@/domain/notifications"
+import type {
+  NotificationPriority,
+  NotificationType
+} from "@/domain/notifications"
 
 export interface NotificationsCountResponseDto {
   userId: string
@@ -24,4 +27,10 @@ export interface GetUserNotificationsResponseDto {
   total: number,
   hasMore: boolean
 }
+
+export interface MarkNotificationAsReadResponseDto {
+  id: string,
+  isRead: boolean,
+  markedAt: string,
+  success: boolean
 }
