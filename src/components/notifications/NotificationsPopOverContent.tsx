@@ -4,6 +4,7 @@ import React from "react";
 import { NotificationCard } from "./NotificationCard";
 import { useNavigate } from "@tanstack/react-router";
 import { Skeleton } from "../ui/skeleton";
+import { useReadNotification } from "@/hooks/notifications/useReadNotification";
 
 export const NotificationsPopOverContent = () => {
 
@@ -11,9 +12,14 @@ export const NotificationsPopOverContent = () => {
 
   const { userInfo } = useAuthStore();
   const notifications = useNotifications(userInfo.studentId);
+  const markAsRead = useReadNotification();
 
   const handleNotificationAction = (actionUrl: string) => {
     navigate({ to: actionUrl })
+  }
+
+  const handleMarkAsRead = (notificationId: string) => {
+    markAsRead.mutate(notificationId)
   }
 
   return <React.Fragment>
@@ -25,7 +31,11 @@ export const NotificationsPopOverContent = () => {
       </>
     }
     {
-      notifications.data?.map(notification => <NotificationCard notification={notification} onAction={handleNotificationAction} />)
+      notifications.data?.map(notification => <NotificationCard
+        notification={notification}
+        onAction={handleNotificationAction}
+        onMarkAsRead={handleMarkAsRead}
+      />)
     }
     {
       notifications.isError && <span className="text-red-500">

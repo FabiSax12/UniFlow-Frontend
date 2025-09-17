@@ -9,7 +9,8 @@ export function useNotifications(userId: string) {
       const a = await getUserNotifications(userId)
       console.log(a)
       return a
-    }
+    },
+    staleTime: 1000 * 60 * 5
   })
 
   return notificationsQuery;
