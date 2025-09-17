@@ -9,6 +9,8 @@ import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/
 import { Bell, BookOpen, LogOut, Trophy } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
 import { Badge } from '@/components/ui/badge'
+import { useUnReadNotificationsCount } from '@/hooks/notifications/useNotificationsCount'
+import { NotificationPopover } from '@/components/notifications/NotificationPopOver'
 
 export const Route = createFileRoute('/dashboard/_protected')({
   beforeLoad: () => {
@@ -52,12 +54,7 @@ function RouteComponent() {
       </div>
       <div className='flex items-center gap-4'>
         {/* <Trophy /> */}
-        <span className='relative'>
-          <Bell />
-          <Badge className='rounded-full h-5 w-5 absolute -top-2 -right-2' variant="default">
-            2
-          </Badge>
-        </span>
+        <NotificationPopover />
         <ThemeSwitch />
         {
           !userQuery.isLoading && <div className='flex items-center gap-2'>

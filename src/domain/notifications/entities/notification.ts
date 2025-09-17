@@ -1,4 +1,4 @@
-import { NotificationType, NotificationPriority } from '../periods/enums'
+import { NotificationType, NotificationPriority } from '../'
 
 export class Notification {
   constructor(
@@ -9,11 +9,11 @@ export class Notification {
     public priority: NotificationPriority,
     public readonly userId: string,
     public isRead: boolean = false,
-    public data?: Record<string, any>,
     public actionUrl?: string,
     public readonly createdAt: Date = new Date(),
     public readAt?: Date
   ) {
+    console.log("PICHAAA")
     this.validateTitle(title)
     this.validateMessage(message)
   }
@@ -41,7 +41,6 @@ export class Notification {
       this.priority,
       this.userId,
       true,
-      this.data,
       this.actionUrl,
       this.createdAt,
       new Date()
@@ -59,7 +58,6 @@ export class Notification {
       this.priority,
       this.userId,
       false,
-      this.data,
       this.actionUrl,
       this.createdAt,
       undefined
