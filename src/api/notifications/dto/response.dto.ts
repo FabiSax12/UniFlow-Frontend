@@ -1,6 +1,6 @@
 import type {
   NotificationPriority,
-  otificationType
+  NotificationType
 } from "@/domain/notifications"
 
 export interface NotificationsCountResponseDto {
