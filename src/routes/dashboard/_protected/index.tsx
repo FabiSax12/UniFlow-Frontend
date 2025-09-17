@@ -6,6 +6,7 @@ import DashboardTaskCard from '@/components/tasks/DashboardTaskCard'
 import { useTasks } from '@/hooks/tasks'
 import { PeriodCard } from '@/components/periods/PeriodCard'
 import { usePeriods } from '@/hooks/periods'
+import { DashboardTaskCardSkeleton } from '@/components/tasks/DashboardTaskCardSkeleton'
 
 export const Route = createFileRoute('/dashboard/_protected/')({
   component: RouteComponent,
@@ -26,6 +27,14 @@ function RouteComponent() {
         <SectionTitle>Próximos 7 días</SectionTitle>
       </header>
       <main className='flex flex-col w-full gap-4'>
+
+        {
+          tasksQuery.isLoading && <>
+            <DashboardTaskCardSkeleton />
+            <DashboardTaskCardSkeleton />
+            <DashboardTaskCardSkeleton />
+          </>
+        }
 
         {
           tasksQuery.data?.map(task => <DashboardTaskCard task={task} />)
