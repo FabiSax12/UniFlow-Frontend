@@ -1,7 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Card, CardContent } from '@/components/ui/card';
-import { BookOpen, CreditCard, DollarSign } from 'lucide-react';
+import { BookOpen, DollarSign } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import type { Period } from '@/domain/periods';
 
@@ -26,7 +25,7 @@ const metrics = [
 export const PeriodCard = ({ period }: Props) => {
 
   return (
-    <Link to={`/dashboard/periods/${period.id}`} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:-translate-y-3">
+    <Link to="/dashboard/periods/$periodId" params={{ periodId: period.id }} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:-translate-y-3">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>

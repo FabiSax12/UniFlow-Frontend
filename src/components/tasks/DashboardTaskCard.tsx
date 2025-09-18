@@ -74,7 +74,7 @@ const DashboardTaskCard = ({ task }: Props) => {
   const priorityStyles = getPriorityStyles(task.priority);
 
   return (
-    <Link to={`/dashboard/tasks/${task.id}`} className="rounded-xl border-l-8 px-8 py-4 border flex hover:scale-x-105 transition-all duration-300 cursor-pointer hover:border-primary">
+    <Link to="/dashboard/tasks/$taskId" params={{ taskId: task.id }} className="rounded-xl border-l-8 px-8 py-4 border flex hover:scale-x-105 transition-all duration-300 cursor-pointer hover:border-primary">
       {/* Left side */}
       <div className='flex-1'>
         <div className='mb-2'>

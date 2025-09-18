@@ -6,10 +6,8 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { Bell, BookOpen, LogOut, Trophy } from 'lucide-react'
+import { BookOpen, LogOut } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
-import { Badge } from '@/components/ui/badge'
-import { useUnReadNotificationsCount } from '@/hooks/notifications/useNotificationsCount'
 import { NotificationPopover } from '@/components/notifications/NotificationPopOver'
 
 export const Route = createFileRoute('/dashboard/_protected')({

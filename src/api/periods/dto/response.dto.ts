@@ -1,4 +1,5 @@
 import type { PaginatedResponseDto } from "@/api/shared/dtos/pagination";
+import type { GetSubjectResponseDto } from "@/api/subjects";
 import type { PeriodType } from "@/domain/periods";
 
 export interface GetPeriodResponseDto {
@@ -76,5 +77,5 @@ export interface SubjectByPeriodResponseDto {
 }
 
 export interface GetSubjectsByPeriodResponseDto {
-  subjects: SubjectByPeriodDto[];
+  subjects: GetSubjectResponseDto[];
 }
