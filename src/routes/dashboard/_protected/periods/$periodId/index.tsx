@@ -1,8 +1,9 @@
 import SectionTitle from '@/components/SectionTitle'
 import { SubjectCard } from '@/components/subjects/SubjectCard';
 import { TasksTable } from '@/components/tasks/TasksTable';
+import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { usePeriod } from '@/hooks/periods';
+import { usePeriod, usePeriods } from '@/hooks/periods';
 import { useSubjects } from '@/hooks/subjects';
 import { cn } from '@/lib/utils';
 import { createFileRoute } from '@tanstack/react-router'
@@ -13,9 +14,12 @@ export const Route = createFileRoute('/dashboard/_protected/periods/$periodId/')
 
 function RouteComponent() {
 
-  const { periodId } = Route.useParams()
+  const { periodId } = Route.useParams();
+  const navigate = Route.useNavigate();
 
   const periodQuery = usePeriod(periodId);
+
+  const periodsList = usePeriods();
 
   const periodSubjects = useSubjects();
 
@@ -23,21 +27,32 @@ function RouteComponent() {
     Loading...
   </div>
 
-  return <div>
-    <SectionTitle>
-      {
-        periodQuery.data?.getDisplayName()
-      }
-    </SectionTitle>
+  const handlePeriodChange = (periodId: string) => {
+    navigate({
+      to: "/dashboard/periods/$periodId",
+      params: { periodId }
+    })
+  }
 
+  return <div>
+    <Select defaultValue={periodId} onValueChange={handlePeriodChange}>
+      <SelectTrigger className='bg-red-500 border-0 ring-0'>
+        <SectionTitle>
+          <SelectValue placeholder="Periodo" />
+        </SectionTitle>
+      </SelectTrigger>
+      <SelectContent>
+        {
+          periodsList.data?.map(p => <SelectItem value={p.id}>{p.getDisplayName()}</SelectItem>)
+        }
+      </SelectContent>
+    </Select>
 
     <div className='flex w-full gap-4 mt-4'>
       <PeriodStatCard value='6' label='Cursos' colorStyle="text-green-500" />
       <PeriodStatCard value='18' label='Créditos' colorStyle="text-red-500" />
       <PeriodStatCard value={periodQuery.data!.getCurrentWeek()} label='Semana' colorStyle="text-blue-500" />
     </div>
-
-
 
     <div className="mt-8">
       <SectionTitle>Cursos</SectionTitle>
