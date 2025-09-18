@@ -1,11 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/dashboard/_protected/periods/$periodId/tasks/_layout',
+  '/dashboard/_protected/subjects/create',
 )({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/dashboard/periods/$periodId/tasks/_layout"!</div>
+  return <div>Hello "/dashboard/periods/$periodId/subjects/create"!</div>
 }

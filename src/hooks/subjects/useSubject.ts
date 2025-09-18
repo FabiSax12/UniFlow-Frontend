@@ -4,7 +4,8 @@ import { useQuery } from "@tanstack/react-query";
 export function useSubject(subjectId: string) {
   const subjectQuery = useQuery({
     queryKey: ["subjects", subjectId],
-    queryFn: () => getSubjectById(subjectId)
+    queryFn: () => getSubjectById(subjectId),
+    retry: false
   })
 
   return subjectQuery;

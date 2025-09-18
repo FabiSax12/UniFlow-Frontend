@@ -87,6 +87,13 @@ export class Period {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7))
   }
 
+  getCurrentWeek(): number {
+    const diffTime = new Date().getTime() - this.startDate.getTime()
+    const passedWeeks = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 7))
+
+    return Math.min(this.getDurationInWeeks(), passedWeeks)
+  }
+
   getDurationInDays(): number {
     const diffTime = this.endDate.getTime() - this.startDate.getTime()
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24))

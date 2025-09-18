@@ -54,3 +54,5 @@ export interface UpcomingTask {
   status: keyof typeof TaskStatus
   type: string
 }
+
+export type GetTasksBySubjectResponseDto = GetTaskResponseDto[]
