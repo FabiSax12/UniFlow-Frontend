@@ -12,8 +12,10 @@ export async function getPeriodSubjects(periodId: string | number): Promise<Subj
   return axiosResponse.data.subjects.map((subject) => new Subject(
     subject.id,
     subject.name,
+    subject.code,
     subject.credits,
-    subject.teacherId,
-    subject.periodId
+    subject.periodId,
+    new Date(subject.createdAt),
+    new Date(subject.updatedAt),
   ));
 }
