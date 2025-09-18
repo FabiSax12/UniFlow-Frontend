@@ -8,11 +8,62 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as LayoutRouteImport } from './routes/_layout'
+import { Route as R404RouteImport } from './routes/404'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as AuthCallbackRouteImport } from './routes/auth/callback'
+import { Route as DashboardProtectedRouteRouteImport } from './routes/dashboard/_protected/route'
+import { Route as DashboardProtectedIndexRouteImport } from './routes/dashboard/_protected/index'
+import { Route as DashboardProtectedTasksIndexRouteImport } from './routes/dashboard/_protected/tasks/index'
+import { Route as DashboardProtectedSubjectsIndexRouteImport } from './routes/dashboard/_protected/subjects/index'
+import { Route as DashboardProtectedPeriodsIndexRouteImport } from './routes/dashboard/_protected/periods/index'
+import { Route as DashboardProtectedTasksKanbanRouteImport } from './routes/dashboard/_protected/tasks/kanban'
+import { Route as DashboardProtectedTasksCreateRouteImport } from './routes/dashboard/_protected/tasks/create'
+import { Route as DashboardProtectedTasksLayoutRouteImport } from './routes/dashboard/_protected/tasks/_layout'
+import { Route as DashboardProtectedTasksTaskIdRouteImport } from './routes/dashboard/_protected/tasks/$taskId'
+import { Route as DashboardProtectedSubjectsCreateRouteImport } from './routes/dashboard/_protected/subjects/create'
+import { Route as DashboardProtectedSubjectsLayoutRouteImport } from './routes/dashboard/_protected/subjects/_layout'
+import { Route as DashboardProtectedSubjectsSubjectIdRouteImport } from './routes/dashboard/_protected/subjects/$subjectId'
+import { Route as DashboardProtectedPeriodsCreateRouteImport } from './routes/dashboard/_protected/periods/create'
+import { Route as DashboardProtectedPeriodsLayoutRouteImport } from './routes/dashboard/_protected/periods/_layout'
+import { Route as DashboardProtectedSubjectsSubjectIdIndexRouteImport } from './routes/dashboard/_protected/subjects/$subjectId/index'
+import { Route as DashboardProtectedPeriodsPeriodIdIndexRouteImport } from './routes/dashboard/_protected/periods/$periodId/index'
+import { Route as DashboardProtectedSubjectsSubjectIdTasksRouteImport } from './routes/dashboard/_protected/subjects/$subjectId/tasks'
+import { Route as DashboardProtectedPeriodsPeriodIdSettingsRouteImport } from './routes/dashboard/_protected/periods/$periodId/settings'
+import { Route as DashboardProtectedPeriodsPeriodIdLayoutRouteImport } from './routes/dashboard/_protected/periods/$periodId/_layout'
 
+const DashboardRouteImport = createFileRoute('/dashboard')()
+const DashboardProtectedTasksRouteImport = createFileRoute(
+  '/dashboard/_protected/tasks',
+)()
+const DashboardProtectedSubjectsRouteImport = createFileRoute(
+  '/dashboard/_protected/subjects',
+)()
+const DashboardProtectedPeriodsRouteImport = createFileRoute(
+  '/dashboard/_protected/periods',
+)()
+const DashboardProtectedPeriodsPeriodIdRouteImport = createFileRoute(
+  '/dashboard/_protected/periods/$periodId',
+)()
+
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LayoutRoute = LayoutRouteImport.update({
+  id: '/_layout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const R404Route = R404RouteImport.update({
+  id: '/404',
+  path: '/404',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -28,39 +79,323 @@ const AuthCallbackRoute = AuthCallbackRouteImport.update({
   path: '/auth/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardProtectedRouteRoute = DashboardProtectedRouteRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardProtectedTasksRoute = DashboardProtectedTasksRouteImport.update({
+  id: '/tasks',
+  path: '/tasks',
+  getParentRoute: () => DashboardProtectedRouteRoute,
+} as any)
+const DashboardProtectedSubjectsRoute =
+  DashboardProtectedSubjectsRouteImport.update({
+    id: '/subjects',
+    path: '/subjects',
+    getParentRoute: () => DashboardProtectedRouteRoute,
+  } as any)
+const DashboardProtectedPeriodsRoute =
+  DashboardProtectedPeriodsRouteImport.update({
+    id: '/periods',
+    path: '/periods',
+    getParentRoute: () => DashboardProtectedRouteRoute,
+  } as any)
+const DashboardProtectedIndexRoute = DashboardProtectedIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardProtectedRouteRoute,
+} as any)
+const DashboardProtectedPeriodsPeriodIdRoute =
+  DashboardProtectedPeriodsPeriodIdRouteImport.update({
+    id: '/$periodId',
+    path: '/$periodId',
+    getParentRoute: () => DashboardProtectedPeriodsRoute,
+  } as any)
+const DashboardProtectedTasksIndexRoute =
+  DashboardProtectedTasksIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardProtectedTasksRoute,
+  } as any)
+const DashboardProtectedSubjectsIndexRoute =
+  DashboardProtectedSubjectsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardProtectedSubjectsRoute,
+  } as any)
+const DashboardProtectedPeriodsIndexRoute =
+  DashboardProtectedPeriodsIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardProtectedPeriodsRoute,
+  } as any)
+const DashboardProtectedTasksKanbanRoute =
+  DashboardProtectedTasksKanbanRouteImport.update({
+    id: '/kanban',
+    path: '/kanban',
+    getParentRoute: () => DashboardProtectedTasksRoute,
+  } as any)
+const DashboardProtectedTasksCreateRoute =
+  DashboardProtectedTasksCreateRouteImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => DashboardProtectedTasksRoute,
+  } as any)
+const DashboardProtectedTasksLayoutRoute =
+  DashboardProtectedTasksLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => DashboardProtectedTasksRoute,
+  } as any)
+const DashboardProtectedTasksTaskIdRoute =
+  DashboardProtectedTasksTaskIdRouteImport.update({
+    id: '/tasks/$taskId',
+    path: '/tasks/$taskId',
+    getParentRoute: () => DashboardProtectedRouteRoute,
+  } as any)
+const DashboardProtectedSubjectsCreateRoute =
+  DashboardProtectedSubjectsCreateRouteImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => DashboardProtectedSubjectsRoute,
+  } as any)
+const DashboardProtectedSubjectsLayoutRoute =
+  DashboardProtectedSubjectsLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => DashboardProtectedSubjectsRoute,
+  } as any)
+const DashboardProtectedSubjectsSubjectIdRoute =
+  DashboardProtectedSubjectsSubjectIdRouteImport.update({
+    id: '/subjects/$subjectId',
+    path: '/subjects/$subjectId',
+    getParentRoute: () => DashboardProtectedRouteRoute,
+  } as any)
+const DashboardProtectedPeriodsCreateRoute =
+  DashboardProtectedPeriodsCreateRouteImport.update({
+    id: '/create',
+    path: '/create',
+    getParentRoute: () => DashboardProtectedPeriodsRoute,
+  } as any)
+const DashboardProtectedPeriodsLayoutRoute =
+  DashboardProtectedPeriodsLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => DashboardProtectedPeriodsRoute,
+  } as any)
+const DashboardProtectedSubjectsSubjectIdIndexRoute =
+  DashboardProtectedSubjectsSubjectIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardProtectedSubjectsSubjectIdRoute,
+  } as any)
+const DashboardProtectedPeriodsPeriodIdIndexRoute =
+  DashboardProtectedPeriodsPeriodIdIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => DashboardProtectedPeriodsPeriodIdRoute,
+  } as any)
+const DashboardProtectedSubjectsSubjectIdTasksRoute =
+  DashboardProtectedSubjectsSubjectIdTasksRouteImport.update({
+    id: '/tasks',
+    path: '/tasks',
+    getParentRoute: () => DashboardProtectedSubjectsSubjectIdRoute,
+  } as any)
+const DashboardProtectedPeriodsPeriodIdSettingsRoute =
+  DashboardProtectedPeriodsPeriodIdSettingsRouteImport.update({
+    id: '/settings',
+    path: '/settings',
+    getParentRoute: () => DashboardProtectedPeriodsPeriodIdRoute,
+  } as any)
+const DashboardProtectedPeriodsPeriodIdLayoutRoute =
+  DashboardProtectedPeriodsPeriodIdLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => DashboardProtectedPeriodsPeriodIdRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/dashboard': typeof DashboardProtectedRouteRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/': typeof DashboardProtectedIndexRoute
+  '/dashboard/periods': typeof DashboardProtectedPeriodsLayoutRoute
+  '/dashboard/periods/create': typeof DashboardProtectedPeriodsCreateRoute
+  '/dashboard/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
+  '/dashboard/subjects': typeof DashboardProtectedSubjectsLayoutRoute
+  '/dashboard/subjects/create': typeof DashboardProtectedSubjectsCreateRoute
+  '/dashboard/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
+  '/dashboard/tasks': typeof DashboardProtectedTasksLayoutRoute
+  '/dashboard/tasks/create': typeof DashboardProtectedTasksCreateRoute
+  '/dashboard/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
+  '/dashboard/periods/': typeof DashboardProtectedPeriodsIndexRoute
+  '/dashboard/subjects/': typeof DashboardProtectedSubjectsIndexRoute
+  '/dashboard/tasks/': typeof DashboardProtectedTasksIndexRoute
+  '/dashboard/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdLayoutRoute
+  '/dashboard/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
+  '/dashboard/periods/$periodId/': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
+  '/dashboard/subjects/$subjectId/': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/dashboard': typeof DashboardProtectedIndexRoute
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/periods': typeof DashboardProtectedPeriodsIndexRoute
+  '/dashboard/periods/create': typeof DashboardProtectedPeriodsCreateRoute
+  '/dashboard/subjects': typeof DashboardProtectedSubjectsIndexRoute
+  '/dashboard/subjects/create': typeof DashboardProtectedSubjectsCreateRoute
+  '/dashboard/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
+  '/dashboard/tasks': typeof DashboardProtectedTasksIndexRoute
+  '/dashboard/tasks/create': typeof DashboardProtectedTasksCreateRoute
+  '/dashboard/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
+  '/dashboard/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
+  '/dashboard/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
+  '/dashboard/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/404': typeof R404Route
+  '/_layout': typeof LayoutRoute
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/dashboard/_protected': typeof DashboardProtectedRouteRouteWithChildren
   '/auth/callback': typeof AuthCallbackRoute
   '/auth/login': typeof AuthLoginRoute
+  '/dashboard/_protected/': typeof DashboardProtectedIndexRoute
+  '/dashboard/_protected/periods': typeof DashboardProtectedPeriodsRouteWithChildren
+  '/dashboard/_protected/periods/_layout': typeof DashboardProtectedPeriodsLayoutRoute
+  '/dashboard/_protected/periods/create': typeof DashboardProtectedPeriodsCreateRoute
+  '/dashboard/_protected/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
+  '/dashboard/_protected/subjects': typeof DashboardProtectedSubjectsRouteWithChildren
+  '/dashboard/_protected/subjects/_layout': typeof DashboardProtectedSubjectsLayoutRoute
+  '/dashboard/_protected/subjects/create': typeof DashboardProtectedSubjectsCreateRoute
+  '/dashboard/_protected/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
+  '/dashboard/_protected/tasks': typeof DashboardProtectedTasksRouteWithChildren
+  '/dashboard/_protected/tasks/_layout': typeof DashboardProtectedTasksLayoutRoute
+  '/dashboard/_protected/tasks/create': typeof DashboardProtectedTasksCreateRoute
+  '/dashboard/_protected/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
+  '/dashboard/_protected/periods/': typeof DashboardProtectedPeriodsIndexRoute
+  '/dashboard/_protected/subjects/': typeof DashboardProtectedSubjectsIndexRoute
+  '/dashboard/_protected/tasks/': typeof DashboardProtectedTasksIndexRoute
+  '/dashboard/_protected/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdRouteWithChildren
+  '/dashboard/_protected/periods/$periodId/_layout': typeof DashboardProtectedPeriodsPeriodIdLayoutRoute
+  '/dashboard/_protected/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  '/dashboard/_protected/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
+  '/dashboard/_protected/periods/$periodId/': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
+  '/dashboard/_protected/subjects/$subjectId/': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/auth/callback' | '/auth/login'
+  fullPaths:
+    | '/'
+    | '/404'
+    | '/dashboard'
+    | '/auth/callback'
+    | '/auth/login'
+    | '/dashboard/'
+    | '/dashboard/periods'
+    | '/dashboard/periods/create'
+    | '/dashboard/subjects/$subjectId'
+    | '/dashboard/subjects'
+    | '/dashboard/subjects/create'
+    | '/dashboard/tasks/$taskId'
+    | '/dashboard/tasks'
+    | '/dashboard/tasks/create'
+    | '/dashboard/tasks/kanban'
+    | '/dashboard/periods/'
+    | '/dashboard/subjects/'
+    | '/dashboard/tasks/'
+    | '/dashboard/periods/$periodId'
+    | '/dashboard/periods/$periodId/settings'
+    | '/dashboard/subjects/$subjectId/tasks'
+    | '/dashboard/periods/$periodId/'
+    | '/dashboard/subjects/$subjectId/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth/callback' | '/auth/login'
-  id: '__root__' | '/' | '/auth/callback' | '/auth/login'
+  to:
+    | '/'
+    | '/404'
+    | '/dashboard'
+    | '/auth/callback'
+    | '/auth/login'
+    | '/dashboard/periods'
+    | '/dashboard/periods/create'
+    | '/dashboard/subjects'
+    | '/dashboard/subjects/create'
+    | '/dashboard/tasks/$taskId'
+    | '/dashboard/tasks'
+    | '/dashboard/tasks/create'
+    | '/dashboard/tasks/kanban'
+    | '/dashboard/periods/$periodId'
+    | '/dashboard/periods/$periodId/settings'
+    | '/dashboard/subjects/$subjectId/tasks'
+    | '/dashboard/subjects/$subjectId'
+  id:
+    | '__root__'
+    | '/'
+    | '/404'
+    | '/_layout'
+    | '/dashboard'
+    | '/dashboard/_protected'
+    | '/auth/callback'
+    | '/auth/login'
+    | '/dashboard/_protected/'
+    | '/dashboard/_protected/periods'
+    | '/dashboard/_protected/periods/_layout'
+    | '/dashboard/_protected/periods/create'
+    | '/dashboard/_protected/subjects/$subjectId'
+    | '/dashboard/_protected/subjects'
+    | '/dashboard/_protected/subjects/_layout'
+    | '/dashboard/_protected/subjects/create'
+    | '/dashboard/_protected/tasks/$taskId'
+    | '/dashboard/_protected/tasks'
+    | '/dashboard/_protected/tasks/_layout'
+    | '/dashboard/_protected/tasks/create'
+    | '/dashboard/_protected/tasks/kanban'
+    | '/dashboard/_protected/periods/'
+    | '/dashboard/_protected/subjects/'
+    | '/dashboard/_protected/tasks/'
+    | '/dashboard/_protected/periods/$periodId'
+    | '/dashboard/_protected/periods/$periodId/_layout'
+    | '/dashboard/_protected/periods/$periodId/settings'
+    | '/dashboard/_protected/subjects/$subjectId/tasks'
+    | '/dashboard/_protected/periods/$periodId/'
+    | '/dashboard/_protected/subjects/$subjectId/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  R404Route: typeof R404Route
+  LayoutRoute: typeof LayoutRoute
+  DashboardRoute: typeof DashboardRouteWithChildren
   AuthCallbackRoute: typeof AuthCallbackRoute
   AuthLoginRoute: typeof AuthLoginRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_layout': {
+      id: '/_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof LayoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/404': {
+      id: '/404'
+      path: '/404'
+      fullPath: '/404'
+      preLoaderRoute: typeof R404RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -82,11 +417,313 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/_protected': {
+      id: '/dashboard/_protected'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardProtectedRouteRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/_protected/tasks': {
+      id: '/dashboard/_protected/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/tasks'
+      preLoaderRoute: typeof DashboardProtectedTasksRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/subjects': {
+      id: '/dashboard/_protected/subjects'
+      path: '/subjects'
+      fullPath: '/dashboard/subjects'
+      preLoaderRoute: typeof DashboardProtectedSubjectsRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/periods': {
+      id: '/dashboard/_protected/periods'
+      path: '/periods'
+      fullPath: '/dashboard/periods'
+      preLoaderRoute: typeof DashboardProtectedPeriodsRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/': {
+      id: '/dashboard/_protected/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardProtectedIndexRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/periods/$periodId': {
+      id: '/dashboard/_protected/periods/$periodId'
+      path: '/$periodId'
+      fullPath: '/dashboard/periods/$periodId'
+      preLoaderRoute: typeof DashboardProtectedPeriodsPeriodIdRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsRoute
+    }
+    '/dashboard/_protected/tasks/': {
+      id: '/dashboard/_protected/tasks/'
+      path: '/'
+      fullPath: '/dashboard/tasks/'
+      preLoaderRoute: typeof DashboardProtectedTasksIndexRouteImport
+      parentRoute: typeof DashboardProtectedTasksRoute
+    }
+    '/dashboard/_protected/subjects/': {
+      id: '/dashboard/_protected/subjects/'
+      path: '/'
+      fullPath: '/dashboard/subjects/'
+      preLoaderRoute: typeof DashboardProtectedSubjectsIndexRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsRoute
+    }
+    '/dashboard/_protected/periods/': {
+      id: '/dashboard/_protected/periods/'
+      path: '/'
+      fullPath: '/dashboard/periods/'
+      preLoaderRoute: typeof DashboardProtectedPeriodsIndexRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsRoute
+    }
+    '/dashboard/_protected/tasks/kanban': {
+      id: '/dashboard/_protected/tasks/kanban'
+      path: '/kanban'
+      fullPath: '/dashboard/tasks/kanban'
+      preLoaderRoute: typeof DashboardProtectedTasksKanbanRouteImport
+      parentRoute: typeof DashboardProtectedTasksRoute
+    }
+    '/dashboard/_protected/tasks/create': {
+      id: '/dashboard/_protected/tasks/create'
+      path: '/create'
+      fullPath: '/dashboard/tasks/create'
+      preLoaderRoute: typeof DashboardProtectedTasksCreateRouteImport
+      parentRoute: typeof DashboardProtectedTasksRoute
+    }
+    '/dashboard/_protected/tasks/_layout': {
+      id: '/dashboard/_protected/tasks/_layout'
+      path: '/tasks'
+      fullPath: '/dashboard/tasks'
+      preLoaderRoute: typeof DashboardProtectedTasksLayoutRouteImport
+      parentRoute: typeof DashboardProtectedTasksRoute
+    }
+    '/dashboard/_protected/tasks/$taskId': {
+      id: '/dashboard/_protected/tasks/$taskId'
+      path: '/tasks/$taskId'
+      fullPath: '/dashboard/tasks/$taskId'
+      preLoaderRoute: typeof DashboardProtectedTasksTaskIdRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/subjects/create': {
+      id: '/dashboard/_protected/subjects/create'
+      path: '/create'
+      fullPath: '/dashboard/subjects/create'
+      preLoaderRoute: typeof DashboardProtectedSubjectsCreateRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsRoute
+    }
+    '/dashboard/_protected/subjects/_layout': {
+      id: '/dashboard/_protected/subjects/_layout'
+      path: '/subjects'
+      fullPath: '/dashboard/subjects'
+      preLoaderRoute: typeof DashboardProtectedSubjectsLayoutRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsRoute
+    }
+    '/dashboard/_protected/subjects/$subjectId': {
+      id: '/dashboard/_protected/subjects/$subjectId'
+      path: '/subjects/$subjectId'
+      fullPath: '/dashboard/subjects/$subjectId'
+      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdRouteImport
+      parentRoute: typeof DashboardProtectedRouteRoute
+    }
+    '/dashboard/_protected/periods/create': {
+      id: '/dashboard/_protected/periods/create'
+      path: '/create'
+      fullPath: '/dashboard/periods/create'
+      preLoaderRoute: typeof DashboardProtectedPeriodsCreateRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsRoute
+    }
+    '/dashboard/_protected/periods/_layout': {
+      id: '/dashboard/_protected/periods/_layout'
+      path: '/periods'
+      fullPath: '/dashboard/periods'
+      preLoaderRoute: typeof DashboardProtectedPeriodsLayoutRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsRoute
+    }
+    '/dashboard/_protected/subjects/$subjectId/': {
+      id: '/dashboard/_protected/subjects/$subjectId/'
+      path: '/'
+      fullPath: '/dashboard/subjects/$subjectId/'
+      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdIndexRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsSubjectIdRoute
+    }
+    '/dashboard/_protected/periods/$periodId/': {
+      id: '/dashboard/_protected/periods/$periodId/'
+      path: '/'
+      fullPath: '/dashboard/periods/$periodId/'
+      preLoaderRoute: typeof DashboardProtectedPeriodsPeriodIdIndexRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsPeriodIdRoute
+    }
+    '/dashboard/_protected/subjects/$subjectId/tasks': {
+      id: '/dashboard/_protected/subjects/$subjectId/tasks'
+      path: '/tasks'
+      fullPath: '/dashboard/subjects/$subjectId/tasks'
+      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdTasksRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsSubjectIdRoute
+    }
+    '/dashboard/_protected/periods/$periodId/settings': {
+      id: '/dashboard/_protected/periods/$periodId/settings'
+      path: '/settings'
+      fullPath: '/dashboard/periods/$periodId/settings'
+      preLoaderRoute: typeof DashboardProtectedPeriodsPeriodIdSettingsRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsPeriodIdRoute
+    }
+    '/dashboard/_protected/periods/$periodId/_layout': {
+      id: '/dashboard/_protected/periods/$periodId/_layout'
+      path: '/$periodId'
+      fullPath: '/dashboard/periods/$periodId'
+      preLoaderRoute: typeof DashboardProtectedPeriodsPeriodIdLayoutRouteImport
+      parentRoute: typeof DashboardProtectedPeriodsPeriodIdRoute
+    }
   }
 }
 
+interface DashboardProtectedPeriodsPeriodIdRouteChildren {
+  DashboardProtectedPeriodsPeriodIdLayoutRoute: typeof DashboardProtectedPeriodsPeriodIdLayoutRoute
+  DashboardProtectedPeriodsPeriodIdSettingsRoute: typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  DashboardProtectedPeriodsPeriodIdIndexRoute: typeof DashboardProtectedPeriodsPeriodIdIndexRoute
+}
+
+const DashboardProtectedPeriodsPeriodIdRouteChildren: DashboardProtectedPeriodsPeriodIdRouteChildren =
+  {
+    DashboardProtectedPeriodsPeriodIdLayoutRoute:
+      DashboardProtectedPeriodsPeriodIdLayoutRoute,
+    DashboardProtectedPeriodsPeriodIdSettingsRoute:
+      DashboardProtectedPeriodsPeriodIdSettingsRoute,
+    DashboardProtectedPeriodsPeriodIdIndexRoute:
+      DashboardProtectedPeriodsPeriodIdIndexRoute,
+  }
+
+const DashboardProtectedPeriodsPeriodIdRouteWithChildren =
+  DashboardProtectedPeriodsPeriodIdRoute._addFileChildren(
+    DashboardProtectedPeriodsPeriodIdRouteChildren,
+  )
+
+interface DashboardProtectedPeriodsRouteChildren {
+  DashboardProtectedPeriodsLayoutRoute: typeof DashboardProtectedPeriodsLayoutRoute
+  DashboardProtectedPeriodsCreateRoute: typeof DashboardProtectedPeriodsCreateRoute
+  DashboardProtectedPeriodsIndexRoute: typeof DashboardProtectedPeriodsIndexRoute
+  DashboardProtectedPeriodsPeriodIdRoute: typeof DashboardProtectedPeriodsPeriodIdRouteWithChildren
+}
+
+const DashboardProtectedPeriodsRouteChildren: DashboardProtectedPeriodsRouteChildren =
+  {
+    DashboardProtectedPeriodsLayoutRoute: DashboardProtectedPeriodsLayoutRoute,
+    DashboardProtectedPeriodsCreateRoute: DashboardProtectedPeriodsCreateRoute,
+    DashboardProtectedPeriodsIndexRoute: DashboardProtectedPeriodsIndexRoute,
+    DashboardProtectedPeriodsPeriodIdRoute:
+      DashboardProtectedPeriodsPeriodIdRouteWithChildren,
+  }
+
+const DashboardProtectedPeriodsRouteWithChildren =
+  DashboardProtectedPeriodsRoute._addFileChildren(
+    DashboardProtectedPeriodsRouteChildren,
+  )
+
+interface DashboardProtectedSubjectsSubjectIdRouteChildren {
+  DashboardProtectedSubjectsSubjectIdTasksRoute: typeof DashboardProtectedSubjectsSubjectIdTasksRoute
+  DashboardProtectedSubjectsSubjectIdIndexRoute: typeof DashboardProtectedSubjectsSubjectIdIndexRoute
+}
+
+const DashboardProtectedSubjectsSubjectIdRouteChildren: DashboardProtectedSubjectsSubjectIdRouteChildren =
+  {
+    DashboardProtectedSubjectsSubjectIdTasksRoute:
+      DashboardProtectedSubjectsSubjectIdTasksRoute,
+    DashboardProtectedSubjectsSubjectIdIndexRoute:
+      DashboardProtectedSubjectsSubjectIdIndexRoute,
+  }
+
+const DashboardProtectedSubjectsSubjectIdRouteWithChildren =
+  DashboardProtectedSubjectsSubjectIdRoute._addFileChildren(
+    DashboardProtectedSubjectsSubjectIdRouteChildren,
+  )
+
+interface DashboardProtectedSubjectsRouteChildren {
+  DashboardProtectedSubjectsLayoutRoute: typeof DashboardProtectedSubjectsLayoutRoute
+  DashboardProtectedSubjectsCreateRoute: typeof DashboardProtectedSubjectsCreateRoute
+  DashboardProtectedSubjectsIndexRoute: typeof DashboardProtectedSubjectsIndexRoute
+}
+
+const DashboardProtectedSubjectsRouteChildren: DashboardProtectedSubjectsRouteChildren =
+  {
+    DashboardProtectedSubjectsLayoutRoute:
+      DashboardProtectedSubjectsLayoutRoute,
+    DashboardProtectedSubjectsCreateRoute:
+      DashboardProtectedSubjectsCreateRoute,
+    DashboardProtectedSubjectsIndexRoute: DashboardProtectedSubjectsIndexRoute,
+  }
+
+const DashboardProtectedSubjectsRouteWithChildren =
+  DashboardProtectedSubjectsRoute._addFileChildren(
+    DashboardProtectedSubjectsRouteChildren,
+  )
+
+interface DashboardProtectedTasksRouteChildren {
+  DashboardProtectedTasksLayoutRoute: typeof DashboardProtectedTasksLayoutRoute
+  DashboardProtectedTasksCreateRoute: typeof DashboardProtectedTasksCreateRoute
+  DashboardProtectedTasksKanbanRoute: typeof DashboardProtectedTasksKanbanRoute
+  DashboardProtectedTasksIndexRoute: typeof DashboardProtectedTasksIndexRoute
+}
+
+const DashboardProtectedTasksRouteChildren: DashboardProtectedTasksRouteChildren =
+  {
+    DashboardProtectedTasksLayoutRoute: DashboardProtectedTasksLayoutRoute,
+    DashboardProtectedTasksCreateRoute: DashboardProtectedTasksCreateRoute,
+    DashboardProtectedTasksKanbanRoute: DashboardProtectedTasksKanbanRoute,
+    DashboardProtectedTasksIndexRoute: DashboardProtectedTasksIndexRoute,
+  }
+
+const DashboardProtectedTasksRouteWithChildren =
+  DashboardProtectedTasksRoute._addFileChildren(
+    DashboardProtectedTasksRouteChildren,
+  )
+
+interface DashboardProtectedRouteRouteChildren {
+  DashboardProtectedIndexRoute: typeof DashboardProtectedIndexRoute
+  DashboardProtectedPeriodsRoute: typeof DashboardProtectedPeriodsRouteWithChildren
+  DashboardProtectedSubjectsSubjectIdRoute: typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
+  DashboardProtectedSubjectsRoute: typeof DashboardProtectedSubjectsRouteWithChildren
+  DashboardProtectedTasksTaskIdRoute: typeof DashboardProtectedTasksTaskIdRoute
+  DashboardProtectedTasksRoute: typeof DashboardProtectedTasksRouteWithChildren
+}
+
+const DashboardProtectedRouteRouteChildren: DashboardProtectedRouteRouteChildren =
+  {
+    DashboardProtectedIndexRoute: DashboardProtectedIndexRoute,
+    DashboardProtectedPeriodsRoute: DashboardProtectedPeriodsRouteWithChildren,
+    DashboardProtectedSubjectsSubjectIdRoute:
+      DashboardProtectedSubjectsSubjectIdRouteWithChildren,
+    DashboardProtectedSubjectsRoute:
+      DashboardProtectedSubjectsRouteWithChildren,
+    DashboardProtectedTasksTaskIdRoute: DashboardProtectedTasksTaskIdRoute,
+    DashboardProtectedTasksRoute: DashboardProtectedTasksRouteWithChildren,
+  }
+
+const DashboardProtectedRouteRouteWithChildren =
+  DashboardProtectedRouteRoute._addFileChildren(
+    DashboardProtectedRouteRouteChildren,
+  )
+
+interface DashboardRouteChildren {
+  DashboardProtectedRouteRoute: typeof DashboardProtectedRouteRouteWithChildren
+}
+
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardProtectedRouteRoute: DashboardProtectedRouteRouteWithChildren,
+}
+
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  R404Route: R404Route,
+  LayoutRoute: LayoutRoute,
+  DashboardRoute: DashboardRouteWithChildren,
   AuthCallbackRoute: AuthCallbackRoute,
   AuthLoginRoute: AuthLoginRoute,
 }

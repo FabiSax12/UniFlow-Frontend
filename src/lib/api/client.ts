@@ -1,6 +1,7 @@
 import axios, { type AxiosInstance } from "axios"
 import { API_ENDPOINTS } from "./endpoints"
 import { env } from "@/env"
+import { useAuthStore } from "@/stores/auth"
 
 
 const createApiClient = (baseURL: string): AxiosInstance => {
@@ -40,6 +41,25 @@ const createApiClient = (baseURL: string): AxiosInstance => {
       return Promise.reject(error)
     }
   )
+
+  client.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      if (error.response?.status === 401) {
+        // Limpiar localStorage
+        localStorage.removeItem('accessToken');
+        localStorage.removeItem('refreshToken');
+        localStorage.removeItem('user');
+
+        // Limpiar store de Zustand
+        useAuthStore.getState().logout();
+
+        // Redireccionar al login
+        window.location.href = '/login';
+      }
+      return Promise.reject(error);
+    }
+  );
 
   return client
 }
