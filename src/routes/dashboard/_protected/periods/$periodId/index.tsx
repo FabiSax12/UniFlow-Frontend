@@ -56,7 +56,7 @@ function RouteComponent() {
 
     <div className="mt-8">
       <SectionTitle>Cursos</SectionTitle>
-      <div className='grid grid-cols-4 gap-6 mt-4'>
+      <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mt-4'>
         {
           periodSubjects.data?.map(subject => <SubjectCard subject={subject} />)
         }
