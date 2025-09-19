@@ -36,7 +36,7 @@ function RouteComponent() {
 
   return <div>
     <Select defaultValue={periodId} onValueChange={handlePeriodChange}>
-      <SelectTrigger className='bg-red-500 border-0 ring-0'>
+      <SelectTrigger className='border-0 ring-0 dark:bg-transparent py-6' iconClassname="size-6">
         <SectionTitle>
           <SelectValue placeholder="Periodo" />
         </SectionTitle>
