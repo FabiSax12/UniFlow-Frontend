@@ -17,6 +17,7 @@ import { useSubject } from "@/hooks/subjects"
 import { Link } from "@tanstack/react-router"
 import { useCompleteTask } from "@/hooks/tasks/useCompleteTask"
 import { useDeleteTask } from "@/hooks/tasks/useDeleteTask"
+import { useStartTask } from "@/hooks/tasks/useStartTask"
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('es-CR', {
@@ -241,6 +242,7 @@ export const columns: ColumnDef<Task>[] = [
 
       const { completeTaskMutation } = useCompleteTask(task.id)
       const { deleteTaskMutation } = useDeleteTask(task.id)
+      const { startTaskMutation } = useStartTask(task.id)
 
       const handleCompleteTask = () => {
         completeTaskMutation.mutate()
@@ -248,6 +250,10 @@ export const columns: ColumnDef<Task>[] = [
 
       const handleDeleteTask = () => {
         deleteTaskMutation.mutate(task.id)
+      }
+
+      const handleStartTask = () => {
+        startTaskMutation.mutate()
       }
 
       return (
@@ -268,9 +274,7 @@ export const columns: ColumnDef<Task>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
               disabled={task.status === TaskStatus.DONE}
-              onClick={() => {
-                console.log('Iniciar tarea:', task.id)
-              }}
+              onClick={handleStartTask}
             >
               Iniciar tarea
             </DropdownMenuItem>

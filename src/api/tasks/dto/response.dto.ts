@@ -64,3 +64,10 @@ export interface CompletedTaskResponseDto {
   updatedAt: string
   message: string
 }
+
+export interface UpdateTaskStateResponseDto {
+  id: string
+  status: string
+  updatedAt: string
+  message: string
+}
