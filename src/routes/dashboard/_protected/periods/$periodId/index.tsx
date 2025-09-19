@@ -1,6 +1,6 @@
 import SectionTitle from '@/components/SectionTitle'
 import { SubjectCard } from '@/components/subjects/SubjectCard';
-import { TasksTable } from '@/components/tasks/TasksTable';
+import { TasksTable } from '@/components/tasks/TasksTable2';
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { usePeriod, usePeriods } from '@/hooks/periods';
