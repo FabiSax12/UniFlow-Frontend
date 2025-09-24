@@ -10,7 +10,7 @@ export function useNotifications(userId: string) {
       console.log(a)
       return a
     },
-    staleTime: 1000 * 60 * 5
+    // staleTime: 1000 * 60 * 5
   })
 
   return notificationsQuery;
