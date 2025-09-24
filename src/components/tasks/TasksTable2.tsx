@@ -4,9 +4,13 @@ import { TaskStatus } from '@/domain/tasks'
 import { useTasks } from '@/hooks/tasks/useTasks'
 import { TasksDataTable } from './TasksDataTable'
 import { columns } from './task-columns'
+import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod'
+import { useParams } from '@tanstack/react-router'
 
 export function TasksTable() {
-  const { data: tasks, isLoading, error } = useTasks()
+  const { periodId } = useParams({ from: '/dashboard/_protected/periods/$periodId' });
+
+  const { tasksQuery: { data: tasks, isLoading, error } } = useTasksByPeriod(periodId)
 
   if (isLoading) {
     return (

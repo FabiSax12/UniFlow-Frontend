@@ -15,8 +15,8 @@ import {
 import { TaskKanbanColumn } from "./TaskKanbanColumn"
 import { Task } from '@/domain/tasks'
 import { TaskStatus, TaskPriority } from '@/domain/tasks'
-import { useTasks } from '@/hooks/tasks/useTasks'
-import { useNavigate } from "@tanstack/react-router"
+import { useNavigate, useParams } from "@tanstack/react-router"
+import { useTasksByPeriod } from "@/hooks/tasks/useTasksByPeriod"
 
 interface KanbanColumnConfig {
   status: TaskStatus
@@ -54,9 +54,10 @@ type FilterOption = TaskPriority | 'all'
 export function TaskKanbanBoard() {
 
   const navigate = useNavigate();
+  const { periodId } = useParams({ from: '/dashboard/_protected/periods/$periodId' });
 
 
-  const { data: tasks, isLoading, error } = useTasks()
+  const { tasksQuery: { data: tasks, isLoading, error } } = useTasksByPeriod(periodId)
   const [searchTerm, setSearchTerm] = useState("")
   const [sortBy, setSortBy] = useState<SortOption>('dueDate')
   const [filterPriority, setFilterPriority] = useState<FilterOption>('all')
