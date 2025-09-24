@@ -11,6 +11,7 @@ interface OptimisticMutationOptions<TData, TVariables, TQueryData, TContext> {
   onMutateToast?: (variables: TVariables) => { message: string; id: string };
   onSuccessToast?: (data: TData, variables: TVariables) => { message: string; id: string };
   onErrorToast?: (error: Error, variables: TVariables) => { message: string; description?: string; id: string };
+  invalidateOnSeattled?: boolean;
 }
 
 export function useOptimisticMutation<TData, TVariables, TQueryData, TContext = unknown>({
@@ -21,6 +22,7 @@ export function useOptimisticMutation<TData, TVariables, TQueryData, TContext = 
   onMutateToast,
   onSuccessToast,
   onErrorToast,
+  invalidateOnSeattled = true
 }: OptimisticMutationOptions<TData, TVariables, TQueryData, TContext>) {
   const queryClient = useQueryClient();
 
@@ -67,7 +69,7 @@ export function useOptimisticMutation<TData, TVariables, TQueryData, TContext = 
     },
 
     onSettled: () => {
-      queryClient.invalidateQueries({ queryKey });
+      if (invalidateOnSeattled) queryClient.invalidateQueries({ queryKey });
     },
   });
 }
