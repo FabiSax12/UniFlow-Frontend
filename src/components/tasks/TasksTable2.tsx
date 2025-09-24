@@ -1,45 +1,20 @@
-"use client"
-
 import { TaskStatus } from '@/domain/tasks'
-import { useTasks } from '@/hooks/tasks/useTasks'
 import { TasksDataTable } from './TasksDataTable'
 import { columns } from './task-columns'
 import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod'
 import { useParams } from '@tanstack/react-router'
+import { Button } from '../ui/button'
 
 export function TasksTable() {
   const { periodId } = useParams({ from: '/dashboard/_protected/periods/$periodId' });
-
   const { tasksQuery: { data: tasks, isLoading, error } } = useTasksByPeriod(periodId)
 
-  if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-32">
-        <div className="text-sm text-muted-foreground">Cargando tareas...</div>
-      </div>
-    )
-  }
+  // Render states
+  if (isLoading) return <IsLoadingComponent />
+  if (error) return <IsErrorComponent error={error} />
+  if (!tasks || tasks.length === 0) return <IsEmptyComponent />
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center h-32">
-        <div className="text-sm text-red-500">
-          Error al cargar tareas: {error.message}
-        </div>
-      </div>
-    )
-  }
-
-  if (!tasks || tasks.length === 0) {
-    return (
-      <div className="flex items-center justify-center h-32">
-        <div className="text-sm text-muted-foreground">
-          No se encontraron tareas.
-        </div>
-      </div>
-    )
-  }
-
+  // Main render
   return (
     <div className="space-y-4">
       {/* Estadísticas rápidas */}
@@ -70,6 +45,42 @@ export function TasksTable() {
 
       {/* Data Table */}
       <TasksDataTable columns={columns} data={tasks} />
+    </div>
+  )
+}
+
+const IsLoadingComponent = () => {
+  return (
+    <div className="flex items-center justify-center h-96">
+      <div className="text-center space-y-4">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto"></div>
+        <p className="text-sm text-muted-foreground">Cargando tabla...</p>
+      </div>
+    </div>
+  )
+}
+
+const IsErrorComponent = ({ error }: { error: Error }) => {
+  return (
+    <div className="flex items-center justify-center h-96">
+      <div className="text-center space-y-4">
+        <div className="text-red-500 text-sm font-medium">
+          Error al cargar las tareas: {error.message}
+        </div>
+        <Button variant="outline" onClick={() => window.location.reload()}>
+          Reintentar
+        </Button>
+      </div>
+    </div>
+  )
+}
+
+const IsEmptyComponent = () => {
+  return (
+    <div className="flex items-center justify-center h-96">
+      <div className="text-sm text-muted-foreground">
+        No se encontraron tareas.
+      </div>
     </div>
   )
 }
