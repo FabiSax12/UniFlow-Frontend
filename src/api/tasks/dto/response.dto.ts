@@ -56,6 +56,7 @@ export interface UpcomingTask {
 }
 
 export type GetTasksBySubjectResponseDto = GetTaskResponseDto[]
+export type GetTasksByPeriodResponseDto = GetTaskResponseDto[]
 
 export interface CompletedTaskResponseDto {
   id: string
