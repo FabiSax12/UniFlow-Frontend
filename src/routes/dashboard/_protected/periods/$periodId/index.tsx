@@ -1,5 +1,6 @@
 import SectionTitle from '@/components/SectionTitle'
 import { SubjectCard } from '@/components/subjects/SubjectCard';
+import { TaskKanbanBoard } from '@/components/tasks/kanban/TaskKanbanBoard';
 import { TasksTable } from '@/components/tasks/TasksTable2';
 import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -7,20 +8,21 @@ import { usePeriod, usePeriods } from '@/hooks/periods';
 import { useSubjects } from '@/hooks/subjects';
 import { cn } from '@/lib/utils';
 import { createFileRoute } from '@tanstack/react-router'
+import z from 'zod';
 
 export const Route = createFileRoute('/dashboard/_protected/periods/$periodId/')({
   component: RouteComponent,
+  validateSearch: (search) => z.object({
+    tab: z.enum(["table", "kanban"]).optional()
+  }).parse(search)
 })
 
 function RouteComponent() {
-
   const { periodId } = Route.useParams();
+  const searchParams = Route.useSearch();
   const navigate = Route.useNavigate();
-
   const periodQuery = usePeriod(periodId);
-
   const periodsList = usePeriods();
-
   const periodSubjects = useSubjects();
 
   if (periodQuery.isLoading && !periodQuery.data) return <div>
@@ -34,6 +36,13 @@ function RouteComponent() {
     })
   }
 
+  const handleTabChange = (tabValue: string) => {
+    navigate({
+      search: { tab: tabValue as "table" | "kanban" },
+      replace: true
+    })
+  }
+
   return <div>
     <Select defaultValue={periodId} onValueChange={handlePeriodChange}>
       <SelectTrigger className='border-0 ring-0 dark:bg-transparent py-6' iconClassname="size-6">
@@ -43,7 +52,7 @@ function RouteComponent() {
       </SelectTrigger>
       <SelectContent>
         {
-          periodsList.data?.map(p => <SelectItem value={p.id}>{p.getDisplayName()}</SelectItem>)
+          periodsList.data?.map(p => <SelectItem key={p.id} value={p.id}>{p.getDisplayName()}</SelectItem>)
         }
       </SelectContent>
     </Select>
@@ -58,14 +67,12 @@ function RouteComponent() {
       <SectionTitle>Cursos</SectionTitle>
       <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6 mt-4'>
         {
-          periodSubjects.data?.map(subject => <SubjectCard subject={subject} />)
+          periodSubjects.data?.map(subject => <SubjectCard key={subject.id} subject={subject} />)
         }
       </div>
     </div>
 
-    {/* <SectionTitle>Tareas</SectionTitle> */}
-    <Tabs defaultValue="table" className="w-full mt-8">
-
+    <Tabs value={searchParams.tab || "table"} onValueChange={handleTabChange} className="w-full mt-8">
       <div className='flex justify-between items-center w-full mb-6'>
         <SectionTitle>Entregas del Semestre</SectionTitle>
         <TabsList>
@@ -73,13 +80,13 @@ function RouteComponent() {
           <TabsTrigger value="kanban">Kanban</TabsTrigger>
         </TabsList>
       </div>
-
       <TabsContent value="table">
         <TasksTable />
       </TabsContent>
-      <TabsContent value="kanban">Kanban View</TabsContent>
+      <TabsContent value="kanban">
+        <TaskKanbanBoard />
+      </TabsContent>
     </Tabs>
-
   </div>
 }
 
