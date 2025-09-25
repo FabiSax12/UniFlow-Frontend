@@ -26,12 +26,12 @@ import { Route as DashboardProtectedTasksLayoutRouteImport } from './routes/dash
 import { Route as DashboardProtectedTasksTaskIdRouteImport } from './routes/dashboard/_protected/tasks/$taskId'
 import { Route as DashboardProtectedSubjectsCreateRouteImport } from './routes/dashboard/_protected/subjects/create'
 import { Route as DashboardProtectedSubjectsLayoutRouteImport } from './routes/dashboard/_protected/subjects/_layout'
-import { Route as DashboardProtectedSubjectsSubjectIdRouteImport } from './routes/dashboard/_protected/subjects/$subjectId'
 import { Route as DashboardProtectedPeriodsCreateRouteImport } from './routes/dashboard/_protected/periods/create'
 import { Route as DashboardProtectedPeriodsLayoutRouteImport } from './routes/dashboard/_protected/periods/_layout'
 import { Route as DashboardProtectedSubjectsSubjectIdIndexRouteImport } from './routes/dashboard/_protected/subjects/$subjectId/index'
 import { Route as DashboardProtectedPeriodsPeriodIdIndexRouteImport } from './routes/dashboard/_protected/periods/$periodId/index'
 import { Route as DashboardProtectedSubjectsSubjectIdTasksRouteImport } from './routes/dashboard/_protected/subjects/$subjectId/tasks'
+import { Route as DashboardProtectedSubjectsSubjectIdLayoutRouteImport } from './routes/dashboard/_protected/subjects/$subjectId/_layout'
 import { Route as DashboardProtectedPeriodsPeriodIdSettingsRouteImport } from './routes/dashboard/_protected/periods/$periodId/settings'
 import { Route as DashboardProtectedPeriodsPeriodIdLayoutRouteImport } from './routes/dashboard/_protected/periods/$periodId/_layout'
 
@@ -44,6 +44,9 @@ const DashboardProtectedSubjectsRouteImport = createFileRoute(
 )()
 const DashboardProtectedPeriodsRouteImport = createFileRoute(
   '/dashboard/_protected/periods',
+)()
+const DashboardProtectedSubjectsSubjectIdRouteImport = createFileRoute(
+  '/dashboard/_protected/subjects/$subjectId',
 )()
 const DashboardProtectedPeriodsPeriodIdRouteImport = createFileRoute(
   '/dashboard/_protected/periods/$periodId',
@@ -104,6 +107,12 @@ const DashboardProtectedIndexRoute = DashboardProtectedIndexRouteImport.update({
   path: '/',
   getParentRoute: () => DashboardProtectedRouteRoute,
 } as any)
+const DashboardProtectedSubjectsSubjectIdRoute =
+  DashboardProtectedSubjectsSubjectIdRouteImport.update({
+    id: '/$subjectId',
+    path: '/$subjectId',
+    getParentRoute: () => DashboardProtectedSubjectsRoute,
+  } as any)
 const DashboardProtectedPeriodsPeriodIdRoute =
   DashboardProtectedPeriodsPeriodIdRouteImport.update({
     id: '/$periodId',
@@ -156,12 +165,6 @@ const DashboardProtectedSubjectsLayoutRoute =
     id: '/_layout',
     getParentRoute: () => DashboardProtectedSubjectsRoute,
   } as any)
-const DashboardProtectedSubjectsSubjectIdRoute =
-  DashboardProtectedSubjectsSubjectIdRouteImport.update({
-    id: '/subjects/$subjectId',
-    path: '/subjects/$subjectId',
-    getParentRoute: () => DashboardProtectedRouteRoute,
-  } as any)
 const DashboardProtectedPeriodsCreateRoute =
   DashboardProtectedPeriodsCreateRouteImport.update({
     id: '/create',
@@ -191,6 +194,11 @@ const DashboardProtectedSubjectsSubjectIdTasksRoute =
     path: '/tasks',
     getParentRoute: () => DashboardProtectedSubjectsSubjectIdRoute,
   } as any)
+const DashboardProtectedSubjectsSubjectIdLayoutRoute =
+  DashboardProtectedSubjectsSubjectIdLayoutRouteImport.update({
+    id: '/_layout',
+    getParentRoute: () => DashboardProtectedSubjectsSubjectIdRoute,
+  } as any)
 const DashboardProtectedPeriodsPeriodIdSettingsRoute =
   DashboardProtectedPeriodsPeriodIdSettingsRouteImport.update({
     id: '/settings',
@@ -212,7 +220,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof DashboardProtectedIndexRoute
   '/dashboard/periods': typeof DashboardProtectedPeriodsLayoutRoute
   '/dashboard/periods/create': typeof DashboardProtectedPeriodsCreateRoute
-  '/dashboard/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
   '/dashboard/subjects': typeof DashboardProtectedSubjectsLayoutRoute
   '/dashboard/subjects/create': typeof DashboardProtectedSubjectsCreateRoute
   '/dashboard/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/tasks/': typeof DashboardProtectedTasksIndexRoute
   '/dashboard/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdLayoutRoute
   '/dashboard/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  '/dashboard/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdLayoutRoute
   '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
   '/dashboard/periods/$periodId/': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
   '/dashboard/subjects/$subjectId/': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
@@ -242,8 +250,8 @@ export interface FileRoutesByTo {
   '/dashboard/tasks/create': typeof DashboardProtectedTasksCreateRoute
   '/dashboard/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
   '/dashboard/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
-  '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
   '/dashboard/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
+  '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -258,7 +266,6 @@ export interface FileRoutesById {
   '/dashboard/_protected/periods': typeof DashboardProtectedPeriodsRouteWithChildren
   '/dashboard/_protected/periods/_layout': typeof DashboardProtectedPeriodsLayoutRoute
   '/dashboard/_protected/periods/create': typeof DashboardProtectedPeriodsCreateRoute
-  '/dashboard/_protected/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
   '/dashboard/_protected/subjects': typeof DashboardProtectedSubjectsRouteWithChildren
   '/dashboard/_protected/subjects/_layout': typeof DashboardProtectedSubjectsLayoutRoute
   '/dashboard/_protected/subjects/create': typeof DashboardProtectedSubjectsCreateRoute
@@ -272,6 +279,8 @@ export interface FileRoutesById {
   '/dashboard/_protected/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdRouteWithChildren
   '/dashboard/_protected/periods/$periodId/_layout': typeof DashboardProtectedPeriodsPeriodIdLayoutRoute
   '/dashboard/_protected/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
+  '/dashboard/_protected/subjects/$subjectId': typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
+  '/dashboard/_protected/subjects/$subjectId/_layout': typeof DashboardProtectedSubjectsSubjectIdLayoutRoute
   '/dashboard/_protected/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
   '/dashboard/_protected/periods/$periodId/': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
   '/dashboard/_protected/subjects/$subjectId/': typeof DashboardProtectedSubjectsSubjectIdIndexRoute
@@ -287,7 +296,6 @@ export interface FileRouteTypes {
     | '/dashboard/'
     | '/dashboard/periods'
     | '/dashboard/periods/create'
-    | '/dashboard/subjects/$subjectId'
     | '/dashboard/subjects'
     | '/dashboard/subjects/create'
     | '/dashboard/tasks/$taskId'
@@ -298,6 +306,7 @@ export interface FileRouteTypes {
     | '/dashboard/tasks/'
     | '/dashboard/periods/$periodId'
     | '/dashboard/periods/$periodId/settings'
+    | '/dashboard/subjects/$subjectId'
     | '/dashboard/subjects/$subjectId/tasks'
     | '/dashboard/periods/$periodId/'
     | '/dashboard/subjects/$subjectId/'
@@ -317,8 +326,8 @@ export interface FileRouteTypes {
     | '/dashboard/tasks/create'
     | '/dashboard/periods/$periodId'
     | '/dashboard/periods/$periodId/settings'
-    | '/dashboard/subjects/$subjectId/tasks'
     | '/dashboard/subjects/$subjectId'
+    | '/dashboard/subjects/$subjectId/tasks'
   id:
     | '__root__'
     | '/'
@@ -332,7 +341,6 @@ export interface FileRouteTypes {
     | '/dashboard/_protected/periods'
     | '/dashboard/_protected/periods/_layout'
     | '/dashboard/_protected/periods/create'
-    | '/dashboard/_protected/subjects/$subjectId'
     | '/dashboard/_protected/subjects'
     | '/dashboard/_protected/subjects/_layout'
     | '/dashboard/_protected/subjects/create'
@@ -346,6 +354,8 @@ export interface FileRouteTypes {
     | '/dashboard/_protected/periods/$periodId'
     | '/dashboard/_protected/periods/$periodId/_layout'
     | '/dashboard/_protected/periods/$periodId/settings'
+    | '/dashboard/_protected/subjects/$subjectId'
+    | '/dashboard/_protected/subjects/$subjectId/_layout'
     | '/dashboard/_protected/subjects/$subjectId/tasks'
     | '/dashboard/_protected/periods/$periodId/'
     | '/dashboard/_protected/subjects/$subjectId/'
@@ -439,6 +449,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProtectedIndexRouteImport
       parentRoute: typeof DashboardProtectedRouteRoute
     }
+    '/dashboard/_protected/subjects/$subjectId': {
+      id: '/dashboard/_protected/subjects/$subjectId'
+      path: '/$subjectId'
+      fullPath: '/dashboard/subjects/$subjectId'
+      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsRoute
+    }
     '/dashboard/_protected/periods/$periodId': {
       id: '/dashboard/_protected/periods/$periodId'
       path: '/$periodId'
@@ -502,13 +519,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardProtectedSubjectsLayoutRouteImport
       parentRoute: typeof DashboardProtectedSubjectsRoute
     }
-    '/dashboard/_protected/subjects/$subjectId': {
-      id: '/dashboard/_protected/subjects/$subjectId'
-      path: '/subjects/$subjectId'
-      fullPath: '/dashboard/subjects/$subjectId'
-      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdRouteImport
-      parentRoute: typeof DashboardProtectedRouteRoute
-    }
     '/dashboard/_protected/periods/create': {
       id: '/dashboard/_protected/periods/create'
       path: '/create'
@@ -542,6 +552,13 @@ declare module '@tanstack/react-router' {
       path: '/tasks'
       fullPath: '/dashboard/subjects/$subjectId/tasks'
       preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdTasksRouteImport
+      parentRoute: typeof DashboardProtectedSubjectsSubjectIdRoute
+    }
+    '/dashboard/_protected/subjects/$subjectId/_layout': {
+      id: '/dashboard/_protected/subjects/$subjectId/_layout'
+      path: '/$subjectId'
+      fullPath: '/dashboard/subjects/$subjectId'
+      preLoaderRoute: typeof DashboardProtectedSubjectsSubjectIdLayoutRouteImport
       parentRoute: typeof DashboardProtectedSubjectsSubjectIdRoute
     }
     '/dashboard/_protected/periods/$periodId/settings': {
@@ -604,12 +621,15 @@ const DashboardProtectedPeriodsRouteWithChildren =
   )
 
 interface DashboardProtectedSubjectsSubjectIdRouteChildren {
+  DashboardProtectedSubjectsSubjectIdLayoutRoute: typeof DashboardProtectedSubjectsSubjectIdLayoutRoute
   DashboardProtectedSubjectsSubjectIdTasksRoute: typeof DashboardProtectedSubjectsSubjectIdTasksRoute
   DashboardProtectedSubjectsSubjectIdIndexRoute: typeof DashboardProtectedSubjectsSubjectIdIndexRoute
 }
 
 const DashboardProtectedSubjectsSubjectIdRouteChildren: DashboardProtectedSubjectsSubjectIdRouteChildren =
   {
+    DashboardProtectedSubjectsSubjectIdLayoutRoute:
+      DashboardProtectedSubjectsSubjectIdLayoutRoute,
     DashboardProtectedSubjectsSubjectIdTasksRoute:
       DashboardProtectedSubjectsSubjectIdTasksRoute,
     DashboardProtectedSubjectsSubjectIdIndexRoute:
@@ -625,6 +645,7 @@ interface DashboardProtectedSubjectsRouteChildren {
   DashboardProtectedSubjectsLayoutRoute: typeof DashboardProtectedSubjectsLayoutRoute
   DashboardProtectedSubjectsCreateRoute: typeof DashboardProtectedSubjectsCreateRoute
   DashboardProtectedSubjectsIndexRoute: typeof DashboardProtectedSubjectsIndexRoute
+  DashboardProtectedSubjectsSubjectIdRoute: typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
 }
 
 const DashboardProtectedSubjectsRouteChildren: DashboardProtectedSubjectsRouteChildren =
@@ -634,6 +655,8 @@ const DashboardProtectedSubjectsRouteChildren: DashboardProtectedSubjectsRouteCh
     DashboardProtectedSubjectsCreateRoute:
       DashboardProtectedSubjectsCreateRoute,
     DashboardProtectedSubjectsIndexRoute: DashboardProtectedSubjectsIndexRoute,
+    DashboardProtectedSubjectsSubjectIdRoute:
+      DashboardProtectedSubjectsSubjectIdRouteWithChildren,
   }
 
 const DashboardProtectedSubjectsRouteWithChildren =
@@ -662,7 +685,6 @@ const DashboardProtectedTasksRouteWithChildren =
 interface DashboardProtectedRouteRouteChildren {
   DashboardProtectedIndexRoute: typeof DashboardProtectedIndexRoute
   DashboardProtectedPeriodsRoute: typeof DashboardProtectedPeriodsRouteWithChildren
-  DashboardProtectedSubjectsSubjectIdRoute: typeof DashboardProtectedSubjectsSubjectIdRouteWithChildren
   DashboardProtectedSubjectsRoute: typeof DashboardProtectedSubjectsRouteWithChildren
   DashboardProtectedTasksTaskIdRoute: typeof DashboardProtectedTasksTaskIdRoute
   DashboardProtectedTasksRoute: typeof DashboardProtectedTasksRouteWithChildren
@@ -672,8 +694,6 @@ const DashboardProtectedRouteRouteChildren: DashboardProtectedRouteRouteChildren
   {
     DashboardProtectedIndexRoute: DashboardProtectedIndexRoute,
     DashboardProtectedPeriodsRoute: DashboardProtectedPeriodsRouteWithChildren,
-    DashboardProtectedSubjectsSubjectIdRoute:
-      DashboardProtectedSubjectsSubjectIdRouteWithChildren,
     DashboardProtectedSubjectsRoute:
       DashboardProtectedSubjectsRouteWithChildren,
     DashboardProtectedTasksTaskIdRoute: DashboardProtectedTasksTaskIdRoute,
