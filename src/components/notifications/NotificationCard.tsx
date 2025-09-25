@@ -78,6 +78,7 @@ export const NotificationCard: React.FC<NotificationCardProps> = ({
 
   return (
     <Card
+      id={`notification-card-${notification.id}`}
       className={cn(
         "relative cursor-pointer transition-all duration-200 hover:shadow-md",
         !notification.isRead && "border-l-4 border-l-blue-500",

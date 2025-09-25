@@ -43,7 +43,11 @@ const createApiClient = (baseURL: string): AxiosInstance => {
   )
 
   client.interceptors.response.use(
-    (response) => response,
+    async (response) => {
+      await new Promise((res) => setTimeout(res, 1000))
+
+      return response
+    },
     (error) => {
       if (error.response?.status === 401) {
         // Limpiar localStorage
@@ -55,7 +59,7 @@ const createApiClient = (baseURL: string): AxiosInstance => {
         useAuthStore.getState().logout();
 
         // Redireccionar al login
-        window.location.href = '/login';
+        window.location.href = '/';
       }
       return Promise.reject(error);
     }

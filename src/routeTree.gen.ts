@@ -21,7 +21,6 @@ import { Route as DashboardProtectedIndexRouteImport } from './routes/dashboard/
 import { Route as DashboardProtectedTasksIndexRouteImport } from './routes/dashboard/_protected/tasks/index'
 import { Route as DashboardProtectedSubjectsIndexRouteImport } from './routes/dashboard/_protected/subjects/index'
 import { Route as DashboardProtectedPeriodsIndexRouteImport } from './routes/dashboard/_protected/periods/index'
-import { Route as DashboardProtectedTasksKanbanRouteImport } from './routes/dashboard/_protected/tasks/kanban'
 import { Route as DashboardProtectedTasksCreateRouteImport } from './routes/dashboard/_protected/tasks/create'
 import { Route as DashboardProtectedTasksLayoutRouteImport } from './routes/dashboard/_protected/tasks/_layout'
 import { Route as DashboardProtectedTasksTaskIdRouteImport } from './routes/dashboard/_protected/tasks/$taskId'
@@ -129,12 +128,6 @@ const DashboardProtectedPeriodsIndexRoute =
     path: '/',
     getParentRoute: () => DashboardProtectedPeriodsRoute,
   } as any)
-const DashboardProtectedTasksKanbanRoute =
-  DashboardProtectedTasksKanbanRouteImport.update({
-    id: '/kanban',
-    path: '/kanban',
-    getParentRoute: () => DashboardProtectedTasksRoute,
-  } as any)
 const DashboardProtectedTasksCreateRoute =
   DashboardProtectedTasksCreateRouteImport.update({
     id: '/create',
@@ -225,7 +218,6 @@ export interface FileRoutesByFullPath {
   '/dashboard/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
   '/dashboard/tasks': typeof DashboardProtectedTasksLayoutRoute
   '/dashboard/tasks/create': typeof DashboardProtectedTasksCreateRoute
-  '/dashboard/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
   '/dashboard/periods/': typeof DashboardProtectedPeriodsIndexRoute
   '/dashboard/subjects/': typeof DashboardProtectedSubjectsIndexRoute
   '/dashboard/tasks/': typeof DashboardProtectedTasksIndexRoute
@@ -248,7 +240,6 @@ export interface FileRoutesByTo {
   '/dashboard/tasks/$taskId': typeof DashboardProtectedTasksTaskIdRoute
   '/dashboard/tasks': typeof DashboardProtectedTasksIndexRoute
   '/dashboard/tasks/create': typeof DashboardProtectedTasksCreateRoute
-  '/dashboard/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
   '/dashboard/periods/$periodId': typeof DashboardProtectedPeriodsPeriodIdIndexRoute
   '/dashboard/periods/$periodId/settings': typeof DashboardProtectedPeriodsPeriodIdSettingsRoute
   '/dashboard/subjects/$subjectId/tasks': typeof DashboardProtectedSubjectsSubjectIdTasksRoute
@@ -275,7 +266,6 @@ export interface FileRoutesById {
   '/dashboard/_protected/tasks': typeof DashboardProtectedTasksRouteWithChildren
   '/dashboard/_protected/tasks/_layout': typeof DashboardProtectedTasksLayoutRoute
   '/dashboard/_protected/tasks/create': typeof DashboardProtectedTasksCreateRoute
-  '/dashboard/_protected/tasks/kanban': typeof DashboardProtectedTasksKanbanRoute
   '/dashboard/_protected/periods/': typeof DashboardProtectedPeriodsIndexRoute
   '/dashboard/_protected/subjects/': typeof DashboardProtectedSubjectsIndexRoute
   '/dashboard/_protected/tasks/': typeof DashboardProtectedTasksIndexRoute
@@ -303,7 +293,6 @@ export interface FileRouteTypes {
     | '/dashboard/tasks/$taskId'
     | '/dashboard/tasks'
     | '/dashboard/tasks/create'
-    | '/dashboard/tasks/kanban'
     | '/dashboard/periods/'
     | '/dashboard/subjects/'
     | '/dashboard/tasks/'
@@ -326,7 +315,6 @@ export interface FileRouteTypes {
     | '/dashboard/tasks/$taskId'
     | '/dashboard/tasks'
     | '/dashboard/tasks/create'
-    | '/dashboard/tasks/kanban'
     | '/dashboard/periods/$periodId'
     | '/dashboard/periods/$periodId/settings'
     | '/dashboard/subjects/$subjectId/tasks'
@@ -352,7 +340,6 @@ export interface FileRouteTypes {
     | '/dashboard/_protected/tasks'
     | '/dashboard/_protected/tasks/_layout'
     | '/dashboard/_protected/tasks/create'
-    | '/dashboard/_protected/tasks/kanban'
     | '/dashboard/_protected/periods/'
     | '/dashboard/_protected/subjects/'
     | '/dashboard/_protected/tasks/'
@@ -479,13 +466,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard/periods/'
       preLoaderRoute: typeof DashboardProtectedPeriodsIndexRouteImport
       parentRoute: typeof DashboardProtectedPeriodsRoute
-    }
-    '/dashboard/_protected/tasks/kanban': {
-      id: '/dashboard/_protected/tasks/kanban'
-      path: '/kanban'
-      fullPath: '/dashboard/tasks/kanban'
-      preLoaderRoute: typeof DashboardProtectedTasksKanbanRouteImport
-      parentRoute: typeof DashboardProtectedTasksRoute
     }
     '/dashboard/_protected/tasks/create': {
       id: '/dashboard/_protected/tasks/create'
@@ -664,7 +644,6 @@ const DashboardProtectedSubjectsRouteWithChildren =
 interface DashboardProtectedTasksRouteChildren {
   DashboardProtectedTasksLayoutRoute: typeof DashboardProtectedTasksLayoutRoute
   DashboardProtectedTasksCreateRoute: typeof DashboardProtectedTasksCreateRoute
-  DashboardProtectedTasksKanbanRoute: typeof DashboardProtectedTasksKanbanRoute
   DashboardProtectedTasksIndexRoute: typeof DashboardProtectedTasksIndexRoute
 }
 
@@ -672,7 +651,6 @@ const DashboardProtectedTasksRouteChildren: DashboardProtectedTasksRouteChildren
   {
     DashboardProtectedTasksLayoutRoute: DashboardProtectedTasksLayoutRoute,
     DashboardProtectedTasksCreateRoute: DashboardProtectedTasksCreateRoute,
-    DashboardProtectedTasksKanbanRoute: DashboardProtectedTasksKanbanRoute,
     DashboardProtectedTasksIndexRoute: DashboardProtectedTasksIndexRoute,
   }
 
