@@ -3,6 +3,7 @@ import { academicApi } from "@/lib/api/client";
 import type { GetSubjectByIdResponseDto } from "../dto/response.dto";
 
 export async function getSubjectById(subjectId: string): Promise<Subject | null> {
+  
   const axiosResponse = await academicApi.get<GetSubjectByIdResponseDto>(`/v1/subjects/${subjectId}`);
 
   const subjectData = axiosResponse.data;
