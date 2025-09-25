@@ -18,6 +18,8 @@ import { Link } from "@tanstack/react-router"
 import { useCompleteTask } from "@/hooks/tasks/useCompleteTask"
 import { useDeleteTask } from "@/hooks/tasks/useDeleteTask"
 import { useStartTask } from "@/hooks/tasks/useStartTask"
+import { TaskStatusBadge } from "./TaskStatusBadge"
+import { TaskPriorityBadge } from "./TaskPriorityBadge"
 
 const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat('es-CR', {
@@ -27,38 +29,6 @@ const formatDate = (date: Date) => {
     hour: '2-digit',
     minute: '2-digit'
   }).format(date)
-}
-
-const getPriorityColor = (priority: TaskPriority) => {
-  switch (priority) {
-    case TaskPriority.URGENT:
-      return 'bg-red-600/50 dark:bg-red-600/50 text-foreground'
-    case TaskPriority.HIGH:
-      return 'bg-yellow-600/50 dark:bg-yellow-600/50 text-foreground'
-    case TaskPriority.MEDIUM:
-      return 'bg-green-600/50 dark:bg-green-600/50 text-foreground'
-    case TaskPriority.LOW:
-      return 'bg-gray-600/50 dark:bg-gray-600/50 font-semibold'
-    default:
-      return 'bg-gray-600/50 dark:bg-gray-600/50'
-  }
-}
-
-const getStatusColor = (status: TaskStatus) => {
-  switch (status) {
-    case TaskStatus.TODO:
-      return 'bg-red-600/50 text-foreground'
-    case TaskStatus.IN_PROGRESS:
-      return 'bg-yellow-600/50'
-    // case TaskStatus.IN_REVIEW:
-    //   return 'bg-orange-600/50'
-    case TaskStatus.DONE:
-      return 'bg-blue-600/50 text-foreground'
-    case TaskStatus.DELIVERED:
-      return 'bg-green-600/50'
-    default:
-      return 'bg-gray-600/50'
-  }
 }
 
 export const columns: ColumnDef<Task>[] = [
@@ -138,9 +108,7 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const status = row.getValue("status") as TaskStatus
       return (
-        <Badge className={getStatusColor(status)}>
-          {status.replace('_', ' ')}
-        </Badge>
+        <TaskStatusBadge status={status} />
       )
     },
     filterFn: (row, id, value) => {
@@ -163,9 +131,7 @@ export const columns: ColumnDef<Task>[] = [
     cell: ({ row }) => {
       const priority = row.getValue("priority") as TaskPriority
       return (
-        <Badge className={getPriorityColor(priority)}>
-          {priority}
-        </Badge>
+        <TaskPriorityBadge priority={priority} />
       )
     },
     filterFn: (row, id, value) => {

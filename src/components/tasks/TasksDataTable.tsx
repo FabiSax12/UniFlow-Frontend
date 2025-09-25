@@ -34,6 +34,8 @@ import {
 import { Badge } from "@/components/ui/badge"
 import { Task } from '@/domain/tasks'
 import { TaskStatus, TaskPriority } from '@/domain/tasks'
+import { TaskStatusBadge } from "./TaskStatusBadge"
+import { TaskPriorityBadge } from "./TaskPriorityBadge"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -49,17 +51,6 @@ function StatusFilter({
   onChange: (value: string[]) => void
 }) {
   const statuses = Object.values(TaskStatus)
-
-  const getStatusColor = (status: TaskStatus) => {
-    switch (status) {
-      case TaskStatus.TODO: return 'bg-gray-100 text-gray-800'
-      case TaskStatus.IN_PROGRESS: return 'bg-blue-100 text-blue-800'
-      case TaskStatus.IN_REVIEW: return 'bg-orange-100 text-orange-800'
-      case TaskStatus.DONE: return 'bg-green-100 text-green-800'
-      case TaskStatus.DELIVERED: return 'bg-purple-100 text-purple-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
 
   return (
     <DropdownMenu>
@@ -90,9 +81,7 @@ function StatusFilter({
               }
             }}
           >
-            <Badge className={`${getStatusColor(status)} mr-2`}>
-              {status.replace('_', ' ')}
-            </Badge>
+            <TaskStatusBadge status={status} />
           </DropdownMenuCheckboxItem>
         ))}
       </DropdownMenuContent>
@@ -109,15 +98,6 @@ function PriorityFilter({
   onChange: (value: string[]) => void
 }) {
   const priorities = Object.values(TaskPriority)
-
-  const getPriorityColor = (priority: TaskPriority) => {
-    switch (priority) {
-      case TaskPriority.HIGH: return 'bg-red-100 text-red-800'
-      case TaskPriority.MEDIUM: return 'bg-yellow-100 text-yellow-800'
-      case TaskPriority.LOW: return 'bg-green-100 text-green-800'
-      default: return 'bg-gray-100 text-gray-800'
-    }
-  }
 
   return (
     <DropdownMenu>
@@ -148,9 +128,7 @@ function PriorityFilter({
               }
             }}
           >
-            <Badge className={`${getPriorityColor(priority)} mr-2`}>
-              {priority}
-            </Badge>
+            <TaskPriorityBadge priority={priority} />
           </DropdownMenuCheckboxItem>
         ))}
       </DropdownMenuContent>
