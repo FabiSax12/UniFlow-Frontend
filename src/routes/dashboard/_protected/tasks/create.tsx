@@ -19,22 +19,31 @@ import {
 } from '@/components/ui/card'
 import { useSubjects } from '@/hooks/subjects'
 import { DatePicker } from '@/components/DatePicker'
+import z from 'zod'
+import { TaskStatus } from '@/domain/tasks'
+
+const createTaskSeachSchema = z.object({
+  status: z.nativeEnum(TaskStatus).optional(),
+  callbackUrl: z.string().optional()
+})
 
 export const Route = createFileRoute('/dashboard/_protected/tasks/create')({
   component: RouteComponent,
+  validateSearch: (search) => createTaskSeachSchema.parse(search)
 })
 
 function RouteComponent() {
   const navigate = Route.useNavigate();
+  const searchParams = Route.useSearch();
 
   const subjectsQuery = useSubjects();
 
   const handleSubmit = () => {
-    navigate({ to: "/dashboard" })
+    navigate({ to: searchParams.callbackUrl || "/dashboard" })
   }
 
   const handleCancel = () => {
-    navigate({ to: "/dashboard" })
+    navigate({ to: searchParams.callbackUrl || "/dashboard" })
   }
 
   return (
@@ -104,6 +113,22 @@ function RouteComponent() {
                   <SelectItem value="medium">Media</SelectItem>
                   <SelectItem value="high">Alta</SelectItem>
                   <SelectItem value="urgent">Urgente</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            {/* Estado */}
+            <div className="space-y-2">
+              <Label htmlFor="priority">Estado *</Label>
+              <Select name="priority" required defaultValue={searchParams.status || TaskStatus.TODO}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecciona el estado" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={TaskStatus.TODO}>To Do</SelectItem>
+                  <SelectItem value={TaskStatus.IN_PROGRESS}>En Proceso</SelectItem>
+                  <SelectItem value={TaskStatus.DONE}>Hecho</SelectItem>
+                  <SelectItem value={TaskStatus.DELIVERED}>Entregado</SelectItem>
                 </SelectContent>
               </Select>
             </div>
