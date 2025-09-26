@@ -1,35 +1,83 @@
 import React from "react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
-import { Clock, AlertCircle, CheckCircle2, Loader2 } from "lucide-react"
+import { Clock, AlertCircle, CheckCircle2, Loader2, Trash2, Edit } from "lucide-react"
 import type { Subject } from "@/domain/subjects"
+import { useDeleteSubject } from "@/hooks/subjects/useDeleteSubject"
+import { useUpdateSubject } from "@/hooks/subjects/useupdateSubject"
+import { ActionOverlay } from "../ui/action-overlay"
+import { useNavigate } from "@tanstack/react-router"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+
+
+
 
 
 interface SubjectSpecificProps {
   subject: Subject
   professor?: string
-  grade: number
   progress: number
   hours: number
   projects: number
   tasks: number
   schedule?: string
   className?: string
+  onEdit?: (subject: Subject) => void
+  onDelete?: (subject: Subject) => void
 }
 
 export const SubjectSpecific: React.FC<SubjectSpecificProps> = ({
   subject,
   professor = "Prof. Leo Víquez",
-  grade,
   progress,
   hours,
   projects,
   tasks,
   schedule,
   className,
+ 
+  
 }) => {
+  const [editName, setEditName] = React.useState(subject.name);
+  const [open, setOpen] = React.useState(false)
+  const deleteMutation = useDeleteSubject()
+  const updateMutation = useUpdateSubject()
+  const [overlay, setOverlay] = React.useState<"delete" | "edit" | null>(null)
+  const navigate = useNavigate()
 
+   // Mostrar overlay cuando hay acción en curso
+  React.useEffect(() => {
+    if (deleteMutation.isPending) setOverlay("delete")
+    else if (updateMutation.isPending) setOverlay("edit")
+    else if (overlay) {
+      const timer = setTimeout(() => setOverlay(null), 1000); // esperar 1s antes de ocultar
+      return () => clearTimeout(timer); // limpiar el timer si el componente se desmonta
+    } 
+  }, [deleteMutation.isPending, updateMutation.isPending])
 
 return (
+  
   <Card className={`w-full max-w-6xl mx-auto transition-all duration-200 hover:shadow-lg cursor-default ${className} flex flex-col`}>
     <CardHeader className="flex flex-col items-start justify-between sm:flex-row sm:items-center pb-2 flex-grow">
       <div className="sm:pr-4">
@@ -42,12 +90,93 @@ return (
         )}
       </div>
 
-      <div className="text-right mt-2 sm:mt-0">
-        <p className="text-3xl font-semibold text-green-500">{grade}</p>
-        <p className="text-sm text-muted-foreground">Nota</p>
-      </div>
-    </CardHeader>
+        <div className="text-right mt-2 sm:mt-0 flex sm:flex-row sm:items-center gap-2">
+          {/* Editar */}
+          
+          <Dialog open={open} onOpenChange={setOpen}>
+            <DialogTrigger asChild>
+              <button
+                className="p-2 rounded-lg hover:bg-blue-100 transition-colors cursor-pointer border"
+                title="Editar curso"
+              >
+                <Edit className="w-6 h-6 text-blue-500 mx-auto mb-1" />
+              </button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Editar curso</DialogTitle>
+                <DialogDescription>
+                  Modifica la información del curso y guarda los cambios.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-2">
+                <label className="text-sm font-medium">Nombre</label>
+                <Input
 
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  className="focus-visible:border-blue-500 focus-visible:ring-blue-500/50 selection:bg-blue-500 selection:text-white"
+                />
+              </div>
+              <DialogFooter>
+                <Button
+                  onClick={() => {
+                   updateMutation.mutate({
+                    subjectId: subject.id,
+                    payload: { name: editName },
+                   })
+                    setOpen(false)
+                  }}
+                  disabled={updateMutation.isPending}
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                >
+                  {updateMutation.isPending ? "Guardando..." : "Guardar cambios"}
+                  
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Eliminar */}
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button
+                className="p-2 rounded-lg hover:bg-red-100 transition-colors cursor-pointer border"
+                title="Eliminar curso"
+              >
+                <Trash2 className="w-6 h-6 text-red-500 mx-auto mb-1" />
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>¿Eliminar curso?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Esta acción no se puede deshacer. Se eliminará el curso{" "}
+                  <span className="font-semibold">{subject.name}</span> y toda
+                  su información asociada.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                <AlertDialogAction
+                  className="bg-red-600 hover:bg-red-700 text-white"
+                 onClick={() =>
+                        deleteMutation.mutate(subject.id, {
+                          onSettled: () => {
+                              setTimeout(() => {
+                                  navigate({ to: "/dashboard/subjects" })
+                                }, 3000)
+                              },
+                          })
+                      }
+                    >
+                  {deleteMutation.isPending ? "Eliminando..." : "Eliminar"}
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
+      </CardHeader>
     <CardContent className="flex-grow">
     
 
@@ -86,6 +215,7 @@ return (
         </div>
       </div>
     </CardContent>
+    <ActionOverlay show={!!overlay} type={overlay ?? "delete"} />
   </Card>
 )
 }

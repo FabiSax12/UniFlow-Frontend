@@ -47,7 +47,7 @@ function RouteComponent() {
         </TabsList>
       </div>
       <TabsContent value="table">
-        <TasksTable />
+        <TasksTable scope="period" id={periodId} />
       </TabsContent>
       <TabsContent value="kanban">
         <TaskKanbanBoard />
