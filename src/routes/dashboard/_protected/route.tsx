@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { BookOpen, GraduationCap, LogOut } from 'lucide-react'
+import { GraduationCap, LogOut } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
 import { NotificationPopover } from '@/components/notifications/NotificationPopOver'
 

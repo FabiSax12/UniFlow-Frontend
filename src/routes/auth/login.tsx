@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/auth'
 import { createFileRoute } from '@tanstack/react-router'
-import { AlertTriangle, BookOpen, GraduationCap, X } from "lucide-react"
+import { AlertTriangle, GraduationCap, X } from "lucide-react"
 
 export const Route = createFileRoute('/auth/login')({
   component: LoginPage,

@@ -1,4 +1,4 @@
-import { Task, TaskPriority, TaskStatus } from "@/domain/tasks";
+import { Task } from "@/domain/tasks";
 import { useSubject } from "@/hooks/subjects";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "../ui/badge";

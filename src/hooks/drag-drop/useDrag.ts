@@ -21,7 +21,7 @@ export function useDrag({ dragData, onDragStart, onDragEnd }: UseDragOptions) {
     onDragStart?.()
   }
 
-  const handleDragEnd = (e: React.DragEvent) => {
+  const handleDragEnd = () => {
     onDragEnd?.()
     setIsBeingDragged(false)
   }

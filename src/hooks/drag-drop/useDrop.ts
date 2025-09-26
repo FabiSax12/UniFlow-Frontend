@@ -7,7 +7,7 @@ interface UseDropOptions {
   onDragLeave?: () => void
 }
 
-export function useDrop({ onDrop, accept, onDragEnter, onDragLeave }: UseDropOptions) {
+export function useDrop({ onDrop, onDragEnter, onDragLeave }: UseDropOptions) {
   const [isOver, setIsOver] = useState(false)
 
   const handleDragOver = (e: React.DragEvent) => {
@@ -26,7 +26,7 @@ export function useDrop({ onDrop, accept, onDragEnter, onDragLeave }: UseDropOpt
     onDragEnter?.()
   }
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = () => {
     console.log("Drag Leave")
     setIsOver(false)
     onDragLeave?.()

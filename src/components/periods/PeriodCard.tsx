@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { BookOpen, Clock, DollarSign } from 'lucide-react';
+import { BookOpen, Clock } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import type { Period } from '@/domain/periods';
 

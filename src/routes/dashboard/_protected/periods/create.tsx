@@ -241,13 +241,13 @@ function RouteComponent() {
             />
 
             {/* Form-level errors */}
-            {form.state.errors && form.state.errors.length > 0 && (
+            {/* {form.state.errors && form.state.errors.length > 0 && (
               <div className="space-y-2">
                 {form.state.errors.map((error, i) => (
                   <p key={i} className="text-sm text-red-600">{Object.values(error).map(e => e.message)}</p>
                 ))}
               </div>
-            )}
+            )} */}
 
             {/* Botones */}
             <div className="flex gap-4 pt-6">

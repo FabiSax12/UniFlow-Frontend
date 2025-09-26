@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-interface OptimisticMutationOptions<TData, TVariables, TQueryData, TContext> {
+interface OptimisticMutationOptions<TData, TVariables, TQueryData, _> {
   mutationKey: string[];
   mutationFn: (variables: TVariables) => Promise<TData>;
   queryKey: string[];

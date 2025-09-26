@@ -1,4 +1,4 @@
-import { Link, useParams, useRouter } from '@tanstack/react-router'
+import { Link, useParams } from '@tanstack/react-router'
 import {
   Card,
   CardContent,
@@ -19,7 +19,6 @@ import {
   CheckCircle2,
   Send,
   AlertTriangle,
-  ArrowLeft,
   Hash,
   GraduationCap,
   BookOpen,
@@ -58,7 +57,6 @@ const formatDateTime = (date: Date) => {
 }
 
 export function TaskDetail({ task }: { task: Task }) {
-  const router = useRouter()
   const params = useParams({ from: "/dashboard/_protected/tasks/$taskId" })
   const subjectQuery = useSubject(task.subjectId)
 
@@ -97,7 +95,7 @@ export function TaskDetail({ task }: { task: Task }) {
       return { previousTask, taskId, newStatus };
     },
 
-    onSuccess: (data, { taskId, newStatus }) => {
+    onSuccess: (_, { taskId, newStatus }) => {
       // Invalidar y refetch las queries relacionadas (opcional si confías en la actualización optimística)
       // queryClient.invalidateQueries({ queryKey: ['tasks', params.taskId] });
 
