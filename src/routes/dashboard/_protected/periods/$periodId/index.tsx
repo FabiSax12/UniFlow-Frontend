@@ -6,6 +6,7 @@ import { SubjectsGrid } from '@/components/subjects/SubjectsGrid';
 import { TaskKanbanBoard } from '@/components/tasks/kanban/TaskKanbanBoard';
 import { TasksTable } from '@/components/tasks/TasksTable2';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod';
 import { createFileRoute } from '@tanstack/react-router'
 import z from 'zod';
 
@@ -20,6 +21,8 @@ function RouteComponent() {
   const { periodId } = Route.useParams();
   const searchParams = Route.useSearch();
   const navigate = Route.useNavigate();
+
+  const { tasksQuery } = useTasksByPeriod(periodId);
 
 
   const handleTabChange = (tabValue: string) => {
@@ -51,7 +54,7 @@ function RouteComponent() {
         </TabsList>
       </div>
       <TabsContent value="table">
-        <TasksTable scope="period" id={periodId} />
+        <TasksTable tasks={tasksQuery.data} isLoading={tasksQuery.isLoading} error={tasksQuery.error} />
       </TabsContent>
       <TabsContent value="kanban">
         <TaskKanbanBoard />

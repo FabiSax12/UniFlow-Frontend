@@ -78,7 +78,7 @@ export const SubjectSpecific: React.FC<SubjectSpecificProps> = ({
 
   return (
 
-    <Card className={`w-full max-w-6xl mx-auto transition-all duration-200 hover:shadow-lg cursor-default ${className} flex flex-col`}>
+    <Card className={`w-full transition-all duration-200 hover:shadow-lg cursor-default ${className} flex flex-col`}>
       <CardHeader className="flex flex-col items-start justify-between sm:flex-row sm:items-center pb-2 flex-grow">
         <div className="sm:pr-4">
           <h3 className="text-2xl font-semibold leading-tight">{subject.name}</h3>

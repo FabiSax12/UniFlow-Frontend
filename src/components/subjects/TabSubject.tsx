@@ -32,7 +32,7 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
       <TabsList className="grid grid-cols-4 w-full rounded-xl bg-muted/70 p-2 shadow-md h-14 gap-2">
         <TabsTrigger
           value="resumen"
-          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center 
+          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center
                 hover:scale-102 transition-all duration-300 cursor-pointer hover:border-primary
                 data-[state=active]:bg-background"
         >
@@ -40,9 +40,9 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
           <span className="text-lg font-semibold">Resumen</span>
         </TabsTrigger>
 
-        <TabsTrigger 
-          value="proyectos" 
-          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center 
+        <TabsTrigger
+          value="proyectos"
+          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center
                 hover:scale-102 transition-all duration-300 cursor-pointer hover:border-primary
                 data-[state=active]:bg-background"
         >
@@ -50,9 +50,9 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
           <span className="text-lg font-semibold">Proyectos</span>
         </TabsTrigger>
 
-        <TabsTrigger 
-          value="tareas" 
-          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center 
+        <TabsTrigger
+          value="tareas"
+          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center
                 hover:scale-102 transition-all duration-300 cursor-pointer hover:border-primary
                 data-[state=active]:bg-background"
         >
@@ -60,9 +60,9 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
           <span className="text-lg font-semibold">Tareas</span>
         </TabsTrigger>
 
-        <TabsTrigger 
-          value="notas" 
-          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center 
+        <TabsTrigger
+          value="notas"
+          className="h-full w-full rounded-lg gap-2 border-l-4 px-4 flex items-center justify-center
                 hover:scale-102 transition-all duration-300 cursor-pointer hover:border-primary
                 data-[state=active]:bg-background"
         >
@@ -72,8 +72,8 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
       </TabsList>
 
       {/* Contenidos de cada tab */}
-      <TabsContent 
-        value="resumen" 
+      <TabsContent
+        value="resumen"
         className="mt-4 min-h-[300px] w-full bg-card rounded-xl border p-6"
       >
         <h2 className="text-xl font-semibold">Resumen</h2>
@@ -82,8 +82,8 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
         </p>
       </TabsContent>
 
-      <TabsContent 
-        value="proyectos" 
+      <TabsContent
+        value="proyectos"
         className="mt-4 min-h-[300px] w-full bg-card rounded-xl border p-6"
       >
         <h2 className="text-xl font-semibold">Proyectos</h2>
@@ -92,15 +92,15 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
         </p>
       </TabsContent>
 
-      <TabsContent 
-        value="tareas" 
+      <TabsContent
+        value="tareas"
         className="mt-4 min-h-[300px] w-full bg-card rounded-xl border p-6"
       >
-        <TasksTable scope="subject" id={subject.id} />
+        <TasksTable tasks={[]} isLoading={false} error={null} />
       </TabsContent>
 
-      <TabsContent 
-        value="notas" 
+      <TabsContent
+        value="notas"
         className="mt-4 min-h-[300px] w-full bg-card rounded-xl border p-6"
       >
         <h2 className="text-xl font-semibold">Notas</h2>

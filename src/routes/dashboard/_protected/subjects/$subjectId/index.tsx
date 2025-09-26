@@ -1,12 +1,10 @@
-// app/routes/dashboard/_protected/subjects/$subjectId/index.tsx
 import { createFileRoute } from "@tanstack/react-router"
 import { useSubject } from "@/hooks/subjects"
 import { useTasksBySubject } from "@/hooks/tasks/useTasksBySubject"
 import { SubjectSpecific } from "@/components/subjects/SubjectSpecific"
-import { TabSubject } from "@/components/subjects/TabSubject"
+// import { TabSubject } from "@/components/subjects/TabSubject"
+import { TasksTable } from "@/components/tasks/TasksTable2"
 
-
-import '@/styles.css' 
 export const Route = createFileRoute(
   "/dashboard/_protected/subjects/$subjectId/"
 )({
@@ -27,8 +25,8 @@ function RouteComponent() {
   const subject = subjectQuery.data
   const tasks = tasksQuery.data ?? []
 
-return (
-  <div className="grid grid-cols-1 lg:grid gap-6 max-w-8xl mx-auto ">
+  return (
+    <div className="grid grid-cols-1 lg:grid gap-6 max-w-8xl mx-auto ">
       {/* Columna izquierda */}
       <div className="lg space-y-4">
         {/* Card del curso compacta */}
@@ -40,20 +38,22 @@ return (
           tasks={tasks.length}
           professor="Prof. Leo Víquez"
           schedule="Lun 7:55-11:30"
-          className="p-4 text-sm"
-          onEdit = {(s) => {
-              console.log("Edit subject", s);
-            }}
-          onDelete = {(s) => {
-              console.log("Delete subject", s);
-            }}
+          className="text-sm"
+          onEdit={(s) => {
+            console.log("Edit subject", s);
+          }}
+          onDelete={(s) => {
+            console.log("Delete subject", s);
+          }}
         />
 
         {/* Tabs compactas */}
-        <TabSubject subject={subject} tasks={tasks} defaultTab="resumen" />
+        {/* <TabSubject subject={subject} tasks={tasks} defaultTab="resumen" /> */}
+
+        <TasksTable tasks={tasks} isLoading={tasksQuery.isLoading} error={tasksQuery.error} />
       </div>
 
-   
+
 
     </div>
   )

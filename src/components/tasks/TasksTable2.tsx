@@ -1,22 +1,15 @@
-import { TaskStatus } from '@/domain/tasks'
+import { Task, TaskStatus } from '@/domain/tasks'
 import { TasksDataTable } from './TasksDataTable'
 import { columns } from './task-columns'
-import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod'
 import { Button } from '../ui/button'
-import { useTasksBySubject } from '@/hooks/tasks/useTasksBySubject'
 
 type TasksTableProps = {
-  scope: 'subject' | 'period',
-  id: string
+  tasks: Task[] | undefined,
+  isLoading: boolean,
+  error: Error | null,
 }
 
-export function TasksTable({ scope, id }: TasksTableProps) {
-  
-  const {
-     tasksQuery: { data: tasks, isLoading, error },
-   } = scope === 'period'
-   ? useTasksByPeriod(id) 
-   : useTasksBySubject(id)
+export function TasksTable({ tasks, isLoading, error }: TasksTableProps) {
 
   // Render states
   if (isLoading) return <IsLoadingComponent />
