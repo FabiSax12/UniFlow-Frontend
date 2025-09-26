@@ -1,5 +1,3 @@
-"use client"
-
 import * as React from "react"
 import { ChevronDownIcon } from "lucide-react"
 
@@ -14,11 +12,17 @@ import {
 
 interface Props {
   label?: string
+  value?: Date
+  onDateChange?: (date: Date | undefined) => void
 }
 
-export function DatePicker({ label }: Props) {
+export function DatePicker({ label, value, onDateChange }: Props) {
   const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
+  const [date, setDate] = React.useState<Date | undefined>(value)
+
+  React.useEffect(() => {
+    setDate(value)
+  }, [value])
 
   return (
     <div className="flex flex-col gap-3">
@@ -44,6 +48,7 @@ export function DatePicker({ label }: Props) {
             onSelect={(date) => {
               setDate(date)
               setOpen(false)
+              onDateChange?.(date)
             }}
           />
         </PopoverContent>
