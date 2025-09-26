@@ -12,12 +12,10 @@ import {
   ListTodo,
   ClipboardList,
 } from "lucide-react"
-import DashboardTaskCard from "@/components/tasks/DashboardTaskCard"
-import { TaskWithSubject } from "@/domain/tasks/entities/taskWithSubject"
-import { TaskPriority } from "@/domain/tasks/enums/task-priority"
-import { TaskStatus } from "@/domain/tasks/enums/task-status"
+
 import type { Subject } from "@/domain/subjects"
 import type { Task } from "@/domain/tasks"
+import { TasksTable } from "../tasks/TasksTable2"
 
 interface TabSubjectProps {
   subject: Subject
@@ -27,7 +25,6 @@ interface TabSubjectProps {
 
 export const TabSubject: React.FC<TabSubjectProps> = ({
   subject,
-  tasks,
   defaultTab = "resumen",
 }) => {
   return (
@@ -99,41 +96,7 @@ export const TabSubject: React.FC<TabSubjectProps> = ({
         value="tareas" 
         className="mt-4 min-h-[300px] w-full bg-card rounded-xl border p-6"
       >
-        {tasks.length === 0 ? (
-          <p className="text-sm text-muted-foreground">
-            No hay tareas registradas.
-          </p>
-        ) : (
-          <div className="space-y-2">
-            {tasks.map((task) => {
-              const taskWithSubject = new TaskWithSubject(
-                task.id,
-                task.title,
-                task.dueDate,
-                task.priority ?? TaskPriority.LOW,
-                subject.name,
-                subject.code,
-                task.status ?? TaskStatus.TODO,
-                task.description,
-                task.estimatedTimeHours,
-                task.tags,
-                task.createdAt,
-                task.updatedAt,
-                task.completedAt
-              )
-               return (
-          <div className="p-2 small-task-card">  {/* Smaller padding around the task card */}
-            {/* Create a wrapper with smaller padding for this instance */}
-            <DashboardTaskCard 
-              key={task.id} 
-              task={taskWithSubject}
-              className=" text-sm text-xs"  // Reducimos padding, texto y tamaño
-            />
-          </div>
-        );
-            })}
-          </div>
-        )}
+        <TasksTable scope="subject" id={subject.id} />
       </TabsContent>
 
       <TabsContent 

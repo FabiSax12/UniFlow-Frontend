@@ -2,12 +2,21 @@ import { TaskStatus } from '@/domain/tasks'
 import { TasksDataTable } from './TasksDataTable'
 import { columns } from './task-columns'
 import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod'
-import { useParams } from '@tanstack/react-router'
 import { Button } from '../ui/button'
+import { useTasksBySubject } from '@/hooks/tasks/useTasksBySubject'
 
-export function TasksTable() {
-  const { periodId } = useParams({ from: '/dashboard/_protected/periods/$periodId' });
-  const { tasksQuery: { data: tasks, isLoading, error } } = useTasksByPeriod(periodId)
+type TasksTableProps = {
+  scope: 'subject' | 'period',
+  id: string
+}
+
+export function TasksTable({ scope, id }: TasksTableProps) {
+  
+  const {
+     tasksQuery: { data: tasks, isLoading, error },
+   } = scope === 'period'
+   ? useTasksByPeriod(id) 
+   : useTasksBySubject(id)
 
   // Render states
   if (isLoading) return <IsLoadingComponent />
