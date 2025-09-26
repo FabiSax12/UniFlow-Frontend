@@ -11,7 +11,7 @@ interface Props {
 
 const DashboardTaskCard = ({ task }: Props) => {
   return (
-    <Link to="/dashboard/tasks/$taskId" params={{ taskId: task.id }} className={`rounded-xl border-l-8 px-8 py-4 border flex hover:scale-x-105 transition-all duration-300 cursor-pointer hover:border-primary`}>
+    <Link to="/dashboard/tasks/$taskId" params={{ taskId: task.id }} className={`rounded-xl border-l-8 px-8 py-4 border flex hover:scale-[102%] hover:-translate-x-4 transition-all duration-300 cursor-pointer hover:border-primary`}>
       {/* Left side */}
       <div className='flex-1'>
         <div className='mb-2 '>

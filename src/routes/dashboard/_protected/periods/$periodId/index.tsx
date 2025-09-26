@@ -1,3 +1,4 @@
+import { GoBackButton } from '@/components/GoBackButton';
 import { PeriodSelector } from '@/components/periods/PeriodSelector';
 import { PeriodStats } from '@/components/periods/PeriodStats';
 import SectionTitle from '@/components/SectionTitle'
@@ -29,7 +30,10 @@ function RouteComponent() {
   }
 
   return <div>
-    <PeriodSelector periodId={periodId} />
+    <div className='flex items-center gap-4'>
+      <GoBackButton />
+      <PeriodSelector periodId={periodId} />
+    </div>
 
     <PeriodStats periodId={periodId} />
 

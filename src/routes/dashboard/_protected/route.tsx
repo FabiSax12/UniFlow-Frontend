@@ -41,7 +41,7 @@ function RouteComponent() {
   const userName = userQuery.data?.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("") || ""
 
   return <div>
-    <header className='bg-muted flex justify-between items-center py-4 main-padding fixed w-full'>
+    <header className='bg-muted flex justify-between items-center py-4 main-padding fixed w-full z-50'>
       <div>
         <h1 className='text-lg font-bold'>
           <Link to='/'>
@@ -68,7 +68,7 @@ function RouteComponent() {
         </Button>
       </div>
     </header>
-    <main className='main-padding pt-10 pb-10'>
+    <main className='main-padding pt-24 pb-10'>
       <div className='mb-6'>
         <CustomBreadcrumb location={location} showHome={false} />
       </div>

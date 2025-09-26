@@ -36,6 +36,7 @@ import { updateTaskStatus } from '@/api/tasks/endpoints/updateTaskState'
 import type { UpdateTaskStateResponseDto } from '@/api/tasks'
 import { toast } from 'sonner'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { GoBackButton } from '../GoBackButton'
 
 // Utility function to format dates
 const formatDate = (date: Date) => {
@@ -137,9 +138,7 @@ export function TaskDetail({ task }: { task: Task }) {
     <div className="container py-6 px-4 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <Button variant="ghost" size="sm" className="p-2" onClick={() => router.history.back()}>
-          <ArrowLeft className="h-4 w-4" />
-        </Button>
+        <GoBackButton />
         <div className="flex-1">
           <h1 className="text-3xl font-bold text-foreground">
             {task.title}

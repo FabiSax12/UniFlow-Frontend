@@ -25,7 +25,7 @@ const metrics = [
 export const PeriodCard = ({ period }: Props) => {
 
   return (
-    <Link to="/dashboard/periods/$periodId" params={{ periodId: period.id }} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:-translate-y-3">
+    <Link to="/dashboard/periods/$periodId" params={{ periodId: period.id }} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:scale-[104%]">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
