@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { useAuth } from '@/hooks/auth'
 import { createFileRoute } from '@tanstack/react-router'
-import { AlertTriangle, BookOpen, X } from "lucide-react"
+import { AlertTriangle, GraduationCap, X } from "lucide-react"
 
 export const Route = createFileRoute('/auth/login')({
   component: LoginPage,
@@ -21,7 +21,7 @@ function LoginPage() {
       </div>
       <a href="#" className="flex items-center gap-2 self-center font-medium">
         <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
-          <BookOpen className="size-4" />
+          <GraduationCap className="size-4" />
         </div>
         Uniflow
       </a>

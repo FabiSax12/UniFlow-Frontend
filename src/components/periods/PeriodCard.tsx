@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { BookOpen, DollarSign } from 'lucide-react';
+import { BookOpen, Clock } from 'lucide-react';
 import { Link } from '@tanstack/react-router';
 import type { Period } from '@/domain/periods';
 
@@ -11,12 +11,12 @@ interface Props {
 
 const metrics = [
   {
-    icon: <BookOpen className="w-6 h-6 " />,
+    icon: <BookOpen className="size-5" />,
     value: 6,
     label: "cursos"
   },
   {
-    icon: <DollarSign className="w-6 h-6 " />,
+    icon: <Clock className="size-5" />,
     value: 6,
     label: "créditos"
   }
@@ -25,7 +25,7 @@ const metrics = [
 export const PeriodCard = ({ period }: Props) => {
 
   return (
-    <Link to="/dashboard/periods/$periodId" params={{ periodId: period.id }} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:-translate-y-3">
+    <Link to="/dashboard/periods/$periodId" params={{ periodId: period.id }} className="bg-muted text-muted-foreground px-10 py-8 rounded-2xl space-y-5 hover:ring transition-all duration-300 hover:scale-[104%]">
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
@@ -52,10 +52,10 @@ export const PeriodCard = ({ period }: Props) => {
       </div>
 
       {/* Metrics Cards */}
-      <div className="grid grid-cols-2 gap-3 text-foreground">
+      <div className="text-foreground flex items-center justify-between">
         {metrics.map((metric, index) => (
           <div key={index} className="bg-transparent">
-            <div className="flex gap-3 items-center">
+            <div className="flex gap-2 items-center">
               {metric.icon}
               <span className="text-sm font-normal ">
                 {metric.value} {metric.label}

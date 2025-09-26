@@ -11,7 +11,7 @@ export const NotificationsPopOverContent = () => {
   const navigate = useNavigate();
 
   const { userInfo } = useAuthStore();
-  const notifications = useNotifications(userInfo.studentId);
+  const notifications = useNotifications(userInfo.id);
   const markAsRead = useReadNotification();
 
   const handleNotificationAction = (actionUrl: string) => {
@@ -19,7 +19,7 @@ export const NotificationsPopOverContent = () => {
   }
 
   const handleMarkAsRead = (notificationId: string) => {
-    markAsRead.mutate(notificationId)
+    markAsRead.mutate({ id: notificationId })
   }
 
   return <React.Fragment>

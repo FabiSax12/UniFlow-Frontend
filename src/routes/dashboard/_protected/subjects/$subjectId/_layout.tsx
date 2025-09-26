@@ -1,11 +1,11 @@
 import { createFileRoute } from '@tanstack/react-router'
 
 export const Route = createFileRoute(
-  '/dashboard/_protected/tasks/kanban',
+  '/dashboard/_protected/subjects/$subjectId/_layout',
 )({
   component: RouteComponent,
 })
 
 function RouteComponent() {
-  return <div>Hello "/dashboard/periods/$periodId/tasks/kanban"!</div>
+  return <div>Hello "/dashboard/_protected/subjects/$subjectId/_layout"!</div>
 }

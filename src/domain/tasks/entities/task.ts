@@ -70,6 +70,16 @@ export class Task {
     return newTask
   }
 
+  deliver(): Task {
+    // if (this.status === TaskStatus.CANCELLED) {
+    //   throw new Error('Cannot complete a cancelled task')
+    // }
+
+    const newTask = this.updateStatus(TaskStatus.DELIVERED)
+    newTask.completedAt = new Date()
+    return newTask
+  }
+
   sendToReview(): Task {
     // if (this.status !== TaskStatus.IN_PROGRESS) {
     //   throw new Error('Can only send in-progress tasks to review')
@@ -79,6 +89,14 @@ export class Task {
   }
 
   updateStatus(newStatus: TaskStatus): Task {
+    if (newStatus === TaskStatus.DONE || TaskStatus.DELIVERED) {
+      this.completedAt = new Date();
+    } else {
+      this.completedAt = undefined;
+    }
+
+    console.log("Updated")
+
     return new Task(
       this.id,
       this.title,
@@ -176,7 +194,7 @@ export class Task {
 
   // Métodos de consulta
   isOverdue(): boolean {
-    return this.dueDate < new Date() && this.status !== TaskStatus.DONE
+    return this.dueDate < new Date() && !(this.status === TaskStatus.DONE || this.status === TaskStatus.DELIVERED)
   }
 
   isDueSoon(hoursThreshold: number = 24): boolean {

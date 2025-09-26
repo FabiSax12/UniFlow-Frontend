@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { BookOpen, LogOut } from 'lucide-react'
+import { GraduationCap, LogOut } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
 import { NotificationPopover } from '@/components/notifications/NotificationPopOver'
 
@@ -41,11 +41,11 @@ function RouteComponent() {
   const userName = userQuery.data?.name.split(" ").map((n: string) => n[0]).slice(0, 2).join("") || ""
 
   return <div>
-    <header className='bg-muted flex justify-between items-center py-4 main-padding'>
+    <header className='bg-muted flex justify-between items-center py-4 main-padding fixed w-full z-50'>
       <div>
         <h1 className='text-lg font-bold'>
           <Link to='/'>
-            <BookOpen className='inline mr-2' />
+            <GraduationCap className='inline mr-2' />
             UniFlow
           </Link>
         </h1>
@@ -68,7 +68,7 @@ function RouteComponent() {
         </Button>
       </div>
     </header>
-    <main className='main-padding pt-6 pb-10'>
+    <main className='main-padding pt-24 pb-10'>
       <div className='mb-6'>
         <CustomBreadcrumb location={location} showHome={false} />
       </div>

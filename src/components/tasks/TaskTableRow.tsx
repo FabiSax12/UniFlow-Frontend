@@ -1,9 +1,11 @@
-import { Task, TaskPriority, TaskStatus } from "@/domain/tasks";
+import { Task } from "@/domain/tasks";
 import { useSubject } from "@/hooks/subjects";
 import { TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "../ui/badge";
 import { Link } from "@tanstack/react-router";
 import { SquareArrowOutUpRight } from "lucide-react";
+import { TaskStatusBadge } from "./TaskStatusBadge";
+import { TaskPriorityBadge } from "./TaskPriorityBadge";
 
 export const TaskTableRow = ({ task }: { task: Task }) => {
 
@@ -19,37 +21,7 @@ export const TaskTableRow = ({ task }: { task: Task }) => {
     }).format(date)
   }
 
-  const getPriorityColor = (priority: TaskPriority) => {
-    switch (priority) {
-      case TaskPriority.URGENT:
-        return 'bg-red-600/50 dark:bg-red-600/50 text-foreground'
-      case TaskPriority.HIGH:
-        return 'bg-yellow-600/50 dark:bg-yellow-600/50 text-foreground'
-      case TaskPriority.MEDIUM:
-        return 'bg-green-600/50 dark:bg-green-600/50 text-foreground'
-      case TaskPriority.LOW:
-        return 'bg-gray-600/50 dark:bg-gray-600/50 font-semibold'
-      default:
-        return 'bg-gray-600/50 dark:bg-gray-600/50'
-    }
-  }
 
-  const getStatusColor = (status: TaskStatus) => {
-    switch (status) {
-      case TaskStatus.TODO:
-        return 'bg-red-600/50 text-foreground'
-      case TaskStatus.IN_PROGRESS:
-        return 'bg-yellow-600/50'
-      // case TaskStatus.IN_REVIEW:
-      //   return 'bg-orange-600/50'
-      case TaskStatus.DONE:
-        return 'bg-blue-600/50 text-foreground'
-      case TaskStatus.DELIVERED:
-        return 'bg-green-600/50'
-      default:
-        return 'bg-gray-600/50'
-    }
-  }
 
   const getOverdueIndicator = (task: Task) => {
     if (task.isOverdue()) {
@@ -79,14 +51,10 @@ export const TaskTableRow = ({ task }: { task: Task }) => {
       )}
     </TableCell>
     <TableCell>
-      <Badge className={getStatusColor(task.status)} variant="default">
-        {task.status.replace('_', ' ').toUpperCase()}
-      </Badge>
+      <TaskStatusBadge status={task.status} />
     </TableCell>
     <TableCell>
-      <Badge className={getPriorityColor(task.priority)}>
-        {task.priority.toUpperCase()}
-      </Badge>
+      <TaskPriorityBadge priority={task.priority} />
     </TableCell>
     <TableCell>{formatDate(task.dueDate)}</TableCell>
     <TableCell className={task.isOverdue() ? "text-red-500" : task.isDueSoon() ? "text-yellow-500" : undefined}>
