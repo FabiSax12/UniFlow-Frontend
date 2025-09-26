@@ -14,15 +14,15 @@ export const Route = createFileRoute('/dashboard/_protected/')({
 
 function RouteComponent() {
 
-  const tasksQuery = useDashboardTasks();
+  const tasksQuery = useDashboardTasks(3);
 
   const periodsQuery = usePeriods();
 
 
-  return <div className='flex flex-col gap-4'>
+  return <div className='flex flex-row gap-20'>
 
     {/* Next 7 days */}
-    <article>
+    <article className='flex-1'>
       <header className='flex justify-between items-center mb-4'>
         <SectionTitle>Próximos 7 días</SectionTitle>
         <Button className='cursor-pointer' size="lg" color="primary" asChild>
@@ -46,7 +46,15 @@ function RouteComponent() {
           tasksQuery.data?.map(task => <DashboardTaskCard key={task.id} task={task} />)
         }
 
-        <Button variant="secondary">Mostrar más...</Button>
+        {tasksQuery.hasMore && (
+          <Button
+            variant="outline"
+            onClick={tasksQuery.loadMore}
+            disabled={tasksQuery.isLoading}
+          >
+            Mostrar más...
+          </Button>
+        )}
 
       </main>
     </article >
@@ -62,7 +70,8 @@ function RouteComponent() {
           </Link>
         </Button>
       </header>
-      <main className='w-full gap-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'>
+      {/* <main className='w-full gap-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4'> */}
+      <main className='w-full gap-4 flex flex-col'>
         {
           periodsQuery.data?.map(period => <PeriodCard key={period.id} period={period} />)
         }

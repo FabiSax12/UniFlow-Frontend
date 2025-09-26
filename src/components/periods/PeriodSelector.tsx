@@ -23,7 +23,7 @@ export const PeriodSelector = ({ periodId }: Props) => {
   if (periodsList.isLoading && !periodsList.data) return <Skeleton className='h-12 w-60 rounded-lg mb-4' />
 
   return <Select defaultValue={periodId} onValueChange={handlePeriodChange}>
-    <SelectTrigger className='border-0 ring-0 dark:bg-transparent py-6' iconClassname="size-6">
+    <SelectTrigger className=' ring-0 shadow-none bg-transparent dark:bg-transparent py-6' iconClassname="size-6">
       <SectionTitle>
         <SelectValue placeholder="Periodo" />
       </SectionTitle>

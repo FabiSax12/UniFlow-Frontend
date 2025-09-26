@@ -13,7 +13,6 @@ export class Notification {
     public readonly createdAt: Date = new Date(),
     public readAt?: Date
   ) {
-    console.log("PICHAAA")
     this.validateTitle(title)
     this.validateMessage(message)
   }
