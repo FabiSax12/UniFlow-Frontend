@@ -128,7 +128,7 @@ return (
                     setOpen(false)
                   }}
                   disabled={updateMutation.isPending}
-                  className="bg-blue-600 hover:bg-blue-700"
+                  className="bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   {updateMutation.isPending ? "Guardando..." : "Guardar cambios"}
                   
@@ -159,7 +159,7 @@ return (
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancelar</AlertDialogCancel>
                 <AlertDialogAction
-                  className="bg-red-600 hover:bg-red-700"
+                  className="bg-red-600 hover:bg-red-700 text-white"
                  onClick={() =>
                         deleteMutation.mutate(subject.id, {
                           onSettled: () => {
