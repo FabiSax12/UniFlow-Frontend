@@ -6,9 +6,16 @@ import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, Outlet, redirect, useLocation } from '@tanstack/react-router'
-import { GraduationCap, LogOut } from 'lucide-react'
+import { GraduationCap, LogOut, Menu } from 'lucide-react'
 import { CustomBreadcrumb } from '@/components/CustomBreadcrumb'
 import { NotificationPopover } from '@/components/notifications/NotificationPopOver'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
 
 export const Route = createFileRoute('/dashboard/_protected')({
   beforeLoad: () => {
@@ -46,12 +53,13 @@ function RouteComponent() {
         <h1 className='text-lg font-bold'>
           <Link to='/'>
             <GraduationCap className='inline mr-2' />
-            UniFlow
+            <span className='inline'>UniFlow</span>
           </Link>
         </h1>
       </div>
-      <div className='flex items-center gap-4'>
-        {/* <Trophy /> */}
+
+      {/* Desktop Layout - hidden on mobile */}
+      <div className='hidden md:flex items-center gap-4'>
         <NotificationPopover />
         <ThemeSwitch />
         {
@@ -60,16 +68,62 @@ function RouteComponent() {
               <AvatarImage src={userQuery.data?.avatar} />
               <AvatarFallback>{userName}</AvatarFallback>
             </Avatar>
-            <span>{userQuery.data?.name.split(" ").slice(0, 2).join(" ")}</span>
+            <span className='hidden md:inline'>{userQuery.data?.name.split(" ").slice(0, 2).join(" ")}</span>
           </div>
         }
         <Button variant="destructive" onClick={handleLogout} className='cursor-pointer' size="icon">
           <LogOut />
         </Button>
       </div>
+
+      {/* Mobile Layout - dropdown menu */}
+      <div className='md:hidden flex items-center gap-2'>
+        <span className='mr-4'>
+          <NotificationPopover />
+        </span>
+        {!userQuery.isLoading && (
+          <Avatar className='rounded-lg h-8 w-8'>
+            <AvatarImage src={userQuery.data?.avatar} />
+            <AvatarFallback className='text-sm'>{userName}</AvatarFallback>
+          </Avatar>
+        )}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" size="icon" className='cursor-pointer'>
+              <Menu className='h-5 w-5' />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-56">
+            {!userQuery.isLoading && (
+              <>
+                <DropdownMenuItem disabled className="flex items-center gap-2 font-medium opacity-100!">
+                  <Avatar className='rounded-lg h-6 w-6'>
+                    <AvatarImage src={userQuery.data?.avatar} />
+                    <AvatarFallback className='text-xs'>{userName}</AvatarFallback>
+                  </Avatar>
+                  {userQuery.data?.name.split(" ").slice(0, 2).join(" ")}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+              </>
+            )}
+            <DropdownMenuItem className="flex items-center gap-2" asChild>
+              <ThemeSwitch label='Tema' className='w-full' />
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="flex items-center gap-2 bg-destructive text-destructive-foreground focus:text-destructive cursor-pointer"
+            >
+              <LogOut className='h-4 w-4 text-inherit' />
+              Cerrar Sesión
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
+
     </header>
-    <main className='main-padding pt-24 pb-10'>
-      <div className='mb-6'>
+    <main className='main-padding pt-20 sm:pt-24 pb-10'>
+      <div className='mb-4 sm:mb-6'>
         <CustomBreadcrumb location={location} showHome={false} />
       </div>
       <Outlet />

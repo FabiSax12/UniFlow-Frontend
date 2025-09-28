@@ -81,7 +81,14 @@ export const columns: ColumnDef<Task>[] = [
               ⏰
             </div>
           )}
-          <div className="max-w-[250px] truncate">{task.title}</div>
+          <div className="flex justify-between items-center flex-1">
+            <div className="max-w-[250px] truncate">{task.title}</div>
+            <Button size="sm" variant={"outline"} className="text-xs px-2 py-1" asChild>
+              <Link to="/dashboard/tasks/$taskId" params={{ taskId: task.id }}>
+                Abrir
+              </Link>
+            </Button>
+          </div>
         </div>
       )
     },

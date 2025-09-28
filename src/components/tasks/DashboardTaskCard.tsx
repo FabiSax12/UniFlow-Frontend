@@ -16,7 +16,7 @@ const DashboardTaskCard = ({ task }: Props) => {
       <div className='flex-1'>
         <div className='mb-2 '>
           <div className={`flex items-start justify-between mb-1 `}>
-            <h3 className='text-2xl '>
+            <h3 className='text-lg sm:text-xl md:text-2xl '>
               {task.title}
             </h3>
             <div className='flex gap-3'>
@@ -26,19 +26,19 @@ const DashboardTaskCard = ({ task }: Props) => {
               <TaskPriorityBadge priority={task.priority} />
             </div>
           </div>
-          <span className={`text-muted-foreground text-lg `}>
+          <span className={`text-muted-foreground text-sm sm:text-base md:text-lg `}>
             {task.subjectName} | {task.subjectCode}
           </span>
         </div>
         {/* <p className='text-muted-foreground mb-2 text-base'>{task.description}</p> */}
         <div className='flex justify-between'>
-          <span className={`flex text-base items-center gap-2 text-muted-foreground `}>
+          <span className={`flex text-xs sm:text-sm md:text-base items-center gap-2 text-muted-foreground `}>
             <Calendar className='size-4' />
             {task.dueDate.toLocaleDateString('es-CR', { day: '2-digit', month: 'short' })}
             {" a las "}
             {task.dueDate.toLocaleTimeString('es-CR', { timeStyle: "short", hour12: false })}
           </span>
-          <span className={`text-destructive text-base font-medium`}>
+          <span className={`text-destructive text-xs sm:text-sm md:text-base font-medium`}>
             {task.getTimeUntilDue()}
           </span>
         </div>

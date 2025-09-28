@@ -55,13 +55,13 @@ function StatusFilter({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="border-dashed">
+        <Button variant="outline" className="border-dashed h-8 text-sm">
           <Search className="mr-2 h-4 w-4" />
           Estado
           {value?.length > 0 && (
             <>
               <div className="mx-2 h-4 w-px bg-gray-300" />
-              <Badge className="px-1 font-normal">
+              <Badge className="px-1 font-normal text-xs">
                 {value.length}
               </Badge>
             </>
@@ -102,13 +102,13 @@ function PriorityFilter({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="border-dashed">
+        <Button variant="outline" className="border-dashed h-8 text-sm">
           <Search className="mr-2 h-4 w-4" />
           Prioridad
           {value?.length > 0 && (
             <>
               <div className="mx-2 h-4 w-px bg-gray-300" />
-              <Badge className="px-1 font-normal">
+              <Badge className="px-1 font-normal text-xs">
                 {value.length}
               </Badge>
             </>
@@ -172,8 +172,8 @@ export function TasksDataTable<TData, TValue>({
   return (
     <div className="w-full space-y-4">
       {/* Barra de herramientas */}
-      <div className="flex items-center justify-between">
-        <div className="flex flex-1 items-center space-x-2">
+      <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:flex-1 sm:items-center sm:space-x-2 sm:space-y-0">
           {/* Filtro de búsqueda por título */}
           <Input
             placeholder="Buscar por título..."
@@ -181,32 +181,34 @@ export function TasksDataTable<TData, TValue>({
             onChange={(event) =>
               table.getColumn("title")?.setFilterValue(event.target.value)
             }
-            className="h-8 w-[150px] lg:w-[250px]"
+            className="h-8 w-full sm:w-[150px] lg:w-[250px]"
           />
 
-          {/* Filtros de estado */}
-          <StatusFilter
-            value={(table.getColumn("status")?.getFilterValue() as string[]) || []}
-            onChange={(value) => table.getColumn("status")?.setFilterValue(value)}
-          />
+          <div className="flex flex-wrap gap-2 sm:gap-2">
+            {/* Filtros de estado */}
+            <StatusFilter
+              value={(table.getColumn("status")?.getFilterValue() as string[]) || []}
+              onChange={(value) => table.getColumn("status")?.setFilterValue(value)}
+            />
 
-          {/* Filtros de prioridad */}
-          <PriorityFilter
-            value={(table.getColumn("priority")?.getFilterValue() as string[]) || []}
-            onChange={(value) => table.getColumn("priority")?.setFilterValue(value)}
-          />
+            {/* Filtros de prioridad */}
+            <PriorityFilter
+              value={(table.getColumn("priority")?.getFilterValue() as string[]) || []}
+              onChange={(value) => table.getColumn("priority")?.setFilterValue(value)}
+            />
 
-          {/* Botón para limpiar filtros */}
-          {isFiltered && (
-            <Button
-              variant="ghost"
-              onClick={() => table.resetColumnFilters()}
-              className="h-8 px-2 lg:px-3"
-            >
-              Limpiar
-              <X className="ml-2 h-4 w-4" />
-            </Button>
-          )}
+            {/* Botón para limpiar filtros */}
+            {isFiltered && (
+              <Button
+                variant="ghost"
+                onClick={() => table.resetColumnFilters()}
+                className="h-8 px-2 lg:px-3"
+              >
+                <span className="hidden sm:inline">Limpiar</span>
+                <X className="h-4 w-4 sm:ml-2" />
+              </Button>
+            )}
+          </div>
         </div>
 
         {/* Selector de columnas */}
@@ -215,10 +217,11 @@ export function TasksDataTable<TData, TValue>({
             <Button
               variant="outline"
               size="sm"
-              className="ml-auto hidden h-8 lg:flex"
+              className="h-8 w-full sm:w-auto sm:ml-auto"
             >
               <Settings2 className="mr-2 h-4 w-4" />
-              Columnas
+              <span className="hidden sm:inline">Columnas</span>
+              <span className="sm:hidden">Cols</span>
               <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -307,14 +310,23 @@ export function TasksDataTable<TData, TValue>({
       </div>
 
       {/* Controles de paginación y selección */}
-      <div className="flex items-center justify-between space-x-2 py-4">
+      <div className="flex flex-col space-y-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
         <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} de{" "}
-          {table.getFilteredRowModel().rows.length} fila(s) seleccionada(s).
+          <span className="hidden sm:inline">
+            {table.getFilteredSelectedRowModel().rows.length} de{" "}
+            {table.getFilteredRowModel().rows.length} fila(s) seleccionada(s).
+          </span>
+          <span className="sm:hidden">
+            {table.getFilteredSelectedRowModel().rows.length}/{table.getFilteredRowModel().rows.length} seleccionadas
+          </span>
         </div>
-        <div className="flex items-center space-x-6 lg:space-x-8">
-          <div className="flex items-center space-x-2">
-            <p className="text-sm font-medium">Filas por página</p>
+
+        <div className="flex flex-col space-y-4 sm:flex-row sm:items-center sm:space-x-6 sm:space-y-0 lg:space-x-8">
+          <div className="flex items-center justify-between sm:justify-start space-x-2">
+            <p className="text-sm font-medium">
+              <span className="hidden sm:inline">Filas por página</span>
+              <span className="sm:hidden">Por página</span>
+            </p>
             <select
               className="h-8 w-[70px] rounded border border-input bg-background px-3 py-1 text-sm ring-offset-background"
               value={`${table.getState().pagination.pageSize}`}
@@ -329,26 +341,37 @@ export function TasksDataTable<TData, TValue>({
               ))}
             </select>
           </div>
-          <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-            Página {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
+
+          <div className="flex items-center justify-center text-sm font-medium">
+            <span className="hidden sm:inline">
+              Página {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getPageCount()}
+            </span>
+            <span className="sm:hidden">
+              {table.getState().pagination.pageIndex + 1}/{table.getPageCount()}
+            </span>
           </div>
+
           <div className="flex items-center space-x-2">
             <Button
               variant="outline"
               size="sm"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
+              className="flex-1 sm:flex-none"
             >
-              Anterior
+              <span className="hidden sm:inline">Anterior</span>
+              <span className="sm:hidden">Ant</span>
             </Button>
             <Button
               variant="outline"
               size="sm"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
+              className="flex-1 sm:flex-none"
             >
-              Siguiente
+              <span className="hidden sm:inline">Siguiente</span>
+              <span className="sm:hidden">Sig</span>
             </Button>
           </div>
         </div>
