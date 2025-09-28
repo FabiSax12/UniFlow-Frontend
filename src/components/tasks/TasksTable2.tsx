@@ -20,7 +20,7 @@ export function TasksTable({ tasks, isLoading, error }: TasksTableProps) {
   return (
     <div className="space-y-4">
       {/* Estadísticas rápidas */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="p-3 bg-card rounded-lg border">
           <div className="text-2xl font-bold">{tasks.length}</div>
           <div className="text-sm text-muted-foreground">Total</div>

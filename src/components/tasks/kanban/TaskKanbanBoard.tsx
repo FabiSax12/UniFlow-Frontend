@@ -168,7 +168,7 @@ export function TaskKanbanBoard() {
 
           {/* Quick Stats */}
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <Badge variant="outline" className="bg-background">
                 Total: {stats.total}
               </Badge>
@@ -200,13 +200,14 @@ export function TaskKanbanBoard() {
             />
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 flex-wrap">
             {/* Sort */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="flex-shrink-0">
                   <SortAsc className="mr-2 h-4 w-4" />
-                  Ordenar
+                  <span className="hidden sm:inline">Ordenar</span>
+                  <span className="sm:hidden">Sort</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -230,9 +231,10 @@ export function TaskKanbanBoard() {
             {/* Filter */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="flex-shrink-0">
                   <Filter className="mr-2 h-4 w-4" />
-                  Filtrar
+                  <span className="hidden sm:inline">Filtrar</span>
+                  <span className="sm:hidden">Filter</span>
                   {filterPriority !== 'all' && (
                     <Badge className="ml-2 px-1 py-0 text-xs">1</Badge>
                   )}
@@ -259,9 +261,10 @@ export function TaskKanbanBoard() {
             {/* Column Visibility */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="flex-shrink-0">
                   <MoreHorizontal className="mr-2 h-4 w-4" />
-                  Columnas
+                  <span className="hidden sm:inline">Columnas</span>
+                  <span className="sm:hidden">Cols</span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -280,9 +283,10 @@ export function TaskKanbanBoard() {
             </DropdownMenu>
 
             {/* Add Task */}
-            <Button onClick={() => handleAddTask()} size="sm">
+            <Button onClick={() => handleAddTask()} size="sm" className="flex-shrink-0">
               <Plus className="mr-2 h-4 w-4" />
-              Nueva Tarea
+              <span className="hidden sm:inline">Nueva Tarea</span>
+              <span className="sm:hidden">Nueva</span>
             </Button>
           </div>
         </div>
@@ -290,18 +294,20 @@ export function TaskKanbanBoard() {
 
       {/* Kanban Board */}
       <div className="flex-1 min-h-0">
-        <div className="grid grid-cols-4 gap-4 overflow-x-auto">
-          {visibleColumns.map((column) => (
-            <TaskKanbanColumn
-              key={column.status}
-              title={column.title}
-              status={column.status}
-              tasks={getTasksByStatus(column.status)}
-              onAddTask={() => handleAddTask(column.status)}
-              onColumnAction={(action) => handleColumnAction(column.status, action)}
-              className="flex-shrink-0"
-            />
-          ))}
+        <div className="overflow-x-auto overflow-y-hidden pb-4">
+          <div className="flex gap-4 w-fit">
+            {visibleColumns.map((column) => (
+              <TaskKanbanColumn
+                key={column.status}
+                title={column.title}
+                status={column.status}
+                tasks={getTasksByStatus(column.status)}
+                onAddTask={() => handleAddTask(column.status)}
+                onColumnAction={(action) => handleColumnAction(column.status, action)}
+                className="flex-shrink-0 w-80 sm:w-72 md:w-80 lg:w-96"
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div >

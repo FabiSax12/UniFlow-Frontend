@@ -1,6 +1,6 @@
 const SectionTitle = ({ children }: { children: React.ReactNode }) => {
   return (
-    <h2 className='text-3xl font-bold'>
+    <h2 className='text-xl md:text-2xl lg:text-3xl font-bold'>
       {children}
     </h2>
   )

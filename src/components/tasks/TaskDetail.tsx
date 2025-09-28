@@ -133,32 +133,32 @@ export function TaskDetail({ task }: { task: Task }) {
   }
 
   return (
-    <div className="container py-6 px-4 space-y-6">
+    <div className="space-y-6 w-full">
       {/* Header */}
       <div className="flex items-center gap-4">
         <GoBackButton />
         <div className="flex-1">
-          <h1 className="text-3xl font-bold text-foreground">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground">
             {task.title}
             {task.isOverdue() && (
-              <Badge variant="destructive">
+              <Badge variant="destructive" className='ml-6'>
                 <AlertTriangle className="h-3 w-3 mr-1" />
                 Vencida
               </Badge>
             )}
           </h1>
-          <p className="text-sm text-muted-foreground">ID: {task.id}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">ID: {task.id}</p>
         </div>
 
       </div>
 
       {/* BentoGrid Layout */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 min-h-[600px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6 gap-4 min-h-[600px] w-full">
 
         {/* Subject Information - Large Card */}
         <Card className="md:col-span-2 lg:col-span-2 xl:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
               <BookOpen className="h-5 w-5" />
               Materia
             </CardTitle>
@@ -173,22 +173,22 @@ export function TaskDetail({ task }: { task: Task }) {
             ) : subjectQuery.data ? (
               <div className="space-y-3">
                 <div>
-                  <p className="text-xl font-bold text-foreground">
+                  <p className="text-lg sm:text-xl font-bold text-foreground">
                     {subjectQuery.data.getFormattedCode()}
                   </p>
-                  <p className="text-base font-medium text-muted-foreground">
+                  <p className="text-sm sm:text-base font-medium text-muted-foreground">
                     {subjectQuery.data.name}
                   </p>
                 </div>
                 <div className="flex items-center gap-2">
                   <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
+                  <span className="text-xs sm:text-sm">
                     {subjectQuery.data.credits} {subjectQuery.data.credits === 1 ? 'crédito' : 'créditos'}
                   </span>
                 </div>
               </div>
             ) : (
-              <p className="text-sm text-muted-foreground">No se pudo cargar la información de la materia</p>
+              <p className="text-xs sm:text-sm text-muted-foreground">No se pudo cargar la información de la materia</p>
             )}
           </CardContent>
           <CardFooter>
@@ -203,19 +203,19 @@ export function TaskDetail({ task }: { task: Task }) {
         {/* Progress Card */}
         <Card className="lg:col-span-2 xl:col-span-2">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
               <LoaderIcon />
               Progreso de la Tarea
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center">
-              <div className="text-3xl font-bold text-foreground mb-2">
+              <div className="text-xl sm:text-2xl md:text-3xl font-bold text-foreground mb-2">
                 {task.getProgressPercentage()}%
               </div>
               <Progress value={task.getProgressPercentage()} className="h-3" />
             </div>
-            <div className="grid grid-cols-2 gap-4 text-sm">
+            <div className="grid grid-cols-2 gap-4 text-xs sm:text-sm">
               <div>
                 <p className="text-muted-foreground">Estado</p>
                 <p className="font-medium">
@@ -235,17 +235,17 @@ export function TaskDetail({ task }: { task: Task }) {
         {/* Due Date - Tall Card */}
         <Card className="md:col-span-1 lg:col-span-1 xl:col-span-2 row-span-1">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
+            <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
               <Calendar className="h-4 w-4" />
               Fecha Límite
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center">
-              <p className="text-2xl font-bold text-foreground mb-1">
+              <p className="text-lg sm:text-xl md:text-2xl font-bold text-foreground mb-1">
                 {formatDate(task.dueDate)}
               </p>
-              <p className={`text-lg font-semibold ${task.isOverdue()
+              <p className={`text-sm sm:text-base md:text-lg font-semibold ${task.isOverdue()
                 ? 'text-red-600 dark:text-red-400'
                 : task.isDueSoon()
                   ? 'text-yellow-600 dark:text-yellow-400'
@@ -259,9 +259,9 @@ export function TaskDetail({ task }: { task: Task }) {
               <div className="border-t pt-4">
                 <div className="flex items-center gap-2 mb-2">
                   <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm text-muted-foreground">Tiempo Estimado</span>
+                  <span className="text-xs sm:text-sm text-muted-foreground">Tiempo Estimado</span>
                 </div>
-                <p className="text-xl font-bold text-foreground">
+                <p className="text-lg sm:text-xl font-bold text-foreground">
                   {task.estimatedTimeHours}h
                 </p>
               </div>
@@ -273,13 +273,13 @@ export function TaskDetail({ task }: { task: Task }) {
         {task.description && (
           <Card className="md:col-span-2 lg:col-span-3 xl:col-span-4">
             <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2">
+              <CardTitle className="text-sm sm:text-base md:text-lg flex items-center gap-2">
                 <TextIcon />
                 Descripción
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-foreground leading-relaxed whitespace-pre-wrap text-sm">
+              <p className="text-foreground leading-relaxed whitespace-pre-wrap text-xs sm:text-sm md:text-base">
                 {task.description}
               </p>
             </CardContent>
@@ -290,7 +290,7 @@ export function TaskDetail({ task }: { task: Task }) {
         {task.tags.length > 0 && (
           <Card className="md:col-span-1 lg:col-span-2 xl:col-span-2">
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-lg">
+              <CardTitle className="flex items-center gap-2 text-sm sm:text-base md:text-lg">
                 <Tag className="h-4 w-4" />
                 Etiquetas
               </CardTitle>
@@ -298,7 +298,7 @@ export function TaskDetail({ task }: { task: Task }) {
             <CardContent>
               <div className="flex flex-wrap gap-2">
                 {task.tags.map((tag, index) => (
-                  <Badge key={index} variant="secondary" className="text-xs">
+                  <Badge key={index} variant="secondary" className="text-xs sm:text-xs">
                     <Hash className="h-3 w-3 mr-1" />
                     {tag}
                   </Badge>
@@ -309,33 +309,33 @@ export function TaskDetail({ task }: { task: Task }) {
         )}
 
         {/* Timestamps */}
-        <Card className="md:col-span-1 lg:col-span-1 xl:col-span-3">
+        <Card className="md:col-span-1 lg:col-span-2 xl:col-span-3">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="text-sm sm:text-base md:text-lg flex items-center gap-2">
               <History />
               Historial
             </CardTitle>
           </CardHeader>
           <CardContent className="flex flex-row gap-4">
             <div>
-              <p className="text-xs text-muted-foreground">Creada</p>
-              <p className="text-sm font-medium">
+              <p className="text-xs sm:text-xs text-muted-foreground">Creada</p>
+              <p className="text-xs sm:text-sm font-medium">
                 {formatDateTime(task.createdAt)}
               </p>
             </div>
 
             <Separator orientation='vertical' />
             <div>
-              <p className="text-xs text-muted-foreground">Última actualización</p>
-              <p className="text-sm font-medium">
+              <p className="text-xs sm:text-xs text-muted-foreground">Última actualización</p>
+              <p className="text-xs sm:text-sm font-medium">
                 {formatDateTime(task.updatedAt)}
               </p>
             </div>
 
             <Separator orientation='vertical' />
             <div>
-              <p className="text-xs text-muted-foreground">Completada</p>
-              <p className="text-sm font-medium">
+              <p className="text-xs sm:text-xs text-muted-foreground">Completada</p>
+              <p className="text-xs sm:text-sm font-medium">
                 {task.completedAt ? formatDateTime(task.completedAt) : 'No completada'}
               </p>
             </div>
@@ -343,9 +343,9 @@ export function TaskDetail({ task }: { task: Task }) {
         </Card>
 
         {/* Action Buttons */}
-        <Card className="md:col-span-2 lg:col-span-2 xl:col-span-3">
+        <Card className="md:col-span-2 lg:col-span-4 xl:col-span-3">
           <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
+            <CardTitle className="text-sm sm:text-base md:text-lg flex items-center gap-2">
               <MousePointerClick />
               Acciones Rápidas
             </CardTitle>

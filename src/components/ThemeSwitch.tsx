@@ -1,13 +1,14 @@
 import { useTheme } from "@/lib/theme-provider";
+import { cn } from "@/lib/utils";
 import { Moon, Sun } from "lucide-react";
 
 
-export function ThemeSwitch() {
+export function ThemeSwitch({ label, className }: { label?: string, className?: string }) {
   const { theme, setTheme } = useTheme()
 
   return <button
     onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-    className="p-2 bg-transparent border-none cursor-pointer z-50"
+    className={cn('p-2 bg-transparent border-none cursor-pointer z-50 flex ', className)}
     aria-label="Toggle theme"
   >
     <div className="relative w-[1.5rem] h-[1.5rem]">
@@ -20,5 +21,6 @@ export function ThemeSwitch() {
           }`}
       />
     </div>
+    {label && <span className="ml-2">{label}</span>}
   </button>
 }

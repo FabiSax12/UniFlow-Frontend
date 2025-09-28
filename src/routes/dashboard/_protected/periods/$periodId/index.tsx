@@ -48,9 +48,9 @@ function RouteComponent() {
     <Tabs value={searchParams.tab || "table"} onValueChange={handleTabChange} className="w-full mt-8">
       <div className='flex justify-between items-center w-full mb-6'>
         <SectionTitle>Entregas del Semestre</SectionTitle>
-        <TabsList>
+        <TabsList className='hidden md:inline'>
           <TabsTrigger value="table">Tabla</TabsTrigger>
-          <TabsTrigger value="kanban">Kanban</TabsTrigger>
+          <TabsTrigger value="kanban" >Kanban</TabsTrigger>
         </TabsList>
       </div>
       <TabsContent value="table">
