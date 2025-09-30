@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Skeleton } from '@/components/ui/skeleton'
 
 export const Route = createFileRoute('/dashboard/_protected')({
   beforeLoad: () => {
@@ -63,10 +64,16 @@ function RouteComponent() {
         <NotificationPopover />
         <ThemeSwitch />
         {
+          userQuery.isLoading && <div className='flex items-center gap-2'>
+            <Skeleton className='rounded-lg w-8 aspect-square' />
+            <Skeleton className='rounded-lg h-5 w-36' />
+          </div>
+        }
+        {
           !userQuery.isLoading && <div className='flex items-center gap-2'>
             <Avatar className='rounded-lg'>
               <AvatarImage src={userQuery.data?.avatar} />
-              <AvatarFallback>{userName}</AvatarFallback>
+              <AvatarFallback className='border-2 rounded-lg aspect-square p-2'>{userName}</AvatarFallback>
             </Avatar>
             <span className='hidden md:inline'>{userQuery.data?.name.split(" ").slice(0, 2).join(" ")}</span>
           </div>
