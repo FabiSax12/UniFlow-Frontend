@@ -3,7 +3,7 @@ export class Subject {
     public readonly id: string,
     public name: string,
     public code: string,
-    // public professor: string,
+    public professor: string,
     public credits: number,
     public readonly periodId: string,
     public readonly createdAt: Date = new Date(),
@@ -39,13 +39,13 @@ export class Subject {
 
   updateDetails(
     name: string,
-    // professor: string,
+    professor?: string,
   ): Subject {
     return new Subject(
       this.id,
       name,
       this.code,
-      // professor,
+      professor || this.professor,
       this.credits,
       this.periodId,
       this.createdAt,

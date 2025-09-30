@@ -56,6 +56,13 @@ function RouteComponent() {
 
   const currentYear = new Date().getFullYear();
 
+  // Helper para extraer mensaje de error
+  const getErrorMessage = (errors: any[]): string | null => {
+    if (!errors || errors.length === 0) return null;
+    const error = errors[0];
+    return typeof error === 'string' ? error : error.message || 'Error de validación';
+  };
+
   const form = useForm({
     defaultValues: {
       name: '',
@@ -65,7 +72,7 @@ function RouteComponent() {
       endDate: undefined as Date | undefined,
       isActive: false
     },
-    onSubmit: async ({ value }) => {
+    onSubmit: async ({ value, formApi }) => {
       try {
         const data = {
           name: value.name,
@@ -77,14 +84,18 @@ function RouteComponent() {
         };
 
         await createPeriodMutation.mutateAsync(data);
-        navigate({ to: searchParams.callbackUrl || "/dashboard" });
+        formApi.reset();
+        // navigate({ to: searchParams.callbackUrl || "/dashboard" });
       } catch (error) {
         console.error('Error creating period:', error);
       }
     },
     validators: {
       onChange: createPeriodFormSchema,
-    },
+      onBlur: createPeriodFormSchema,
+      onSubmit: createPeriodFormSchema,
+      onDynamic: createPeriodFormSchema
+    }
   });
 
   const handleCancel = () => {
@@ -112,113 +123,151 @@ function RouteComponent() {
             {/* Nombre */}
             <form.Field
               name="name"
-              children={(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor={field.name}>Nombre *</Label>
-                  <Input
-                    id={field.name}
-                    name={field.name}
-                    value={field.state.value}
-                    onChange={(e) => field.handleChange(e.target.value)}
-                    placeholder="Ej: Primer Semestre, Segundo Semestre, Verano"
-                  />
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{JSON.stringify(field.state.meta.errors[0]?.message)}</p>
-                  )}
-                </div>
-              )}
-            />
+            >
+              {(field) => {
+                const errorMessage = getErrorMessage(field.state.meta.errors);
+                return (
+                  <div className="space-y-2">
+                    <Label htmlFor={field.name}>Nombre *</Label>
+                    <Input
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      placeholder="Ej: Primer Semestre, Segundo Semestre, Verano"
+                      className={errorMessage ? 'border-red-500' : ''}
+                    />
+                    {errorMessage && (
+                      <p className="text-sm text-red-600">{errorMessage}</p>
+                    )}
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Tipo de Periodo */}
             <form.Field
               name="type"
-              children={(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor={field.name}>Tipo de Periodo *</Label>
-                  <Select
-                    value={field.state.value.toLowerCase()}
-                    onValueChange={(periodType) => field.handleChange(periodType.toUpperCase() as keyof typeof PeriodType)}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona el tipo de periodo" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={PeriodType.FIRST_SEMESTER.replace("-", "_")}>Primer Semestre</SelectItem>
-                      <SelectItem value={PeriodType.SECOND_SEMESTER.replace("-", "_")}>Segundo Semestre</SelectItem>
-                      <SelectItem value={PeriodType.SUMMER.replace("-", "_")}>Verano</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{field.state.meta.errors[0]?.message}</p>
-                  )}
-                </div>
-              )}
-            />
+            >
+              {(field) => {
+                const errorMessage = getErrorMessage(field.state.meta.errors);
+                return (
+                  <div className="space-y-2">
+                    <Label htmlFor={field.name}>Tipo de Periodo *</Label>
+                    <Select
+                      value={field.state.value ? field.state.value.toLowerCase() : ''}
+                      onValueChange={(periodType) => {
+                        field.handleChange(periodType.toUpperCase() as keyof typeof PeriodType);
+                        field.handleBlur();
+                      }}
+                    >
+                      <SelectTrigger className={errorMessage ? 'border-red-500' : ''}>
+                        <SelectValue placeholder="Selecciona el tipo de periodo" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="first_semester">Primer Semestre</SelectItem>
+                        <SelectItem value="second_semester">Segundo Semestre</SelectItem>
+                        <SelectItem value="summer">Verano</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {errorMessage && (
+                      <p className="text-sm text-red-600">{errorMessage}</p>
+                    )}
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Año */}
             <form.Field
               name="year"
-              children={(field) => (
-                <div className="space-y-2">
-                  <Label htmlFor={field.name}>Año *</Label>
-                  <Select
-                    value={field.state.value.toString()}
-                    onValueChange={(value) => field.handleChange(parseInt(value))}
-                  >
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecciona el año" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {Array.from({ length: 6 }, (_, i) => currentYear - 2 + i).map(year => (
-                        <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{field.state.meta.errors[0]?.message}</p>
-                  )}
-                </div>
-              )}
-            />
+            >
+              {(field) => {
+                const errorMessage = getErrorMessage(field.state.meta.errors);
+                return (
+                  <div className="space-y-2">
+                    <Label htmlFor={field.name}>Año *</Label>
+                    <Select
+                      value={field.state.value.toString()}
+                      onValueChange={(value) => {
+                        field.handleChange(parseInt(value));
+                        field.handleBlur();
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecciona el año" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {Array.from({ length: 6 }, (_, i) => currentYear - 2 + i).map(year => (
+                          <SelectItem key={year} value={year.toString()}>{year}</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {errorMessage && (
+                      <p className="text-sm text-red-600">{errorMessage}</p>
+                    )}
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Fecha de inicio */}
             <form.Field
               name="startDate"
-              children={(field) => (
-                <div className="space-y-2">
-                  <DatePicker
-                    label='Fecha de Inicio *'
-                    value={field.state.value}
-                    onDateChange={field.handleChange}
-                  />
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{field.state.meta.errors[0]?.message}</p>
-                  )}
-                </div>
-              )}
-            />
+            >
+              {(field) => {
+                const errorMessage = getErrorMessage(field.state.meta.errors);
+                return (
+                  <div className="space-y-2">
+                    <DatePicker
+                      label='Fecha de Inicio *'
+                      value={field.state.value}
+                      onDateChange={(date) => {
+                        field.handleChange(date);
+                        field.handleBlur();
+                      }}
+                    />
+                    {errorMessage && (
+                      <p className="text-sm text-red-600">{errorMessage}</p>
+                    )}
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Fecha de fin */}
             <form.Field
               name="endDate"
-              children={(field) => (
-                <div className="space-y-2">
-                  <DatePicker
-                    label='Fecha de Fin *'
-                    value={field.state.value}
-                    onDateChange={field.handleChange}
-                  />
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{field.state.meta.errors[0]?.message}</p>
-                  )}
-                </div>
-              )}
-            />
+            >
+              {(field) => {
+                const errorMessage = field.state.meta.errors?.[0]
+                  ? typeof field.state.meta.errors[0] === 'string'
+                    ? field.state.meta.errors[0]
+                    : field.state.meta.errors[0].message || 'Error de validación'
+                  : null;
+
+                return (
+                  <div className="space-y-2">
+                    <DatePicker
+                      label='Fecha de Fin *'
+                      value={field.state.value}
+                      onDateChange={(date) => {
+                        field.handleChange(date);
+                        field.handleBlur();
+                      }}
+                    />
+                    {errorMessage && (
+                      <p className="text-sm text-red-600">{errorMessage}</p>
+                    )}
+                  </div>
+                );
+              }}
+            </form.Field>
 
             {/* Estado activo */}
-            <form.Field
-              name="isActive"
-              children={(field) => (
+            <form.Field name="isActive">
+              {(field) => (
                 <div className="space-y-2">
                   <Label htmlFor={field.name}>Estado</Label>
                   <Select
@@ -233,28 +282,16 @@ function RouteComponent() {
                       <SelectItem value="true">Activo</SelectItem>
                     </SelectContent>
                   </Select>
-                  {field.state.meta.errors && (
-                    <p className="text-sm text-red-600">{field.state.meta.errors[0]?.message}</p>
-                  )}
                 </div>
               )}
-            />
-
-            {/* Form-level errors */}
-            {/* {form.state.errors && form.state.errors.length > 0 && (
-              <div className="space-y-2">
-                {form.state.errors.map((error, i) => (
-                  <p key={i} className="text-sm text-red-600">{Object.values(error).map(e => e.message)}</p>
-                ))}
-              </div>
-            )} */}
+            </form.Field>
 
             {/* Botones */}
             <div className="flex gap-4 pt-6">
               <Button
                 type="submit"
                 className="flex-1"
-                disabled={createPeriodMutation.isPending || !form.state.canSubmit}
+                disabled={createPeriodMutation.isPending}
               >
                 {createPeriodMutation.isPending ? 'Creando...' : 'Crear Periodo'}
               </Button>

@@ -11,7 +11,7 @@ export async function updateSubject(subjectId: string, body: UpdateSubjectReques
     subjectData.id,
     subjectData.name,
     subjectData.code,
-    // subjectData.professor,
+    subjectData.professor,
     subjectData.credits,
     subjectData.periodId,
     new Date(subjectData.createdAt),

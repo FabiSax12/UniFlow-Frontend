@@ -5,7 +5,7 @@ export interface CreateTaskRequestDto {
   subjectId: string
   dueDate: string
   priority: keyof typeof TaskPriority
-  type: string
+  // type: string
   status: keyof typeof TaskStatus
   description?: string
   estimatedTimeHours?: number

@@ -13,6 +13,7 @@ export async function getPeriodSubjects(periodId: string | number): Promise<Subj
     subject.id,
     subject.name,
     subject.code,
+    subject.professor,
     subject.credits,
     subject.periodId,
     new Date(subject.createdAt),
