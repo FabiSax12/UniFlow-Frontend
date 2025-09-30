@@ -8,6 +8,7 @@ import { usePeriods } from '@/hooks/periods'
 import { DashboardTaskCardSkeleton } from '@/components/tasks/DashboardTaskCardSkeleton'
 import { useDashboardTasks } from '@/hooks/tasks/useDashboardTasks'
 import { PeriodCardSkeleton } from '@/components/periods/PeriodCardSkeleton'
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 export const Route = createFileRoute('/dashboard/_protected/')({
   component: RouteComponent,
@@ -20,7 +21,37 @@ function RouteComponent() {
   const periodsQuery = usePeriods();
 
 
-  return <div className='flex flex-col lg:flex-row gap-6 lg:gap-20'>
+  return <div className='flex flex-col gap-6 lg:gap-20'>
+
+    {/* Periods */}
+    <article className='w-full min-h-max'>
+      <header className='flex flex-row justify-between items-center mb-4'>
+        <SectionTitle>Periodos</SectionTitle>
+        <Button className='cursor-pointer' size="sm" color="primary" asChild>
+          <Link to='/dashboard/periods/create' className='flex items-center justify-center gap-2'>
+            <span className='inline'>Añadir Periodo</span>
+            <Plus className='h-4 w-4' />
+          </Link>
+        </Button>
+      </header>
+      <ScrollArea>
+        <main className='w-full gap-4 flex mb-4 px-2 py-4'>
+          {
+            periodsQuery.isLoading && <>
+              <PeriodCardSkeleton />
+              <PeriodCardSkeleton />
+              <PeriodCardSkeleton />
+              <PeriodCardSkeleton />
+            </>
+          }
+          {
+            periodsQuery.data?.map(period => <PeriodCard key={period.id} period={period} />)
+          }
+        </main>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
+    </article>
+
 
     {/* Next 7 days */}
     <article className='flex-1 w-full lg:w-auto'>
@@ -70,29 +101,6 @@ function RouteComponent() {
       </main>
     </article >
 
-    {/* Periods */}
-    <article className='w-full lg:w-80 xl:w-96'>
-      <header className='flex flex-row justify-between items-center mb-4'>
-        <SectionTitle>Periodos</SectionTitle>
-        <Button className='cursor-pointer' size="sm" color="primary" asChild>
-          <Link to='/dashboard/periods/create' className='flex items-center justify-center gap-2'>
-            <span className='inline'>Añadir Periodo</span>
-            <Plus className='h-4 w-4' />
-          </Link>
-        </Button>
-      </header>
-      <main className='w-full gap-4 flex flex-col'>
-        {
-          periodsQuery.isLoading && <>
-            <PeriodCardSkeleton />
-            <PeriodCardSkeleton />
-            <PeriodCardSkeleton />
-          </>
-        }
-        {
-          periodsQuery.data?.map(period => <PeriodCard key={period.id} period={period} />)
-        }
-      </main>
-    </article>
+
   </div >
 }
