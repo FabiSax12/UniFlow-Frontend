@@ -12,7 +12,7 @@ export async function getTasksByPeriod(periodId: string): Promise<Task[]> {
     task.subjectId,
     new Date(task.dueDate),
     TaskPriority[task.priority.toUpperCase() as keyof typeof TaskPriority],
-    TaskStatus[task.status.toUpperCase() as keyof typeof TaskStatus],
+    TaskStatus[task.status.replace("-", "_").toUpperCase() as keyof typeof TaskStatus],
     task.description,
     task.estimatedTimeHours,
     task.tags,

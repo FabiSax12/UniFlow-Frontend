@@ -18,7 +18,7 @@ export const DashboardTaskCardCompact = ({ task }: Props) => {
         <h4 className="font-semibold truncate">{task.title}</h4>
         <div className="flex gap-1">
           <Badge variant="destructive" className="text-xs px-2 py-0">
-            {task.status.toUpperCase()}
+            {task.status.replace("-", "_").toUpperCase()}
           </Badge>
           <Badge
             variant="secondary"
@@ -46,8 +46,8 @@ export const DashboardTaskCardCompact = ({ task }: Props) => {
           })}
         </span>
         <span className={`text-destructive text-base font-medium`}>
-            {task.getTimeUntilDue()}
-          </span>
+          {task.getTimeUntilDue()}
+        </span>
       </div>
     </Link>
   )

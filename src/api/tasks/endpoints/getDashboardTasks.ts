@@ -16,7 +16,7 @@ export async function getDashboardTasks(): Promise<TaskWithSubject[]> {
     TaskPriority[task.priority.toUpperCase() as keyof typeof TaskPriority],
     task.subjectName,
     task.subjectCode,
-    TaskStatus[task.status.toUpperCase() as keyof typeof TaskStatus]
+    TaskStatus[task.status.replace("-", "_").toUpperCase() as keyof typeof TaskStatus]
   )))
 
   tasks.push(...axiosResponse.data.upcomingTasks.map(task => new TaskWithSubject(
@@ -26,7 +26,7 @@ export async function getDashboardTasks(): Promise<TaskWithSubject[]> {
     TaskPriority[task.priority.toUpperCase() as keyof typeof TaskPriority],
     task.subjectName,
     task.subjectCode,
-    TaskStatus[task.status.toUpperCase() as keyof typeof TaskStatus]
+    TaskStatus[task.status.replace("-", "_").toUpperCase() as keyof typeof TaskStatus]
   )))
 
   return tasks;
