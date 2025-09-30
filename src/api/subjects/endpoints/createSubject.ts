@@ -10,7 +10,7 @@ export async function createSubject(body: CreateSubjectRequestDto): Promise<Subj
     axiosResponse.data.id,
     axiosResponse.data.name,
     axiosResponse.data.code,
-    // axiosResponse.data.professor,
+    axiosResponse.data.professor,
     axiosResponse.data.credits,
     axiosResponse.data.periodId,
     new Date(axiosResponse.data.createdAt),

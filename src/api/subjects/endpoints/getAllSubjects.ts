@@ -21,7 +21,7 @@ export async function getAllSubjects(params: GetAllSubjectsParams): Promise<Subj
     subject.id,
     subject.name,
     subject.code,
-    // subject.professor,
+    subject.professor,
     subject.credits,
     subject.periodId,
     new Date(subject.createdAt),
