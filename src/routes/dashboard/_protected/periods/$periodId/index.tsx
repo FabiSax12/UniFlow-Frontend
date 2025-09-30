@@ -5,9 +5,11 @@ import SectionTitle from '@/components/SectionTitle'
 import { SubjectsGrid } from '@/components/subjects/SubjectsGrid';
 import { TaskKanbanBoard } from '@/components/tasks/kanban/TaskKanbanBoard';
 import { TasksTable } from '@/components/tasks/TasksTable2';
+import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTasksByPeriod } from '@/hooks/tasks/useTasksByPeriod';
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
+import { Plus } from 'lucide-react';
 import z from 'zod';
 
 export const Route = createFileRoute('/dashboard/_protected/periods/$periodId/')({
@@ -41,7 +43,15 @@ function RouteComponent() {
     <PeriodStats periodId={periodId} />
 
     <div className="mt-8">
-      <SectionTitle>Cursos</SectionTitle>
+      <div className='flex flex-row justify-between items-center mb-4'>
+        <SectionTitle>Cursos</SectionTitle>
+        <Button className='cursor-pointer' size="sm" color="primary" asChild>
+          <Link to='/dashboard/subjects/create' className='flex items-center justify-center gap-2'>
+            <span className='inline'>Añadir Curso</span>
+            <Plus className='h-4 w-4' />
+          </Link>
+        </Button>
+      </div>
       <SubjectsGrid periodId={periodId} />
     </div>
 
