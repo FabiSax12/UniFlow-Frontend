@@ -47,7 +47,19 @@ export const NotificationPopover = () => {
             <Trash className="text-red-500" />
           </Button>
         </div>
-        <NotificationsPopOverContent />
+        <div className="
+          space-y-2 pr-2
+          max-h-[50vh] overflow-y-auto
+          [&::-webkit-scrollbar]:w-2
+          [&::-webkit-scrollbar-track]:rounded-full
+          [&::-webkit-scrollbar-track]:bg-gray-100
+          [&::-webkit-scrollbar-thumb]:rounded-full
+          [&::-webkit-scrollbar-thumb]:bg-gray-300
+          dark:[&::-webkit-scrollbar-track]:bg-neutral-700
+          dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500
+        ">
+          <NotificationsPopOverContent />
+        </div>
       </PopoverContent>
     </Popover>
   )
