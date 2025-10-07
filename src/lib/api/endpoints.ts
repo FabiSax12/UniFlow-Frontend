@@ -12,7 +12,7 @@ export const API_ENDPOINTS = {
     tasks: '/v1/tasks'
   },
   notifications: {
-    base: `${env.VITE_API_BASE_URL}/notifications`,
+    base: env.VITE_NOTIFICATIONS_SERVICE_URL,
     notifications: '/v1/notifications'
   }
 }
