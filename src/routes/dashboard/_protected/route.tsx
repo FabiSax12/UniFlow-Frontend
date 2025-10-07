@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Skeleton } from '@/components/ui/skeleton'
+import { usePushNotifications } from '@/hooks/notifications/usePushNotifications'
 
 export const Route = createFileRoute('/dashboard/_protected')({
   beforeLoad: () => {
@@ -33,7 +34,10 @@ function RouteComponent() {
 
   const navigate = Route.useNavigate()
   const location = useLocation()
-  const { logout } = useAuthStore()
+  const { logout, userInfo } = useAuthStore()
+
+
+  usePushNotifications(userInfo.id)
 
   const handleLogout = () => {
     logout()
