@@ -1,7 +1,6 @@
 import { ThemeSwitch } from '@/components/ThemeSwitch'
 import { Button } from '@/components/ui/button'
 import { academicApi } from '@/lib/api/client'
-import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { useAuthStore } from '@/stores/auth'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { useQuery } from '@tanstack/react-query'
