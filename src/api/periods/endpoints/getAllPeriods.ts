@@ -9,7 +9,7 @@ interface GetAllPeriodsParams {
 }
 
 export async function getAllPeriods(params: GetAllPeriodsParams): Promise<Period[]> {
-  const axiosResponse = await academicApi.get<GetPeriodsResponseDto>('v1/periods', { params });
+  const axiosResponse = await academicApi.get<GetPeriodsResponseDto>('/periods', { params });
 
   return axiosResponse.data.data.map(period => new Period(
     period.id,

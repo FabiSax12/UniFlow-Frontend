@@ -19,7 +19,7 @@ const OAUTH_CONFIG: Record<"google", ProviderConfig> = {
     clientSecret: env.VITE_GOOGLE_CLIENT_SECRET,
     redirectUri: `${window.location.origin}/auth/callback`,
     scope: 'openid email profile',
-    authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
+    authUrl: 'https://accounts.google.com/o/oauth2//auth',
     tokenUrl: env.VITE_ACADEMIC_SERVICE_URL + '/auth/google/callback',
     // tokenUrl: 'https://oauth2.googleapis.com/token',
     userInfoUrl: env.VITE_ACADEMIC_SERVICE_URL + '/students/me'

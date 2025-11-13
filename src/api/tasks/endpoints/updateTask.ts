@@ -5,7 +5,7 @@ import { type GetTaskResponseDto } from "../dto/response.dto";
 
 export async function updateTask(taskId: string, body: UpdateTaskRequestDto): Promise<Task> {
 
-  const axiosResponse = await tasksApi.put<GetTaskResponseDto>("v1/tasks/" + taskId, body)
+  const axiosResponse = await tasksApi.put<GetTaskResponseDto>("/tasks/" + taskId, body)
 
   const taskData = axiosResponse.data
 

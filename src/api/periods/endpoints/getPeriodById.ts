@@ -3,7 +3,7 @@ import { Period, PeriodType } from "@/domain/periods";
 import { academicApi } from "@/lib/api/client";
 
 export async function getPeriodById(id: string | number): Promise<Period | null> {
-  const axiosResponse = await academicApi.get<GetPeriodByIdResponseDto>(`v1/periods/${id}`);
+  const axiosResponse = await academicApi.get<GetPeriodByIdResponseDto>(`/periods/${id}`);
 
   if (!axiosResponse.data) {
     return null;

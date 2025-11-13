@@ -3,7 +3,7 @@ import { academicApi } from "@/lib/api/client";
 // import { Period, PeriodType } from "@/domain/periods";
 
 export async function getCurrentPeriod(): Promise<GetCurrentPeriodResponseDto> {
-  const axiosResponse = await academicApi.get<GetCurrentPeriodResponseDto>('v1/periods/current');
+  const axiosResponse = await academicApi.get<GetCurrentPeriodResponseDto>('/periods/current');
 
   return axiosResponse.data;
 

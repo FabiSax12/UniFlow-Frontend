@@ -11,7 +11,7 @@ interface GetAllSubjectsParams {
 }
 
 export async function getAllSubjects(params: GetAllSubjectsParams): Promise<Subject[]> {
-  const axiosResponse = await academicApi.get<GetAllSubjectsResponseDto>('v1/subjects', { params });
+  const axiosResponse = await academicApi.get<GetAllSubjectsResponseDto>('/subjects', { params });
 
   if (!axiosResponse.data.data) {
     return [];
