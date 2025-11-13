@@ -46,7 +46,7 @@ function RouteComponent() {
 
   const userQuery = useQuery({
     queryKey: ['students'],
-    queryFn: async () => await academicApi.get(API_ENDPOINTS.academic.students).then(res => res.data),
+    queryFn: async () => await academicApi.get('/students/me').then(res => res.data),
     retry: false
   })
 
