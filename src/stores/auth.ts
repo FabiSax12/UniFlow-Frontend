@@ -115,6 +115,7 @@ export const useAuthStore = create<AuthState>()(
           headers: {
             // 'Content-Type': 'application/x-www-form-urlencoded',
             'Content-Type': 'application/json',
+            'Ocp-Apim-Subscription-Key': env.VITE_APIM_TOKEN,
           },
           body
         } : {
@@ -151,7 +152,8 @@ export const useAuthStore = create<AuthState>()(
         }
 
         const headers = {
-          'Authorization': `Bearer ${accessToken}`
+          'Authorization': `Bearer ${accessToken}`,
+          'Ocp-Apim-Subscription-Key': env.VITE_APIM_TOKEN,
         } as any
 
         const response = await fetch(config.userInfoUrl, { headers })
