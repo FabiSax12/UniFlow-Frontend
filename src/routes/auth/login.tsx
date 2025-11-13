@@ -30,7 +30,7 @@ function LoginPage() {
           <CardHeader className="text-center">
             <CardTitle className="text-xl">Welcome back</CardTitle>
             <CardDescription>
-              Inicia sesión con tu cuenta de Google o GitHub
+              Inicia sesión con tu cuenta de Google
             </CardDescription>
           </CardHeader>
           <CardContent>

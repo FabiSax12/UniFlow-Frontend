@@ -1,5 +1,4 @@
 import { env } from '@/env'
-import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -14,7 +13,7 @@ interface ProviderConfig {
 }
 
 // Configuración de OAuth providers
-const OAUTH_CONFIG: Record<"google" | "github", ProviderConfig> = {
+const OAUTH_CONFIG: Record<"google", ProviderConfig> = {
   google: {
     clientId: env.VITE_GOOGLE_CLIENT_ID,
     clientSecret: env.VITE_GOOGLE_CLIENT_SECRET,
@@ -24,15 +23,6 @@ const OAUTH_CONFIG: Record<"google" | "github", ProviderConfig> = {
     tokenUrl: env.VITE_ACADEMIC_SERVICE_URL + '/auth/google/callback',
     // tokenUrl: 'https://oauth2.googleapis.com/token',
     userInfoUrl: env.VITE_ACADEMIC_SERVICE_URL + '/students/me'
-  },
-  github: {
-    clientId: env.VITE_GITHUB_CLIENT_ID,
-    clientSecret: env.VITE_GITHUB_CLIENT_SECRET,
-    redirectUri: `${window.location.origin}/auth/callback`,
-    scope: 'read:user user:email',
-    authUrl: 'https://github.com/login/oauth/authorize',
-    tokenUrl: API_ENDPOINTS.academic.base + '/access-token',
-    userInfoUrl: 'https://api.github.com/user'
   }
 }
 
@@ -40,16 +30,16 @@ interface AuthState {
   // Estado
   authToken: string | null
   userInfo: any | null
-  provider: 'google' | 'github' | null
+  provider: 'google' | null
   loading: boolean
   error: string | null
 
   // Getters computados
   isAuthenticated: () => boolean
   // Funciones
-  loginWithProvider: (provider: 'google' | 'github') => Promise<void>
-  exchangeCodeForToken: (provider: 'google' | 'github', code: string, config: ProviderConfig) => Promise<any>
-  getUserInfo: (provider: 'google' | 'github', accessToken: string, config: any) => Promise<any>
+  loginWithProvider: (provider: 'google') => Promise<void>
+  exchangeCodeForToken: (provider: 'google', code: string, config: ProviderConfig) => Promise<any>
+  getUserInfo: (provider: 'google', accessToken: string, config: any) => Promise<any>
   handleOAuthCallback: () => Promise<boolean>
   makeAuthenticatedRequest: (url: string, options?: RequestInit) => Promise<any>
   logout: () => void
@@ -156,14 +146,13 @@ export const useAuthStore = create<AuthState>()(
 
       // Obtener información del usuario
       getUserInfo: async (providerName, accessToken, config) => {
+        if (providerName !== 'google') {
+          throw new Error('Provider no soportado para obtener info de usuario')
+        }
+
         const headers = {
           'Authorization': `Bearer ${accessToken}`
         } as any
-
-        // GitHub requiere User-Agent
-        if (providerName === 'github') {
-          headers['User-Agent'] = 'OAuth-App'
-        }
 
         const response = await fetch(config.userInfoUrl, { headers })
 
@@ -172,25 +161,6 @@ export const useAuthStore = create<AuthState>()(
         }
 
         const userData = await response.json()
-
-        // Para GitHub, también necesitamos obtener el email si es privado
-        if (providerName === 'github' && !userData.email) {
-          try {
-            const emailResponse = await fetch('https://api.github.com/user/emails', {
-              headers
-            })
-
-            if (emailResponse.ok) {
-              const emails = await emailResponse.json() as any[]
-              const primaryEmail = emails.find(email => email.primary)
-              if (primaryEmail) {
-                userData.email = primaryEmail.email
-              }
-            }
-          } catch (error) {
-            console.warn('No se pudo obtener email de GitHub:', error)
-          }
-        }
 
         return userData
       },
@@ -215,7 +185,7 @@ export const useAuthStore = create<AuthState>()(
           }
 
           // Extraer provider del state
-          const currentProvider = state.split(':')[0] as 'google' | 'github'
+          const currentProvider = state.split(':')[0] as 'google'
           const config = OAUTH_CONFIG[currentProvider]
 
           console.log('Current Provider:', currentProvider)
