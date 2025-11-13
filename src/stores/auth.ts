@@ -3,16 +3,27 @@ import { API_ENDPOINTS } from '@/lib/api/endpoints'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+interface ProviderConfig {
+  clientId: string
+  clientSecret: string
+  redirectUri: string
+  scope: string
+  authUrl: string
+  tokenUrl: string
+  userInfoUrl: string
+}
+
 // Configuración de OAuth providers
-const OAUTH_CONFIG: Record<"google" | "github", any> = {
+const OAUTH_CONFIG: Record<"google" | "github", ProviderConfig> = {
   google: {
     clientId: env.VITE_GOOGLE_CLIENT_ID,
     clientSecret: env.VITE_GOOGLE_CLIENT_SECRET,
     redirectUri: `${window.location.origin}/auth/callback`,
     scope: 'openid email profile',
     authUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
-    tokenUrl: 'https://oauth2.googleapis.com/token',
-    userInfoUrl: 'https://www.googleapis.com/oauth2/v2/userinfo'
+    tokenUrl: env.VITE_ACADEMIC_SERVICE_URL + '/auth/google/callback',
+    // tokenUrl: 'https://oauth2.googleapis.com/token',
+    userInfoUrl: env.VITE_ACADEMIC_SERVICE_URL + '/students/me'
   },
   github: {
     clientId: env.VITE_GITHUB_CLIENT_ID,
@@ -20,7 +31,7 @@ const OAUTH_CONFIG: Record<"google" | "github", any> = {
     redirectUri: `${window.location.origin}/auth/callback`,
     scope: 'read:user user:email',
     authUrl: 'https://github.com/login/oauth/authorize',
-    tokenUrl: API_ENDPOINTS.academic.base + '/v1/access-token',
+    tokenUrl: API_ENDPOINTS.academic.base + '/access-token',
     userInfoUrl: 'https://api.github.com/user'
   }
 }
@@ -37,7 +48,7 @@ interface AuthState {
   isAuthenticated: () => boolean
   // Funciones
   loginWithProvider: (provider: 'google' | 'github') => Promise<void>
-  exchangeCodeForToken: (provider: 'google' | 'github', code: string, config: any) => Promise<any>
+  exchangeCodeForToken: (provider: 'google' | 'github', code: string, config: ProviderConfig) => Promise<any>
   getUserInfo: (provider: 'google' | 'github', accessToken: string, config: any) => Promise<any>
   handleOAuthCallback: () => Promise<boolean>
   makeAuthenticatedRequest: (url: string, options?: RequestInit) => Promise<any>
@@ -96,14 +107,15 @@ export const useAuthStore = create<AuthState>()(
       exchangeCodeForToken: async (providerName, code, config) => {
         let body: BodyInit;
         if (providerName === "google") {
-          const params = new URLSearchParams({
-            client_id: config.clientId,
-            client_secret: config.clientSecret,
-            code,
-            redirect_uri: config.redirectUri,
-            grant_type: 'authorization_code'
-          });
-          body = params;
+          body = JSON.stringify({ code, redirectUri: config.redirectUri })
+          // const params = new URLSearchParams({
+          //   client_id: config.clientId,
+          //   client_secret: config.clientSecret,
+          //   code,
+          //   redirect_uri: config.redirectUri,
+          //   grant_type: 'authorization_code'
+          // });
+          // body = params;
         } else {
           body = JSON.stringify({ code });
         }
@@ -111,7 +123,8 @@ export const useAuthStore = create<AuthState>()(
         const requestInit: RequestInit = providerName === 'google' ? {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+            // 'Content-Type': 'application/x-www-form-urlencoded',
+            'Content-Type': 'application/json',
           },
           body
         } : {
@@ -133,6 +146,7 @@ export const useAuthStore = create<AuthState>()(
 
         const data = await response.json()
 
+        // if (!data.access_token) {
         if (!data.access_token) {
           throw new Error('No se recibió access_token')
         }

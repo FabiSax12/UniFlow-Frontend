@@ -3,7 +3,7 @@ import { notificationsApi } from "@/lib/api/client";
 import type { GetUserNotificationsResponseDto } from "../dto/response.dto";
 
 export async function getUserNotifications(userId: string): Promise<Notification[]> {
-  const axiosResponse = await notificationsApi.get<GetUserNotificationsResponseDto>(`/v1/user/${userId}`);
+  const axiosResponse = await notificationsApi.get<GetUserNotificationsResponseDto>(`/user/${userId}`);
 
   return axiosResponse.data.notifications.map(notification => new Notification(
     notification.id,

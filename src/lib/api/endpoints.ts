@@ -3,16 +3,16 @@ import { env } from "@/env";
 export const API_ENDPOINTS = {
   academic: {
     base: `${env.VITE_API_BASE_URL}/academic`,
-    students: '/v1/students',
-    periods: '/v1/periods',
-    subjects: '/v1/subjects'
+    students: '/students',
+    periods: '/periods',
+    subjects: '/subjects'
   },
   tasks: {
     base: `${env.VITE_API_BASE_URL}/tasks`,
-    tasks: '/v1/tasks'
+    tasks: '/tasks'
   },
   notifications: {
-    base: env.VITE_NOTIFICATIONS_SERVICE_URL,
-    notifications: '/v1/notifications'
+    base: `${env.VITE_API_BASE_URL}/notifications`,
+    notifications: '/notifications'
   }
 }

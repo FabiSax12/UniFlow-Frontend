@@ -35,7 +35,7 @@ export const usePushNotifications = (userId: string | null) => {
     isConnecting.current = true;
 
     // Conectar al WebSocket
-    const socketInstance = io(env.VITE_NOTIFICATIONS_SERVICE_URL || 'http://localhost:3002/v1', {
+    const socketInstance = io(env.VITE_NOTIFICATIONS_SERVICE_URL || 'http://localhost:3002', {
       query: { userId },
       transports: ['websocket'],
     });

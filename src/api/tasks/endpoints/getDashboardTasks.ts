@@ -5,7 +5,7 @@ import { TaskPriority, TaskStatus } from "@/domain/tasks";
 
 export async function getDashboardTasks(): Promise<TaskWithSubject[]> {
 
-  const axiosResponse = await tasksApi.get<GetDashboardTasks>("/v1/tasks/dashboard");
+  const axiosResponse = await tasksApi.get<GetDashboardTasks>("/tasks/dashboard");
 
   let tasks: TaskWithSubject[] = []
 

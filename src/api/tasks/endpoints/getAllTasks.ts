@@ -3,7 +3,7 @@ import { tasksApi } from "@/lib/api/client";
 import type { GetAllTasksResponseDto } from "../dto/response.dto";
 
 export async function getAllTasks(): Promise<Task[]> {
-  const axiosResponse = await tasksApi.get<GetAllTasksResponseDto>("/v1/tasks")
+  const axiosResponse = await tasksApi.get<GetAllTasksResponseDto>("/tasks")
 
   const taskData = axiosResponse.data.data
 
