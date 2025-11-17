@@ -6,7 +6,7 @@ export async function getTasksByPeriod(periodId: string): Promise<Task[]> {
 
   const axiosResponse = await tasksApi.get<GetTasksByPeriodResponseDto>(`/tasks/by-period/${periodId}`);
 
-  return axiosResponse.data.map(task => new Task(
+  return axiosResponse.data.tasks.map(task => new Task(
     task.id,
     task.title,
     task.subjectId,

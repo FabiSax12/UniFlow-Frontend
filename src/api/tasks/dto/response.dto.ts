@@ -55,8 +55,16 @@ export interface UpcomingTask {
   type: string
 }
 
-export type GetTasksBySubjectResponseDto = GetTaskResponseDto[]
-export type GetTasksByPeriodResponseDto = GetTaskResponseDto[]
+export type GetTasksBySubjectResponseDto = {
+  subjectId: string
+  count: number
+  tasks: GetTaskResponseDto[]
+}
+export type GetTasksByPeriodResponseDto = {
+  count: number,
+  periodId: string,
+  tasks: GetTaskResponseDto[]
+}
 
 export interface CompletedTaskResponseDto {
   id: string

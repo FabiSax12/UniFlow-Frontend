@@ -6,7 +6,7 @@ export async function getTasksBySubject(subjectId: string): Promise<Task[]> {
 
   const axiosResponse = await tasksApi.get<GetTasksBySubjectResponseDto>(`/tasks/by-subject/${subjectId}`);
 
-  return axiosResponse.data.map(task => new Task(
+  return axiosResponse.data.tasks.map(task => new Task(
     task.id,
     task.title,
     task.subjectId,
