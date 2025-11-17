@@ -3,7 +3,7 @@ import { academicApi } from "@/lib/api/client";
 import type { UpdateSubjectRequestDto } from "../dto/request.dto";
 
 export async function updateSubject(subjectId: string, body: UpdateSubjectRequestDto): Promise<Subject | null> {
-  const axiosResponse = await academicApi.put(`/subjects/${subjectId}`, body);
+  const axiosResponse = await academicApi.patch(`/subjects/${subjectId}`, body);
 
   const subjectData = axiosResponse.data;
 
