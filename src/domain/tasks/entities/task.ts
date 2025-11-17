@@ -21,6 +21,9 @@ export class Task {
     public updatedAt: Date = new Date(),
     public completedAt?: Date
   ) {
+    if (tags == null || tags === undefined) {
+      this.tags = []
+    }
     this.validateTitle(title)
     this.validateDueDate(dueDate)
     this.validateEstimatedTime(estimatedTimeHours)
