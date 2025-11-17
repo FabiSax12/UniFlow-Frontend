@@ -12,7 +12,7 @@ export async function getPeriodById(id: string | number): Promise<Period | null>
   return new Period(
     axiosResponse.data.id,
     axiosResponse.data.name,
-    PeriodType[axiosResponse.data.type],
+    PeriodType[axiosResponse.data.type.replace('-', '_').toUpperCase() as keyof typeof PeriodType] as PeriodType,
     axiosResponse.data.year,
     new Date(axiosResponse.data.startDate),
     new Date(axiosResponse.data.endDate),

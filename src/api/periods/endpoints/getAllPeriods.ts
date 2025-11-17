@@ -14,7 +14,7 @@ export async function getAllPeriods(params: GetAllPeriodsParams): Promise<Period
   return axiosResponse.data.data.map(period => new Period(
     period.id,
     period.name,
-    PeriodType[period.type],
+    PeriodType[period.type.replace('-', '_') as keyof typeof PeriodType] as PeriodType,
     period.year,
     new Date(period.startDate),
     new Date(period.endDate),
