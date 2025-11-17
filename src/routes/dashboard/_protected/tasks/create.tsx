@@ -88,7 +88,7 @@ function RouteComponent() {
           subjectId: value.subjectId,
           dueDate: dueDateTime.toISOString(),
           priority: Object.keys(TaskPriority).find(
-            key => TaskPriority[key as keyof typeof TaskPriority].toLowerCase() === value.priority
+            key => TaskPriority[key as keyof typeof TaskPriority] === value.priority
           ) as keyof typeof TaskPriority,
           status: Object.keys(TaskStatus).find(
             key => TaskStatus[key as keyof typeof TaskStatus] === value.status
