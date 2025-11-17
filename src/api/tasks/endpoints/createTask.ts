@@ -10,7 +10,8 @@ export async function createTask(body: CreateTaskRequestDto): Promise<Task> {
     {
       ...body,
       priority: body.priority.toLowerCase(),
-      status: body.status.toLowerCase()
+      status: body.status.toLowerCase(),
+      type: "assignment"
     }
   );
 
